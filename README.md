@@ -1,4 +1,5 @@
 # Point of Sales System
 
-## DB = MySQL
-## Nama DB = salesdb
+## Config
+DB = **MySQL**
+Nama DB = **sales_db**
