@@ -22,10 +22,13 @@ Partial Class FormPOS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Panel1 = New Panel()
+        Label4 = New Label()
+        lblUser = New Label()
+        Label3 = New Label()
         txtTotal = New TextBox()
         Label1 = New Label()
         btnClearList = New Button()
@@ -49,24 +52,23 @@ Partial Class FormPOS
         Panel2 = New Panel()
         txtKembali = New TextBox()
         LabelK = New Label()
-        pnlSideBar = New Panel()
-        btnTrans = New Button()
-        Button3 = New Button()
-        btnPOS = New Button()
-        btnCRUD = New Button()
         FlowLayoutPanel1 = New FlowLayoutPanel()
         Label2 = New Label()
         txtSearch = New TextBox()
+        TextBox1 = New TextBox()
         Panel1.SuspendLayout()
         Panel3.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         Panel2.SuspendLayout()
-        pnlSideBar.SuspendLayout()
         SuspendLayout()
         ' 
         ' Panel1
         ' 
         Panel1.BackColor = SystemColors.ControlLightLight
+        Panel1.Controls.Add(TextBox1)
+        Panel1.Controls.Add(Label4)
+        Panel1.Controls.Add(lblUser)
+        Panel1.Controls.Add(Label3)
         Panel1.Controls.Add(txtTotal)
         Panel1.Controls.Add(Label1)
         Panel1.Controls.Add(btnClearList)
@@ -81,6 +83,37 @@ Partial Class FormPOS
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(362, 752)
         Panel1.TabIndex = 6
+        ' 
+        ' Label4
+        ' 
+        Label4.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        Label4.AutoSize = True
+        Label4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label4.Location = New Point(19, 354)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(112, 20)
+        Label4.TabIndex = 32
+        Label4.Text = "CODE MEMBER"
+        ' 
+        ' lblUser
+        ' 
+        lblUser.AutoSize = True
+        lblUser.Font = New Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblUser.Location = New Point(77, 25)
+        lblUser.Name = "lblUser"
+        lblUser.Size = New Size(56, 23)
+        lblUser.TabIndex = 31
+        lblUser.Text = "Nama"
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Font = New Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label3.Location = New Point(21, 25)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(60, 23)
+        Label3.TabIndex = 30
+        Label3.Text = "Kasir : "
         ' 
         ' txtTotal
         ' 
@@ -287,38 +320,38 @@ Partial Class FormPOS
         DataGridView1.AllowUserToAddRows = False
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = Color.White
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = SystemColors.Control
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle1.ForeColor = SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = SystemColors.Control
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle4.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = DataGridViewTriState.True
+        DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column3, Column4})
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = SystemColors.Window
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle2.ForeColor = Color.Black
-        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
-        DataGridView1.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = SystemColors.Window
+        DataGridViewCellStyle5.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle5.ForeColor = Color.Black
+        DataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = DataGridViewTriState.False
+        DataGridView1.DefaultCellStyle = DataGridViewCellStyle5
         DataGridView1.Location = New Point(16, 57)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
-        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = SystemColors.Control
-        DataGridViewCellStyle3.Font = New Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle3.ForeColor = SystemColors.WindowText
-        DataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
-        DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.BackColor = SystemColors.Control
+        DataGridViewCellStyle6.Font = New Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle6.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle6.WrapMode = DataGridViewTriState.True
+        DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle6
         DataGridView1.RowHeadersVisible = False
         DataGridView1.RowHeadersWidth = 51
-        DataGridView1.Size = New Size(325, 328)
+        DataGridView1.Size = New Size(325, 285)
         DataGridView1.TabIndex = 22
         ' 
         ' Column1
@@ -388,6 +421,7 @@ Partial Class FormPOS
         txtKembali.BackColor = Color.LightCyan
         txtKembali.BorderStyle = BorderStyle.None
         txtKembali.Font = New Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        txtKembali.ForeColor = Color.Teal
         txtKembali.Location = New Point(176, 12)
         txtKembali.MaxLength = 17
         txtKembali.Name = "txtKembali"
@@ -408,82 +442,21 @@ Partial Class FormPOS
         LabelK.TabIndex = 0
         LabelK.Text = "KEMBALI"
         ' 
-        ' pnlSideBar
-        ' 
-        pnlSideBar.BackColor = Color.DeepSkyBlue
-        pnlSideBar.Controls.Add(btnTrans)
-        pnlSideBar.Controls.Add(Button3)
-        pnlSideBar.Controls.Add(btnPOS)
-        pnlSideBar.Controls.Add(btnCRUD)
-        pnlSideBar.Dock = DockStyle.Left
-        pnlSideBar.Location = New Point(0, 0)
-        pnlSideBar.Name = "pnlSideBar"
-        pnlSideBar.Size = New Size(99, 752)
-        pnlSideBar.TabIndex = 5
-        ' 
-        ' btnTrans
-        ' 
-        btnTrans.BackColor = SystemColors.Control
-        btnTrans.Location = New Point(18, 157)
-        btnTrans.Name = "btnTrans"
-        btnTrans.Size = New Size(60, 53)
-        btnTrans.TabIndex = 4
-        btnTrans.TabStop = False
-        btnTrans.Text = "Trans"
-        btnTrans.UseVisualStyleBackColor = False
-        ' 
-        ' Button3
-        ' 
-        Button3.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
-        Button3.BackColor = Color.OrangeRed
-        Button3.FlatAppearance.BorderSize = 0
-        Button3.FlatStyle = FlatStyle.Flat
-        Button3.ForeColor = Color.White
-        Button3.Location = New Point(18, 679)
-        Button3.Name = "Button3"
-        Button3.Size = New Size(60, 53)
-        Button3.TabIndex = 2
-        Button3.TabStop = False
-        Button3.Text = "EXIT"
-        Button3.UseVisualStyleBackColor = False
-        ' 
-        ' btnPOS
-        ' 
-        btnPOS.BackColor = SystemColors.Control
-        btnPOS.Location = New Point(18, 88)
-        btnPOS.Name = "btnPOS"
-        btnPOS.Size = New Size(60, 53)
-        btnPOS.TabIndex = 1
-        btnPOS.TabStop = False
-        btnPOS.Text = "POS"
-        btnPOS.UseVisualStyleBackColor = False
-        ' 
-        ' btnCRUD
-        ' 
-        btnCRUD.BackColor = SystemColors.Control
-        btnCRUD.Location = New Point(18, 19)
-        btnCRUD.Name = "btnCRUD"
-        btnCRUD.Size = New Size(60, 53)
-        btnCRUD.TabIndex = 0
-        btnCRUD.TabStop = False
-        btnCRUD.Text = "CRUD"
-        btnCRUD.UseVisualStyleBackColor = False
-        ' 
         ' FlowLayoutPanel1
         ' 
         FlowLayoutPanel1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         FlowLayoutPanel1.BackColor = SystemColors.Control
-        FlowLayoutPanel1.Location = New Point(104, 88)
+        FlowLayoutPanel1.Location = New Point(5, 84)
         FlowLayoutPanel1.Name = "FlowLayoutPanel1"
         FlowLayoutPanel1.Padding = New Padding(10)
-        FlowLayoutPanel1.Size = New Size(829, 652)
+        FlowLayoutPanel1.Size = New Size(920, 657)
         FlowLayoutPanel1.TabIndex = 7
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.Location = New Point(123, 9)
+        Label2.Location = New Point(29, 18)
         Label2.Name = "Label2"
         Label2.Size = New Size(60, 20)
         Label2.TabIndex = 15
@@ -491,10 +464,19 @@ Partial Class FormPOS
         ' 
         ' txtSearch
         ' 
-        txtSearch.Location = New Point(123, 37)
+        txtSearch.Location = New Point(29, 46)
         txtSearch.Name = "txtSearch"
         txtSearch.Size = New Size(385, 27)
         txtSearch.TabIndex = 0
+        ' 
+        ' TextBox1
+        ' 
+        TextBox1.BorderStyle = BorderStyle.FixedSingle
+        TextBox1.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        TextBox1.Location = New Point(175, 350)
+        TextBox1.Name = "TextBox1"
+        TextBox1.Size = New Size(164, 27)
+        TextBox1.TabIndex = 33
         ' 
         ' FormPOS
         ' 
@@ -505,7 +487,7 @@ Partial Class FormPOS
         Controls.Add(txtSearch)
         Controls.Add(FlowLayoutPanel1)
         Controls.Add(Panel1)
-        Controls.Add(pnlSideBar)
+        FormBorderStyle = FormBorderStyle.None
         Name = "FormPOS"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Point of Sales"
@@ -516,7 +498,6 @@ Partial Class FormPOS
         CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         Panel2.ResumeLayout(False)
         Panel2.PerformLayout()
-        pnlSideBar.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -526,10 +507,6 @@ Partial Class FormPOS
     Friend WithEvents btnHapus As Button
     Friend WithEvents btnEdit As Button
     Friend WithEvents btn1000 As Button
-    Friend WithEvents pnlSideBar As Panel
-    Friend WithEvents Button3 As Button
-    Friend WithEvents btnPOS As Button
-    Friend WithEvents btnCRUD As Button
     Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
     Friend WithEvents Label2 As Label
     Friend WithEvents txtSearch As TextBox
@@ -555,5 +532,8 @@ Partial Class FormPOS
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
-    Friend WithEvents btnTrans As Button
+    Friend WithEvents lblUser As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents TextBox1 As TextBox
 End Class

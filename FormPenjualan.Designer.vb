@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class FormTransaksi
+Partial Class FormPenjualan
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,16 +22,11 @@ Partial Class FormTransaksi
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        pnlSideBar = New Panel()
-        btnExit = New Button()
-        Button1 = New Button()
-        Button3 = New Button()
-        btnPOS = New Button()
-        btnCRUD = New Button()
         Label2 = New Label()
         txtSearch = New TextBox()
         DataGridView1 = New DataGridView()
         Column7 = New DataGridViewTextBoxColumn()
+        Column11 = New DataGridViewTextBoxColumn()
         Column1 = New DataGridViewTextBoxColumn()
         Column2 = New DataGridViewTextBoxColumn()
         Column3 = New DataGridViewTextBoxColumn()
@@ -45,92 +40,16 @@ Partial Class FormTransaksi
         Column10 = New DataGridViewTextBoxColumn()
         DateTimePicker1 = New DateTimePicker()
         DateTimePicker2 = New DateTimePicker()
-        pnlSideBar.SuspendLayout()
+        btnCetak = New Button()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         CType(DataGridView2, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
-        ' 
-        ' pnlSideBar
-        ' 
-        pnlSideBar.BackColor = Color.DeepSkyBlue
-        pnlSideBar.Controls.Add(btnExit)
-        pnlSideBar.Controls.Add(Button1)
-        pnlSideBar.Controls.Add(Button3)
-        pnlSideBar.Controls.Add(btnPOS)
-        pnlSideBar.Controls.Add(btnCRUD)
-        pnlSideBar.Dock = DockStyle.Left
-        pnlSideBar.Location = New Point(0, 0)
-        pnlSideBar.Name = "pnlSideBar"
-        pnlSideBar.Size = New Size(99, 752)
-        pnlSideBar.TabIndex = 6
-        ' 
-        ' btnExit
-        ' 
-        btnExit.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
-        btnExit.BackColor = Color.OrangeRed
-        btnExit.FlatAppearance.BorderSize = 0
-        btnExit.FlatStyle = FlatStyle.Flat
-        btnExit.ForeColor = Color.White
-        btnExit.Location = New Point(18, 677)
-        btnExit.Name = "btnExit"
-        btnExit.Size = New Size(60, 53)
-        btnExit.TabIndex = 4
-        btnExit.TabStop = False
-        btnExit.Text = "EXIT"
-        btnExit.UseVisualStyleBackColor = False
-        ' 
-        ' Button1
-        ' 
-        Button1.BackColor = SystemColors.Control
-        Button1.Location = New Point(18, 157)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(60, 53)
-        Button1.TabIndex = 3
-        Button1.TabStop = False
-        Button1.Text = "Trans"
-        Button1.UseVisualStyleBackColor = False
-        ' 
-        ' Button3
-        ' 
-        Button3.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
-        Button3.BackColor = Color.OrangeRed
-        Button3.FlatAppearance.BorderSize = 0
-        Button3.FlatStyle = FlatStyle.Flat
-        Button3.ForeColor = Color.White
-        Button3.Location = New Point(18, 1331)
-        Button3.Name = "Button3"
-        Button3.Size = New Size(60, 53)
-        Button3.TabIndex = 2
-        Button3.Text = "EXIT"
-        Button3.UseVisualStyleBackColor = False
-        ' 
-        ' btnPOS
-        ' 
-        btnPOS.BackColor = SystemColors.Control
-        btnPOS.Location = New Point(18, 88)
-        btnPOS.Name = "btnPOS"
-        btnPOS.Size = New Size(60, 53)
-        btnPOS.TabIndex = 1
-        btnPOS.TabStop = False
-        btnPOS.Text = "POS"
-        btnPOS.UseVisualStyleBackColor = False
-        ' 
-        ' btnCRUD
-        ' 
-        btnCRUD.BackColor = SystemColors.Control
-        btnCRUD.Location = New Point(18, 19)
-        btnCRUD.Name = "btnCRUD"
-        btnCRUD.Size = New Size(60, 53)
-        btnCRUD.TabIndex = 0
-        btnCRUD.TabStop = False
-        btnCRUD.Text = "CRUD"
-        btnCRUD.UseVisualStyleBackColor = False
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.Location = New Point(133, 17)
+        Label2.Location = New Point(29, 18)
         Label2.Name = "Label2"
         Label2.Size = New Size(60, 20)
         Label2.TabIndex = 17
@@ -138,7 +57,7 @@ Partial Class FormTransaksi
         ' 
         ' txtSearch
         ' 
-        txtSearch.Location = New Point(133, 45)
+        txtSearch.Location = New Point(29, 46)
         txtSearch.Name = "txtSearch"
         txtSearch.Size = New Size(385, 27)
         txtSearch.TabIndex = 0
@@ -150,13 +69,13 @@ Partial Class FormTransaksi
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column7, Column1, Column2, Column3, Column4, Column5, Column6})
-        DataGridView1.Location = New Point(133, 97)
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column7, Column11, Column1, Column2, Column3, Column4, Column5, Column6})
+        DataGridView1.Location = New Point(29, 98)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
         DataGridView1.RowHeadersVisible = False
         DataGridView1.RowHeadersWidth = 51
-        DataGridView1.Size = New Size(1133, 540)
+        DataGridView1.Size = New Size(1237, 511)
         DataGridView1.TabIndex = 18
         DataGridView1.TabStop = False
         ' 
@@ -167,6 +86,14 @@ Partial Class FormTransaksi
         Column7.Name = "Column7"
         Column7.ReadOnly = True
         Column7.Width = 50
+        ' 
+        ' Column11
+        ' 
+        Column11.HeaderText = "Kasir"
+        Column11.MinimumWidth = 6
+        Column11.Name = "Column11"
+        Column11.ReadOnly = True
+        Column11.Width = 170
         ' 
         ' Column1
         ' 
@@ -206,7 +133,7 @@ Partial Class FormTransaksi
         Column5.MinimumWidth = 6
         Column5.Name = "Column5"
         Column5.ReadOnly = True
-        Column5.Width = 125
+        Column5.Width = 80
         ' 
         ' Column6
         ' 
@@ -219,7 +146,7 @@ Partial Class FormTransaksi
         ' lblWaktu
         ' 
         lblWaktu.AutoSize = True
-        lblWaktu.Location = New Point(559, 17)
+        lblWaktu.Location = New Point(455, 18)
         lblWaktu.Name = "lblWaktu"
         lblWaktu.Size = New Size(112, 20)
         lblWaktu.TabIndex = 20
@@ -232,14 +159,14 @@ Partial Class FormTransaksi
         DataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView2.Columns.AddRange(New DataGridViewColumn() {Column8, Column9, Column10})
         DataGridView2.Enabled = False
-        DataGridView2.Location = New Point(133, 664)
+        DataGridView2.Location = New Point(232, 635)
         DataGridView2.Name = "DataGridView2"
         DataGridView2.ReadOnly = True
         DataGridView2.RowHeadersVisible = False
         DataGridView2.RowHeadersWidth = 51
         DataGridView2.ScrollBars = ScrollBars.None
         DataGridView2.ShowEditingIcon = False
-        DataGridView2.Size = New Size(1133, 61)
+        DataGridView2.Size = New Size(908, 61)
         DataGridView2.TabIndex = 21
         DataGridView2.TabStop = False
         ' 
@@ -269,23 +196,38 @@ Partial Class FormTransaksi
         ' 
         ' DateTimePicker1
         ' 
-        DateTimePicker1.Location = New Point(559, 45)
+        DateTimePicker1.Location = New Point(455, 46)
         DateTimePicker1.Name = "DateTimePicker1"
         DateTimePicker1.Size = New Size(176, 27)
         DateTimePicker1.TabIndex = 2
         ' 
         ' DateTimePicker2
         ' 
-        DateTimePicker2.Location = New Point(747, 45)
+        DateTimePicker2.Location = New Point(643, 46)
         DateTimePicker2.Name = "DateTimePicker2"
         DateTimePicker2.Size = New Size(176, 27)
         DateTimePicker2.TabIndex = 3
         ' 
-        ' FormTransaksi
+        ' btnCetak
+        ' 
+        btnCetak.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnCetak.BackColor = Color.MediumAquamarine
+        btnCetak.FlatStyle = FlatStyle.Flat
+        btnCetak.ForeColor = Color.White
+        btnCetak.Location = New Point(1148, 36)
+        btnCetak.Name = "btnCetak"
+        btnCetak.Size = New Size(118, 47)
+        btnCetak.TabIndex = 22
+        btnCetak.Text = "Cetak"
+        btnCetak.UseVisualStyleBackColor = False
+        ' 
+        ' FormPenjualan
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1301, 752)
+        ClientSize = New Size(1301, 781)
+        ControlBox = False
+        Controls.Add(btnCetak)
         Controls.Add(DateTimePicker2)
         Controls.Add(DateTimePicker1)
         Controls.Add(DataGridView2)
@@ -293,38 +235,33 @@ Partial Class FormTransaksi
         Controls.Add(DataGridView1)
         Controls.Add(Label2)
         Controls.Add(txtSearch)
-        Controls.Add(pnlSideBar)
-        Name = "FormTransaksi"
-        StartPosition = FormStartPosition.CenterScreen
-        Text = "FormTransaksi"
-        pnlSideBar.ResumeLayout(False)
+        FormBorderStyle = FormBorderStyle.None
+        MinimizeBox = False
+        Name = "FormPenjualan"
+        StartPosition = FormStartPosition.CenterParent
+        Text = "Penjualan"
         CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         CType(DataGridView2, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
-
-    Friend WithEvents pnlSideBar As Panel
-    Friend WithEvents Button1 As Button
-    Friend WithEvents Button3 As Button
-    Friend WithEvents btnPOS As Button
-    Friend WithEvents btnCRUD As Button
     Friend WithEvents Label2 As Label
     Friend WithEvents txtSearch As TextBox
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents lblWaktu As Label
-    Friend WithEvents btnExit As Button
-    Friend WithEvents Column7 As DataGridViewTextBoxColumn
-    Friend WithEvents Column1 As DataGridViewTextBoxColumn
-    Friend WithEvents Column2 As DataGridViewTextBoxColumn
-    Friend WithEvents Column3 As DataGridViewTextBoxColumn
-    Friend WithEvents Column4 As DataGridViewTextBoxColumn
-    Friend WithEvents Column5 As DataGridViewTextBoxColumn
-    Friend WithEvents Column6 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridView2 As DataGridView
     Friend WithEvents Column8 As DataGridViewTextBoxColumn
     Friend WithEvents Column9 As DataGridViewTextBoxColumn
     Friend WithEvents Column10 As DataGridViewTextBoxColumn
     Friend WithEvents DateTimePicker1 As DateTimePicker
     Friend WithEvents DateTimePicker2 As DateTimePicker
+    Friend WithEvents Column7 As DataGridViewTextBoxColumn
+    Friend WithEvents Column11 As DataGridViewTextBoxColumn
+    Friend WithEvents Column1 As DataGridViewTextBoxColumn
+    Friend WithEvents Column2 As DataGridViewTextBoxColumn
+    Friend WithEvents Column3 As DataGridViewTextBoxColumn
+    Friend WithEvents Column4 As DataGridViewTextBoxColumn
+    Friend WithEvents Column5 As DataGridViewTextBoxColumn
+    Friend WithEvents Column6 As DataGridViewTextBoxColumn
+    Friend WithEvents btnCetak As Button
 End Class

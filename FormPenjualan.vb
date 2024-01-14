@@ -1,29 +1,24 @@
 ﻿Imports System.ComponentModel
 Imports MySql.Data.MySqlClient
 
-Public Class FormTransaksi
+Public Class FormPenjualan
+    Private _currentUser As User
+
+    Public Property CurrentUser As User
+        Get
+            Return _currentUser
+        End Get
+        Set(value As User)
+            _currentUser = value
+        End Set
+    End Property
+
     Dim conn As New MySqlConnection("server=localhost; port=3306; username=root; password=; database=sales_db")
     Dim i As Integer = 0
     Dim dr As MySqlDataReader
 
-    Private Sub btnPOS_Click(sender As Object, e As EventArgs) Handles btnPOS.Click
-        Me.Hide()
-        FormPOS.Show()
-    End Sub
-
-    Private Sub btnCRUD_Click(sender As Object, e As EventArgs) Handles btnCRUD.Click
-        Me.Hide()
-        Form1.Show()
-    End Sub
-
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
-        If MsgBox("Apakah kamu ingin keluar dari Aplikasi?", MsgBoxStyle.Question + vbYesNo) = MsgBoxResult.Yes Then
-            Application.Exit()
-        End If
-    End Sub
-
     Private Sub FormTransaksi_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
-        WindowState = FormWindowState.Maximized
+        'WindowState = FormWindowState.Maximized        
         loadTransaksi()
         loadDGV2()
     End Sub
@@ -48,7 +43,7 @@ Public Class FormTransaksi
             dr = cmd.ExecuteReader
             While dr.Read
                 i += 1
-                DataGridView1.Rows.Add("", dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("harga_produk"), dr.Item("kuantitas_produk"), dr.Item("total_harga"))
+                DataGridView1.Rows.Add("", dr.Item("nama_kasir"), dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("harga_produk"), dr.Item("kuantitas_produk"), dr.Item("total_harga"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -122,4 +117,7 @@ Public Class FormTransaksi
         loadDGV2()
     End Sub
 
+    Private Sub btnCetak_Click(sender As Object, e As EventArgs) Handles btnCetak.Click
+
+    End Sub
 End Class

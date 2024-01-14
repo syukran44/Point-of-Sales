@@ -5,21 +5,17 @@ Public Class Form1
     Dim i As Integer
     Dim dr As MySqlDataReader
 
-    Private Sub btnPOS_Click(sender As Object, e As EventArgs) Handles btnPOS.Click
-        Me.Hide()
-        FormPOS.Show()
-    End Sub
+    Private _currentUser As User
 
-    Private Sub btnTrans_Click(sender As Object, e As EventArgs) Handles btnTrans.Click
-        Me.Hide()
-        FormTransaksi.Show()
-    End Sub
-
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
-        If MsgBox("Apakah kamu ingin keluar dari Aplikasi?", MsgBoxStyle.Question + vbYesNo) = MsgBoxResult.Yes Then
-            Application.Exit()
-        End If
-    End Sub
+    Public Property CurrentUser As User
+        Get
+            Return _currentUser
+        End Get
+        Set(value As User)
+            _currentUser = value
+            ' Optionally, update UI elements based on the current user.
+        End Set
+    End Property
 
     Private Sub Form1_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
         conn.Close()

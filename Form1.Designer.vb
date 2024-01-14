@@ -30,11 +30,6 @@ Partial Class Form1
         Column4 = New DataGridViewTextBoxColumn()
         txtNama = New TextBox()
         txtHarga = New TextBox()
-        pnlSideBar = New Panel()
-        btnTrans = New Button()
-        btnExit = New Button()
-        btnPOS = New Button()
-        btnCRUD = New Button()
         Panel1 = New Panel()
         lblProdukID = New Label()
         txtProdukID = New TextBox()
@@ -50,7 +45,6 @@ Partial Class Form1
         Label2 = New Label()
         txtSearch = New TextBox()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
-        pnlSideBar.SuspendLayout()
         Panel1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -62,13 +56,13 @@ Partial Class Form1
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView1.Columns.AddRange(New DataGridViewColumn() {id, Column1, Column2, Column3, Column4})
-        DataGridView1.Location = New Point(466, 101)
+        DataGridView1.Location = New Point(342, 98)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
         DataGridView1.RowHeadersVisible = False
         DataGridView1.RowHeadersWidth = 51
         DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        DataGridView1.Size = New Size(764, 602)
+        DataGridView1.Size = New Size(937, 629)
         DataGridView1.TabIndex = 5
         DataGridView1.TabStop = False
         ' 
@@ -131,67 +125,6 @@ Partial Class Form1
         txtHarga.Size = New Size(224, 38)
         txtHarga.TabIndex = 3
         ' 
-        ' pnlSideBar
-        ' 
-        pnlSideBar.BackColor = Color.DeepSkyBlue
-        pnlSideBar.Controls.Add(btnTrans)
-        pnlSideBar.Controls.Add(btnExit)
-        pnlSideBar.Controls.Add(btnPOS)
-        pnlSideBar.Controls.Add(btnCRUD)
-        pnlSideBar.Dock = DockStyle.Left
-        pnlSideBar.Location = New Point(0, 0)
-        pnlSideBar.Name = "pnlSideBar"
-        pnlSideBar.Size = New Size(99, 752)
-        pnlSideBar.TabIndex = 3
-        ' 
-        ' btnTrans
-        ' 
-        btnTrans.BackColor = SystemColors.Control
-        btnTrans.Location = New Point(18, 157)
-        btnTrans.Name = "btnTrans"
-        btnTrans.Size = New Size(60, 53)
-        btnTrans.TabIndex = 22
-        btnTrans.TabStop = False
-        btnTrans.Text = "Trans"
-        btnTrans.UseVisualStyleBackColor = False
-        ' 
-        ' btnExit
-        ' 
-        btnExit.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
-        btnExit.BackColor = Color.OrangeRed
-        btnExit.FlatAppearance.BorderSize = 0
-        btnExit.FlatStyle = FlatStyle.Flat
-        btnExit.ForeColor = Color.White
-        btnExit.Location = New Point(18, 674)
-        btnExit.Name = "btnExit"
-        btnExit.Size = New Size(60, 53)
-        btnExit.TabIndex = 23
-        btnExit.TabStop = False
-        btnExit.Text = "EXIT"
-        btnExit.UseVisualStyleBackColor = False
-        ' 
-        ' btnPOS
-        ' 
-        btnPOS.BackColor = SystemColors.Control
-        btnPOS.Location = New Point(18, 88)
-        btnPOS.Name = "btnPOS"
-        btnPOS.Size = New Size(60, 53)
-        btnPOS.TabIndex = 21
-        btnPOS.TabStop = False
-        btnPOS.Text = "POS"
-        btnPOS.UseVisualStyleBackColor = False
-        ' 
-        ' btnCRUD
-        ' 
-        btnCRUD.BackColor = SystemColors.Control
-        btnCRUD.Location = New Point(18, 19)
-        btnCRUD.Name = "btnCRUD"
-        btnCRUD.Size = New Size(60, 53)
-        btnCRUD.TabIndex = 20
-        btnCRUD.TabStop = False
-        btnCRUD.Text = "CRUD"
-        btnCRUD.UseVisualStyleBackColor = False
-        ' 
         ' Panel1
         ' 
         Panel1.BackColor = SystemColors.ControlLightLight
@@ -210,7 +143,7 @@ Partial Class Form1
         Panel1.Controls.Add(txtNama)
         Panel1.Dock = DockStyle.Left
         Panel1.Font = New Font("Segoe UI", 13.8F, FontStyle.Bold)
-        Panel1.Location = New Point(99, 0)
+        Panel1.Location = New Point(0, 0)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(318, 752)
         Panel1.TabIndex = 4
@@ -357,7 +290,7 @@ Partial Class Form1
         ' 
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.Location = New Point(466, 20)
+        Label2.Location = New Point(342, 17)
         Label2.Name = "Label2"
         Label2.Size = New Size(60, 20)
         Label2.TabIndex = 13
@@ -365,7 +298,7 @@ Partial Class Form1
         ' 
         ' txtSearch
         ' 
-        txtSearch.Location = New Point(466, 48)
+        txtSearch.Location = New Point(342, 45)
         txtSearch.Name = "txtSearch"
         txtSearch.Size = New Size(366, 27)
         txtSearch.TabIndex = 0
@@ -380,12 +313,12 @@ Partial Class Form1
         Controls.Add(DataGridView1)
         Controls.Add(txtSearch)
         Controls.Add(Panel1)
-        Controls.Add(pnlSideBar)
+        FormBorderStyle = FormBorderStyle.None
+        MinimizeBox = False
         Name = "Form1"
         StartPosition = FormStartPosition.CenterScreen
         Text = "CRUD Operation"
         CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
-        pnlSideBar.ResumeLayout(False)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         ResumeLayout(False)
@@ -394,7 +327,6 @@ Partial Class Form1
 
     Friend WithEvents txtNama As TextBox
     Friend WithEvents txtHarga As TextBox
-    Friend WithEvents pnlSideBar As Panel
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label1 As Label
     Friend WithEvents lblNama As Label
@@ -410,10 +342,6 @@ Partial Class Form1
     Friend WithEvents lblProdukID As Label
     Friend WithEvents txtProdukID As TextBox
     Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents btnCRUD As Button
-    Friend WithEvents btnExit As Button
-    Friend WithEvents btnPOS As Button
-    Friend WithEvents btnTrans As Button
     Friend WithEvents id As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn

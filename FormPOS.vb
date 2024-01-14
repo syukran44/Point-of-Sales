@@ -6,6 +6,19 @@ Imports System.Drawing.Printing
 Imports Mysqlx.XDevAPI.Relational
 
 Public Class FormPOS
+
+    Private _currentUser As User
+
+    Public Property CurrentUser As User
+        Get
+            Return _currentUser
+        End Get
+        Set(value As User)
+            _currentUser = value
+            ' Optionally, update UI elements based on the current user.
+        End Set
+    End Property
+
     Dim conn As New MySqlConnection("server=localhost; port=3306; username=root; password=; database=sales_db")
     Dim i As Integer
     Dim dr As MySqlDataReader
@@ -22,24 +35,9 @@ Public Class FormPOS
     Dim PPD As New PrintPreviewDialog
     Dim longpaper, invoiceID As Integer
 
-    Private Sub btnCRUD_Click(sender As Object, e As EventArgs) Handles btnCRUD.Click
-        Me.Hide()
-        Form1.Show()
-    End Sub
 
-    Private Sub btnTrans_Click(sender As Object, e As EventArgs) Handles btnTrans.Click
-        Me.Hide()
-        FormTransaksi.Show()
-    End Sub
-
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        If MsgBox("Apakah kamu ingin keluar dari Aplikasi?", MsgBoxStyle.Question + vbYesNo) = MsgBoxResult.Yes Then
-            Application.Exit()
-        End If
-    End Sub
-
-    Private Sub FormPOS_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
-        WindowState = FormWindowState.Maximized
+    Private Sub FormPOS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        lblUser.Text = CurrentUser.Nama
         btnBayar.Enabled = False
         loadProduct()
     End Sub
@@ -67,7 +65,7 @@ Public Class FormPOS
 
         pan = New Panel
         With pan
-            .Width = 246
+            .Width = 220
             .Height = 200
             .Margin = New Padding(14, 14, 14, 14)
             .BackColor = Color.FromArgb(255, 255, 255)
@@ -340,7 +338,7 @@ Public Class FormPOS
 
         e.Graphics.DrawString("Kasir", f8, Brushes.Black, 0, 85)
         e.Graphics.DrawString(":", f8, Brushes.Black, 65, 85)
-        e.Graphics.DrawString("Syukran", f8, Brushes.Black, 70, 85)
+        e.Graphics.DrawString(CurrentUser.Nama.ToString(), f8, Brushes.Black, 70, 85)
 
         e.Graphics.DrawString("Waktu", f8, Brushes.Black, 0, 95)
         e.Graphics.DrawString(":", f8, Brushes.Black, 65, 95)
@@ -380,8 +378,9 @@ Public Class FormPOS
                 cmd.Parameters.AddWithValue("@quantity", CInt(DataGridView1.Rows(row).Cells(2).Value))
                 i = cmd.ExecuteNonQuery
 
-                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_transaksi` (`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`) VALUES (@no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga)", conn)
+                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_transaksi` (`nama_kasir` ,`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`) VALUES (@nama_kasir, @no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga)", conn)
                 cmd2.Parameters.Clear()
+                cmd2.Parameters.AddWithValue("@nama_kasir", CurrentUser.Nama.ToString())
                 cmd2.Parameters.AddWithValue("@no_transaksi", invoice)
                 cmd2.Parameters.AddWithValue("@produk_id", DataGridView1.Rows(row).Cells(3).Value)
                 cmd2.Parameters.AddWithValue("@nama_produk", DataGridView1.Rows(row).Cells(0).Value)
@@ -411,6 +410,5 @@ Public Class FormPOS
 
         e.Graphics.DrawString("------------------ TERIMA KASIH ------------------", f8, Brushes.Black, centermargin, height + 200, center)
     End Sub
-
 
 End Class
