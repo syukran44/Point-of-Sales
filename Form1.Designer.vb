@@ -23,11 +23,6 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         DataGridView1 = New DataGridView()
-        id = New DataGridViewTextBoxColumn()
-        Column1 = New DataGridViewTextBoxColumn()
-        Column2 = New DataGridViewTextBoxColumn()
-        Column3 = New DataGridViewTextBoxColumn()
-        Column4 = New DataGridViewTextBoxColumn()
         txtNama = New TextBox()
         txtHarga = New TextBox()
         Panel1 = New Panel()
@@ -44,6 +39,11 @@ Partial Class Form1
         Label1 = New Label()
         Label2 = New Label()
         txtSearch = New TextBox()
+        btnCetak = New Button()
+        Column1 = New DataGridViewTextBoxColumn()
+        Column2 = New DataGridViewTextBoxColumn()
+        Column3 = New DataGridViewTextBoxColumn()
+        Column4 = New DataGridViewTextBoxColumn()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         SuspendLayout()
@@ -55,7 +55,7 @@ Partial Class Form1
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {id, Column1, Column2, Column3, Column4})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column3, Column4})
         DataGridView1.Location = New Point(342, 98)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
@@ -65,49 +65,6 @@ Partial Class Form1
         DataGridView1.Size = New Size(937, 629)
         DataGridView1.TabIndex = 5
         DataGridView1.TabStop = False
-        ' 
-        ' id
-        ' 
-        id.HeaderText = "ID"
-        id.MinimumWidth = 6
-        id.Name = "id"
-        id.ReadOnly = True
-        id.Visible = False
-        id.Width = 125
-        ' 
-        ' Column1
-        ' 
-        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        Column1.HeaderText = "Produk ID"
-        Column1.MinimumWidth = 6
-        Column1.Name = "Column1"
-        Column1.ReadOnly = True
-        Column1.Width = 103
-        ' 
-        ' Column2
-        ' 
-        Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column2.HeaderText = "Nama"
-        Column2.MinimumWidth = 6
-        Column2.Name = "Column2"
-        Column2.ReadOnly = True
-        ' 
-        ' Column3
-        ' 
-        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column3.HeaderText = "Harga"
-        Column3.MinimumWidth = 6
-        Column3.Name = "Column3"
-        Column3.ReadOnly = True
-        ' 
-        ' Column4
-        ' 
-        Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        Column4.HeaderText = "Stok"
-        Column4.MinimumWidth = 6
-        Column4.Name = "Column4"
-        Column4.ReadOnly = True
-        Column4.Width = 67
         ' 
         ' txtNama
         ' 
@@ -303,12 +260,60 @@ Partial Class Form1
         txtSearch.Size = New Size(366, 27)
         txtSearch.TabIndex = 0
         ' 
+        ' btnCetak
+        ' 
+        btnCetak.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnCetak.BackColor = Color.MediumAquamarine
+        btnCetak.FlatStyle = FlatStyle.Flat
+        btnCetak.ForeColor = Color.White
+        btnCetak.Location = New Point(1161, 33)
+        btnCetak.Name = "btnCetak"
+        btnCetak.Size = New Size(118, 47)
+        btnCetak.TabIndex = 23
+        btnCetak.Text = "Cetak"
+        btnCetak.UseVisualStyleBackColor = False
+        ' 
+        ' Column1
+        ' 
+        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Column1.HeaderText = "Produk ID"
+        Column1.MinimumWidth = 6
+        Column1.Name = "Column1"
+        Column1.ReadOnly = True
+        Column1.Width = 103
+        ' 
+        ' Column2
+        ' 
+        Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column2.HeaderText = "Nama"
+        Column2.MinimumWidth = 6
+        Column2.Name = "Column2"
+        Column2.ReadOnly = True
+        ' 
+        ' Column3
+        ' 
+        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column3.HeaderText = "Harga"
+        Column3.MinimumWidth = 6
+        Column3.Name = "Column3"
+        Column3.ReadOnly = True
+        ' 
+        ' Column4
+        ' 
+        Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Column4.HeaderText = "Stok"
+        Column4.MinimumWidth = 6
+        Column4.Name = "Column4"
+        Column4.ReadOnly = True
+        Column4.Width = 67
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.Control
         ClientSize = New Size(1301, 752)
+        Controls.Add(btnCetak)
         Controls.Add(Label2)
         Controls.Add(DataGridView1)
         Controls.Add(txtSearch)
@@ -342,7 +347,7 @@ Partial Class Form1
     Friend WithEvents lblProdukID As Label
     Friend WithEvents txtProdukID As TextBox
     Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents id As DataGridViewTextBoxColumn
+    Friend WithEvents btnCetak As Button
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn

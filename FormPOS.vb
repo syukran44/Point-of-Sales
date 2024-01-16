@@ -1,9 +1,5 @@
-﻿Imports MySql.Data.MySqlClient
-Imports Windows.Win32.UI.Input
-Imports System.Drawing
-Imports System.IO
-Imports System.Drawing.Printing
-Imports Mysqlx.XDevAPI.Relational
+﻿Imports System.Drawing.Printing
+Imports MySql.Data.MySqlClient
 
 Public Class FormPOS
 

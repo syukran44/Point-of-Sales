@@ -1,6 +1,4 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices
-Imports MySql.Data.MySqlClient
-Imports Windows.Win32.System
+﻿Imports MySql.Data.MySqlClient
 
 Public Class FormLogin
     Dim conn As New MySqlConnection("server=localhost; port=3306; username=root; password=; database=sales_db")

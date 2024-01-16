@@ -48,7 +48,7 @@
         FormPenjualan.Show()
     End Sub
 
-    Private Sub FormMain_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+    Private Sub FormMain_Loaded(sender As Object, e As EventArgs) Handles MyBase.Load
         WindowState = FormWindowState.Maximized
         If UCase(CurrentUser.Role.ToString()) = "KASIR" Then
             Form1.Close()

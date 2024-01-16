@@ -55,7 +55,7 @@ Partial Class FormPOS
         FlowLayoutPanel1 = New FlowLayoutPanel()
         Label2 = New Label()
         txtSearch = New TextBox()
-        TextBox1 = New TextBox()
+        txtMember = New TextBox()
         Panel1.SuspendLayout()
         Panel3.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
@@ -65,7 +65,7 @@ Partial Class FormPOS
         ' Panel1
         ' 
         Panel1.BackColor = SystemColors.ControlLightLight
-        Panel1.Controls.Add(TextBox1)
+        Panel1.Controls.Add(txtMember)
         Panel1.Controls.Add(Label4)
         Panel1.Controls.Add(lblUser)
         Panel1.Controls.Add(Label3)
@@ -469,14 +469,14 @@ Partial Class FormPOS
         txtSearch.Size = New Size(385, 27)
         txtSearch.TabIndex = 0
         ' 
-        ' TextBox1
+        ' txtMember
         ' 
-        TextBox1.BorderStyle = BorderStyle.FixedSingle
-        TextBox1.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        TextBox1.Location = New Point(175, 350)
-        TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(164, 27)
-        TextBox1.TabIndex = 33
+        txtMember.BorderStyle = BorderStyle.FixedSingle
+        txtMember.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        txtMember.Location = New Point(175, 350)
+        txtMember.Name = "txtMember"
+        txtMember.Size = New Size(164, 27)
+        txtMember.TabIndex = 33
         ' 
         ' FormPOS
         ' 
@@ -535,5 +535,5 @@ Partial Class FormPOS
     Friend WithEvents lblUser As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents txtMember As TextBox
 End Class

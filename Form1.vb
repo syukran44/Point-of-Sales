@@ -17,7 +17,7 @@ Public Class Form1
         End Set
     End Property
 
-    Private Sub Form1_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+    Private Sub Form1_Loaded(sender As Object, e As EventArgs) Handles MyBase.Load
         conn.Close()
         Me.WindowState = FormWindowState.Maximized
         DGVRead()
@@ -54,7 +54,7 @@ Public Class Form1
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                DataGridView1.Rows.Add(dr.Item("id"), dr.Item("produk_id"), dr.Item("nama"), dr.Item("harga"), dr.Item("jumlah"))
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("harga"), dr.Item("jumlah"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -67,9 +67,8 @@ Public Class Form1
     Public Sub update()
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("UPDATE `tbl_produk` SET `produk_id`= @produk_id, `nama`= @nama, `harga`= @harga, `jumlah`= @jumlah WHERE `id` = @id", conn)
+            Dim cmd As New MySqlCommand("UPDATE `tbl_produk` SET `produk_id`= @produk_id, `nama`= @nama, `harga`= @harga, `jumlah`= @jumlah WHERE `produk_id` = @produk_id", conn)
             cmd.Parameters.Clear()
-            cmd.Parameters.AddWithValue("@id", DataGridView1.CurrentRow.Cells(0).Value)
             cmd.Parameters.AddWithValue("@produk_id", txtProdukID.Text)
             cmd.Parameters.AddWithValue("@nama", txtNama.Text)
             cmd.Parameters.AddWithValue("@harga", txtHarga.Text)
@@ -90,9 +89,9 @@ Public Class Form1
     Public Sub delete()
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("delete FROM `tbl_produk` WHERE `id` = @id", conn)
+            Dim cmd As New MySqlCommand("delete FROM `tbl_produk` WHERE `produk_id` = @produk_id", conn)
             cmd.Parameters.Clear()
-            cmd.Parameters.AddWithValue("@id", DataGridView1.CurrentRow.Cells(0).Value)
+            cmd.Parameters.AddWithValue("@produk_id", txtProdukID.Text)
             i = cmd.ExecuteNonQuery
             If i > 0 Then
                 MessageBox.Show("Data berhasil di Hapus!", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -124,10 +123,10 @@ Public Class Form1
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        txtProdukID.Text = DataGridView1.CurrentRow.Cells(1).Value
-        txtNama.Text = DataGridView1.CurrentRow.Cells(2).Value
-        txtHarga.Text = DataGridView1.CurrentRow.Cells(3).Value
-        txtJumlah.Text = DataGridView1.CurrentRow.Cells(4).Value
+        txtProdukID.Text = DataGridView1.CurrentRow.Cells(0).Value
+        txtNama.Text = DataGridView1.CurrentRow.Cells(1).Value
+        txtHarga.Text = DataGridView1.CurrentRow.Cells(2).Value
+        txtJumlah.Text = DataGridView1.CurrentRow.Cells(3).Value
 
         txtProdukID.ReadOnly = True
         btnTambah.Enabled = False
@@ -162,7 +161,7 @@ Public Class Form1
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `produk_id` like '%" & txtSearch.Text & "%' OR `nama` like '%" & txtSearch.Text & "%' ", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                DataGridView1.Rows.Add(dr.Item("id"), dr.Item("produk_id"), dr.Item("nama"), dr.Item("harga"), dr.Item("jumlah"))
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("harga"), dr.Item("jumlah"))
             End While
             dr.Dispose()
         Catch ex As Exception
