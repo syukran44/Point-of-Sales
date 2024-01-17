@@ -28,7 +28,7 @@ Partial Class FormLogin
         Label1 = New Label()
         txtUser = New TextBox()
         txtPass = New TextBox()
-        Button1 = New Button()
+        btnLogin = New Button()
         Button2 = New Button()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
@@ -83,17 +83,17 @@ Partial Class FormLogin
         txtPass.TabIndex = 1
         txtPass.TextAlign = HorizontalAlignment.Center
         ' 
-        ' Button1
+        ' btnLogin
         ' 
-        Button1.BackColor = Color.DodgerBlue
-        Button1.FlatStyle = FlatStyle.Flat
-        Button1.ForeColor = Color.White
-        Button1.Location = New Point(541, 275)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(132, 45)
-        Button1.TabIndex = 2
-        Button1.Text = "Login"
-        Button1.UseVisualStyleBackColor = False
+        btnLogin.BackColor = Color.DodgerBlue
+        btnLogin.FlatStyle = FlatStyle.Flat
+        btnLogin.ForeColor = Color.White
+        btnLogin.Location = New Point(541, 275)
+        btnLogin.Name = "btnLogin"
+        btnLogin.Size = New Size(132, 45)
+        btnLogin.TabIndex = 2
+        btnLogin.Text = "Login"
+        btnLogin.UseVisualStyleBackColor = False
         ' 
         ' Button2
         ' 
@@ -114,7 +114,7 @@ Partial Class FormLogin
         BackColor = Color.White
         ClientSize = New Size(800, 450)
         Controls.Add(Button2)
-        Controls.Add(Button1)
+        Controls.Add(btnLogin)
         Controls.Add(txtPass)
         Controls.Add(txtUser)
         Controls.Add(Label1)
@@ -133,6 +133,6 @@ Partial Class FormLogin
     Friend WithEvents Label1 As Label
     Friend WithEvents txtUser As TextBox
     Friend WithEvents txtPass As TextBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents btnLogin As Button
     Friend WithEvents Button2 As Button
 End Class

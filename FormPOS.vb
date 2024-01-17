@@ -65,7 +65,7 @@ Public Class FormPOS
             .Height = 200
             .Margin = New Padding(14, 14, 14, 14)
             .BackColor = Color.FromArgb(255, 255, 255)
-            .Tag = dr.Item("id").ToString
+            .Tag = dr.Item("produk_id").ToString
         End With
 
         img = New PictureBox
@@ -73,7 +73,7 @@ Public Class FormPOS
             .Height = 30
             .BackgroundImageLayout = ImageLayout.Stretch
             .Dock = DockStyle.Top
-            .Tag = dr.Item("id").ToString
+            .Tag = dr.Item("produk_id").ToString
         End With
 
         namaproduk = New Label
@@ -82,7 +82,7 @@ Public Class FormPOS
             .Font = New Font("Segoe UI", 8, FontStyle.Bold)
             .TextAlign = ContentAlignment.MiddleLeft
             .Dock = DockStyle.Top
-            .Tag = dr.Item("id").ToString
+            .Tag = dr.Item("produk_id").ToString
         End With
 
         harga = New Label
@@ -91,7 +91,7 @@ Public Class FormPOS
             .Font = New Font("Segoe UI", 8, FontStyle.Bold)
             .TextAlign = ContentAlignment.MiddleLeft
             .Dock = DockStyle.Top
-            .Tag = dr.Item("id").ToString
+            .Tag = dr.Item("produk_id").ToString
         End With
 
         stok = New Label
@@ -100,7 +100,7 @@ Public Class FormPOS
             .Font = New Font("Segoe UI", 8, FontStyle.Bold)
             .TextAlign = ContentAlignment.MiddleLeft
             .Dock = DockStyle.Top
-            .Tag = dr.Item("id").ToString
+            .Tag = dr.Item("produk_id").ToString
         End With
 
         'Dim ms As New System.IO.MemoryStream(array)
@@ -128,7 +128,7 @@ Public Class FormPOS
     Public Sub productClicked(sender As Object, e As EventArgs)
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE id like '" & sender.tag.ToString & "%'", conn)
+            Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE produk_id like '" & sender.tag.ToString & "%'", conn)
             dr = cmd.ExecuteReader
             While dr.Read
                 Dim exist As Boolean = False, numrow As Integer = 0, quantity As Integer
@@ -239,7 +239,7 @@ Public Class FormPOS
         FlowLayoutPanel1.AutoScroll = True
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT * FROM `tbl_produk` WHERE id like '%" & txtSearch.Text & "%' OR `nama` like '%" & txtSearch.Text & "%' ", conn)
+            Dim cmd As New MySqlCommand("SELECT * FROM `tbl_produk` WHERE produk_id like '%" & txtSearch.Text & "%' OR `nama` like '%" & txtSearch.Text & "%' ", conn)
             dr = cmd.ExecuteReader
             While dr.Read
                 loadControls()
@@ -307,7 +307,7 @@ Public Class FormPOS
 
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT `no_transaksi` FROM `tbl_transaksi`", conn)
+            Dim cmd As New MySqlCommand("SELECT `no_transaksi` FROM `tbl_penjualan`", conn)
             dr = cmd.ExecuteReader
             If dr.Read() Then
                 While dr.Read
@@ -374,9 +374,9 @@ Public Class FormPOS
                 cmd.Parameters.AddWithValue("@quantity", CInt(DataGridView1.Rows(row).Cells(2).Value))
                 i = cmd.ExecuteNonQuery
 
-                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_transaksi` (`nama_kasir` ,`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`) VALUES (@nama_kasir, @no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga)", conn)
+                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_penjualan` (`operator` ,`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`) VALUES (@operator, @no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga)", conn)
                 cmd2.Parameters.Clear()
-                cmd2.Parameters.AddWithValue("@nama_kasir", CurrentUser.Nama.ToString())
+                cmd2.Parameters.AddWithValue("@operator", CurrentUser.Nama.ToString())
                 cmd2.Parameters.AddWithValue("@no_transaksi", invoice)
                 cmd2.Parameters.AddWithValue("@produk_id", DataGridView1.Rows(row).Cells(3).Value)
                 cmd2.Parameters.AddWithValue("@nama_produk", DataGridView1.Rows(row).Cells(0).Value)

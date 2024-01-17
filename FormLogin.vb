@@ -9,7 +9,7 @@ Public Class FormLogin
 
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         Try
             conn.Open()
             Dim user As User = GetUser(txtUser.Text, txtPass.Text)
@@ -63,6 +63,20 @@ Public Class FormLogin
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         If MsgBox("Apakah kamu ingin keluar dari Aplikasi?", MsgBoxStyle.Question + vbYesNo) = MsgBoxResult.Yes Then
             Application.Exit()
+        End If
+    End Sub
+
+    Private Sub txtUser_KeyDown(sender As Object, e As KeyEventArgs) Handles txtUser.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True ' Suppress the Enter key to prevent it from being processed by other controls
+            btnLogin_Click(sender, e) ' Call the btnLogin_Click method
+        End If
+    End Sub
+
+    Private Sub txtPass_KeyDown(sender As Object, e As KeyEventArgs) Handles txtPass.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True ' Suppress the Enter key to prevent it from being processed by other controls
+            btnLogin_Click(sender, e) ' Call the btnLogin_Click method
         End If
     End Sub
 End Class

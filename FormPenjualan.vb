@@ -49,7 +49,7 @@ Public Class FormPenjualan
             dr = cmd.ExecuteReader
             While dr.Read
                 i += 1
-                DataGridView1.Rows.Add("", dr.Item("nama_kasir"), dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("harga_produk"), dr.Item("kuantitas_produk"), dr.Item("total_harga"))
+                DataGridView1.Rows.Add("", dr.Item("operator"), dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("harga_produk"), dr.Item("kuantitas_produk"), dr.Item("total_harga"))
             End While
             dr.Dispose()
         Catch ex As Exception

@@ -85,7 +85,7 @@
 
     Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
         If MsgBox("Apakah kamu ingin Logout dari Aplikasi?", MsgBoxStyle.Question + vbYesNo) = MsgBoxResult.Yes Then
-            Me.Hide()
+            Me.Close()
             FormLogin.Show()
         End If
     End Sub

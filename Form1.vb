@@ -21,6 +21,7 @@ Public Class Form1
         conn.Close()
         Me.WindowState = FormWindowState.Maximized
         DGVRead()
+        kategoriRead()
         btnHapus.Enabled = False
         btnEdit.Enabled = False
     End Sub
@@ -28,10 +29,11 @@ Public Class Form1
     Public Sub create()
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("INSERT INTO `tbl_produk`(`produk_id`, `nama`, `harga`, `jumlah`) VALUES (@produk_id, @nama, @harga, @jumlah)", conn)
+            Dim cmd As New MySqlCommand("INSERT INTO `tbl_produk`(`produk_id`, `nama`, `kategori`, `harga`, `jumlah`) VALUES (@produk_id, @nama, @kategori, @harga, @jumlah)", conn)
             cmd.Parameters.Clear()
             cmd.Parameters.AddWithValue("@produk_id", txtProdukID.Text)
             cmd.Parameters.AddWithValue("@nama", txtNama.Text)
+            cmd.Parameters.AddWithValue("@kategori", txtKategori.Text)
             cmd.Parameters.AddWithValue("@harga", txtHarga.Text)
             cmd.Parameters.AddWithValue("@jumlah", CInt(txtJumlah.Text))
             i = cmd.ExecuteNonQuery
@@ -54,7 +56,44 @@ Public Class Form1
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("harga"), dr.Item("jumlah"))
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"), dr.Item("jumlah"))
+            End While
+            dr.Dispose()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Public Sub kategoriRead()
+        Try
+            conn.Open()
+            Dim cmd As New MySqlCommand("SELECT `kategori` FROM tbl_produk", conn)
+            dr = cmd.ExecuteReader
+            While dr.Read
+                If cmbKategori.Items.Contains(dr("kategori").ToString()) Then
+                    Continue While
+                Else
+                    cmbKategori.Items.Add(dr("kategori").ToString())
+                End If
+            End While
+            dr.Dispose()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub cmbKategori_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbKategori.SelectedIndexChanged
+        DataGridView1.Rows.Clear()
+        Try
+            conn.Open()
+            Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `kategori` like '%" & cmbKategori.SelectedItem.ToString() & "%'", conn)
+            dr = cmd.ExecuteReader
+            While dr.Read
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"), dr.Item("jumlah"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -67,10 +106,11 @@ Public Class Form1
     Public Sub update()
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("UPDATE `tbl_produk` SET `produk_id`= @produk_id, `nama`= @nama, `harga`= @harga, `jumlah`= @jumlah WHERE `produk_id` = @produk_id", conn)
+            Dim cmd As New MySqlCommand("UPDATE `tbl_produk` SET `produk_id`= @produk_id, `nama`= @nama, `kategori`= @kategori, `harga`= @harga, `jumlah`= @jumlah WHERE `produk_id` = @produk_id", conn)
             cmd.Parameters.Clear()
             cmd.Parameters.AddWithValue("@produk_id", txtProdukID.Text)
             cmd.Parameters.AddWithValue("@nama", txtNama.Text)
+            cmd.Parameters.AddWithValue("@kategori", txtKategori.Text)
             cmd.Parameters.AddWithValue("@harga", txtHarga.Text)
             cmd.Parameters.AddWithValue("@jumlah", CInt(txtJumlah.Text))
             i = cmd.ExecuteNonQuery
@@ -108,6 +148,7 @@ Public Class Form1
     Public Sub clear()
         txtProdukID.Clear()
         txtNama.Clear()
+        txtKategori.Clear()
         txtHarga.Clear()
         txtJumlah.Clear()
 
@@ -125,8 +166,9 @@ Public Class Form1
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
         txtProdukID.Text = DataGridView1.CurrentRow.Cells(0).Value
         txtNama.Text = DataGridView1.CurrentRow.Cells(1).Value
-        txtHarga.Text = DataGridView1.CurrentRow.Cells(2).Value
-        txtJumlah.Text = DataGridView1.CurrentRow.Cells(3).Value
+        txtKategori.Text = DataGridView1.CurrentRow.Cells(2).Value
+        txtHarga.Text = DataGridView1.CurrentRow.Cells(3).Value
+        txtJumlah.Text = DataGridView1.CurrentRow.Cells(4).Value
 
         txtProdukID.ReadOnly = True
         btnTambah.Enabled = False
@@ -144,7 +186,7 @@ Public Class Form1
     End Sub
 
     Private Sub btnHapus_Click(sender As Object, e As EventArgs) Handles btnHapus.Click
-        If MsgBox("Apakah kamu ingin menghapus data " & DataGridView1.CurrentRow.Cells(2).Value & "?", MsgBoxStyle.YesNo, "HAPUS DATA") = MsgBoxResult.Yes Then
+        If MsgBox("Apakah kamu ingin menghapus data " & DataGridView1.CurrentRow.Cells(1).Value & "?", MsgBoxStyle.YesNo, "HAPUS DATA") = MsgBoxResult.Yes Then
             delete()
             clear()
             DGVRead()
@@ -161,7 +203,7 @@ Public Class Form1
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `produk_id` like '%" & txtSearch.Text & "%' OR `nama` like '%" & txtSearch.Text & "%' ", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("harga"), dr.Item("jumlah"))
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"), dr.Item("jumlah"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -171,4 +213,7 @@ Public Class Form1
         End Try
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        PopupFormBeli.Show()
+    End Sub
 End Class
