@@ -92,4 +92,17 @@
         End If
     End Sub
 
+    Private Sub btnPembelian_Click(sender As Object, e As EventArgs) Handles btnPembelian.Click
+        If Not Panel1.Controls.Contains(FormPembelian) Then
+            With FormPembelian
+                .TopLevel = False
+                .AutoSize = True
+                .Size = Panel1.Size
+                Panel1.Controls.Add(FormPembelian)
+            End With
+        End If
+        FormPembelian.InitializeFormPembelian()
+        FormPembelian.BringToFront()
+        FormPembelian.Show()
+    End Sub
 End Class

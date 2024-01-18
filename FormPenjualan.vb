@@ -21,7 +21,7 @@ Public Class FormPenjualan
     'Cetak Penjualan ------------------------------------------------------------------------------
     Dim WithEvents PD As New PrintDocument
     Dim PPD As New PrintPreviewDialog
-    Dim longpaper, invoiceID As Integer
+    Dim longpaper As Integer
 
     Public Sub InitializeFormPenjualan()
         conn.Close()
@@ -135,7 +135,6 @@ Public Class FormPenjualan
             changelongpaper()
             PPD.Document = PD
             PPD.ShowDialog()
-            invoiceID += 1
         End If
     End Sub
 
@@ -144,12 +143,13 @@ Public Class FormPenjualan
         longpaper = 0
         rowcount = DataGridView1.Rows.Count
         longpaper = rowcount * 15
-        longpaper = longpaper + 240
+        longpaper += 240
     End Sub
 
     Private Sub PD_BeginPrint(sender As Object, e As PrintEventArgs) Handles PD.BeginPrint
-        Dim pagesetup As New PageSettings
-        pagesetup.PaperSize = New PaperSize("A4", 1169, 827) ' A4 Landscape
+        Dim pagesetup As New PageSettings With {
+            .PaperSize = New PaperSize("A4", 1169, 827)
+            }
         'pagesetup.PaperSize = New PaperSize("Custom", 250, 500)
         'pagesetup.PaperSize = New PaperSize("Custom", 250, longpaper)
         PD.DefaultPageSettings = pagesetup
@@ -179,6 +179,7 @@ Public Class FormPenjualan
         Dim line As String
         line = New String("—", PD.DefaultPageSettings.PaperSize.Width - leftmargin - 1003)
         Dim height As Integer
+        Dim total As Decimal
 
         Dim tglMulai As String = DateTimePicker1.Value.ToString("dd-MM-yyyy")
         Dim tglAkhir As String = DateTimePicker2.Value.ToString("dd-MM-yyyy")
@@ -197,7 +198,7 @@ Public Class FormPenjualan
         e.Graphics.DrawString("Produk ID", f10, Brushes.Black, 400 + leftmargin, 128)
         e.Graphics.DrawString("Nama Produk", f10, Brushes.Black, 550 + leftmargin, 128)
         e.Graphics.DrawString("Harga Produk", f10, Brushes.Black, 700 + leftmargin, 128)
-        e.Graphics.DrawString("Kuantitas", f10, Brushes.Black, 800 + leftmargin, 128)
+        e.Graphics.DrawString("Kuantitas", f10, Brushes.Black, 815 + leftmargin, 128)
         e.Graphics.DrawString("Total", f10, Brushes.Black, 900 + leftmargin, 128)
 
         e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 140)
@@ -210,13 +211,18 @@ Public Class FormPenjualan
             e.Graphics.DrawString(DataGridView1.Rows(row).Cells(4).Value.ToString, f10, Brushes.Black, 550 + leftmargin, 125 + height)
             i = DataGridView1.Rows(row).Cells(5).Value
             DataGridView1.Rows(row).Cells(5).Value = Format(i, "##,##0")
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(5).Value.ToString, f10, Brushes.Black, 700 + leftmargin, 125 + height)
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(6).Value.ToString, f10, Brushes.Black, 800 + leftmargin, 125 + height)
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(5).Value.ToString, f10, Brushes.Black, 785 + leftmargin, 125 + height, right)
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(6).Value.ToString, f10, Brushes.Black, 830 + leftmargin, 125 + height)
             i = DataGridView1.Rows(row).Cells(7).Value
             DataGridView1.Rows(row).Cells(7).Value = Format(i, "##,##0")
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(7).Value.ToString, f10, Brushes.Black, 900 + leftmargin, 125 + height)
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(7).Value.ToString, f10, Brushes.Black, 950 + leftmargin, 125 + height, right)
             e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 138 + height)
+
+            total += i
         Next
+
+        e.Graphics.DrawString("Total Penjualan  : " & Format(total, "##,##0"), f10, Brushes.Black, rightmargin, 170 + height, right)
+        e.Graphics.DrawString("Produk Terjual   : " & DataGridView2.Rows(0).Cells(1).Value.ToString(), f10, Brushes.Black, rightmargin, 190 + height, right)
 
     End Sub
 

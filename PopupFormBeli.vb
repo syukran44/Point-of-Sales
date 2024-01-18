@@ -288,6 +288,7 @@ Public Class PopupFormBeli
 
         line = New String("—", PD.DefaultPageSettings.PaperSize.Width - leftmargin - 999)
         Dim height As Integer
+        Dim total As Decimal
 
         Dim currentDateAndTime As DateTime = DateTime.Now
         Dim today As String = currentDateAndTime.ToString("yyyy-MM-dd")
@@ -313,9 +314,9 @@ Public Class PopupFormBeli
         End Try
 
         e.Graphics.DrawString("Point of Sales", f12b, Brushes.Black, leftmargin, 40, center)
-        e.Graphics.DrawString("Tgl.             :   " & tanggal, f12, Brushes.Black, rightmargin, 40, right)
-        e.Graphics.DrawString("No. Transaksi    :   " & invoice, f12, Brushes.Black, rightmargin, 60, right)
-        e.Graphics.DrawString("Operator         :   " & CurrentUser.Nama, f12, Brushes.Black, rightmargin, 80, right)
+        e.Graphics.DrawString("Tgl.             :               " & tanggal, f12, Brushes.Black, rightmargin, 40, right)
+        e.Graphics.DrawString("No. Transaksi    :               " & invoice, f12, Brushes.Black, rightmargin, 60, right)
+        e.Graphics.DrawString("Operator         :               " & CurrentUser.Nama, f12, Brushes.Black, rightmargin, 80, right)
 
         e.Graphics.DrawString("Pembelian Produk", f10b, Brushes.Black, leftmargin, 100)
 
@@ -347,6 +348,8 @@ Public Class PopupFormBeli
 
             e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 138 + height)
 
+            total += i
+
             Try
                 conn.Open()
                 Dim cmd As New MySqlCommand("UPDATE `tbl_produk` SET `jumlah`= `jumlah` + @quantity WHERE `produk_id` = @produk_id", conn)
@@ -355,7 +358,7 @@ Public Class PopupFormBeli
                 cmd.Parameters.AddWithValue("@quantity", CInt(DataGridView2.Rows(row).Cells(3).Value))
                 i = cmd.ExecuteNonQuery
 
-                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_pembelian` (`operator` ,`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`) VALUES (@operator, @no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga)", conn)
+                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_pembelian` (`operator` ,`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`, `diskon`, `pajak`, `grandtotal`) VALUES (@operator, @no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga, @diskon, @pajak, @grandtotal)", conn)
                 cmd2.Parameters.Clear()
                 cmd2.Parameters.AddWithValue("@operator", CurrentUser.Nama.ToString())
                 cmd2.Parameters.AddWithValue("@no_transaksi", invoice)
@@ -364,6 +367,10 @@ Public Class PopupFormBeli
                 cmd2.Parameters.AddWithValue("@harga_produk", CInt(DataGridView2.Rows(row).Cells(2).Value))
                 cmd2.Parameters.AddWithValue("@kuantitas_produk", CInt(DataGridView2.Rows(row).Cells(3).Value))
                 cmd2.Parameters.AddWithValue("@total_harga", CInt(DataGridView2.Rows(row).Cells(5).Value))
+                cmd2.Parameters.AddWithValue("@diskon", CInt(txtDiskon.Text))
+                cmd2.Parameters.AddWithValue("@pajak", CInt(txtPajak.Text))
+                cmd2.Parameters.AddWithValue("@grandtotal", CInt(txtTotal.Text))
+
                 i = cmd2.ExecuteNonQuery
             Catch ex As Exception
                 MsgBox(ex.Message)
@@ -374,6 +381,11 @@ Public Class PopupFormBeli
 
             index += 1
         Next
+        e.Graphics.DrawString("Total Pembelian  :               " & Format(total, "##,##0"), f10, Brushes.Black, rightmargin, 170 + height, right)
+        e.Graphics.DrawString("Diskon           :               " & txtDiskon.Text & "%", f10, Brushes.Black, rightmargin, 190 + height, right)
+        e.Graphics.DrawString("Pajak            :               " & txtPajak.Text & "%", f10, Brushes.Black, rightmargin, 210 + height, right)
+        e.Graphics.DrawString("Grand Total      :               " & txtTotal.Text, f10, Brushes.Black, rightmargin, 230 + height, right)
+
     End Sub
 
     Private Sub DataGridView2_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellValueChanged

@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing.Printing
 Imports MySql.Data.MySqlClient
+Imports Mysqlx.XDevAPI.Relational
 
 Public Class FormPOS
 
@@ -23,6 +24,8 @@ Public Class FormPOS
     Private WithEvents pan As Panel
     Private WithEvents namaproduk As Label
     Private WithEvents harga As Label
+    Private WithEvents diskon As Label
+    Private WithEvents hargaDiskon As Label
     Private WithEvents stok As Label
     Private WithEvents img As PictureBox
 
@@ -31,15 +34,23 @@ Public Class FormPOS
     Dim PPD As New PrintPreviewDialog
     Dim longpaper, invoiceID As Integer
 
+    Private Sub FormPOS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        InitializeFormPOS()
+    End Sub
+
     Public Sub InitializeFormPOS()
         conn.Close()
         lblUser.Text = CurrentUser.Nama
         btnBayar.Enabled = False
+        ClearData()
         loadProduct()
     End Sub
-
-    Private Sub FormPOS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        InitializeFormPOS()
+    Private Sub ClearData()
+        DataGridView1.Rows.Clear()
+        txtMember.Text = ""
+        txtTotal.Text = 0
+        rtxtUang.Text = 0
+        txtKembali.Text = 0
     End Sub
 
     Public Sub loadProduct()
@@ -67,6 +78,7 @@ Public Class FormPOS
         With pan
             .Width = 220
             .Height = 200
+            .Cursor = Cursors.Hand
             .Margin = New Padding(14, 14, 14, 14)
             .BackColor = Color.FromArgb(255, 255, 255)
             .Tag = dr.Item("produk_id").ToString
@@ -75,6 +87,7 @@ Public Class FormPOS
         img = New PictureBox
         With img
             .Height = 30
+            .Cursor = Cursors.Hand
             .BackgroundImageLayout = ImageLayout.Stretch
             .Dock = DockStyle.Top
             .Tag = dr.Item("produk_id").ToString
@@ -85,6 +98,7 @@ Public Class FormPOS
             .ForeColor = Color.FromArgb(44, 44, 45)
             .Font = New Font("Segoe UI", 8, FontStyle.Bold)
             .TextAlign = ContentAlignment.MiddleLeft
+            .Cursor = Cursors.Hand
             .Dock = DockStyle.Top
             .Tag = dr.Item("produk_id").ToString
         End With
@@ -93,6 +107,27 @@ Public Class FormPOS
         With harga
             .ForeColor = Color.FromArgb(44, 44, 45)
             .Font = New Font("Segoe UI", 8, FontStyle.Bold)
+            .Cursor = Cursors.Hand
+            .TextAlign = ContentAlignment.MiddleLeft
+            .Dock = DockStyle.Top
+            .Tag = dr.Item("produk_id").ToString
+        End With
+
+        diskon = New Label
+        With diskon
+            .ForeColor = Color.FromArgb(44, 44, 45)
+            .Font = New Font("Segoe UI", 8, FontStyle.Bold)
+            .Cursor = Cursors.Hand
+            .TextAlign = ContentAlignment.MiddleLeft
+            .Dock = DockStyle.Top
+            .Tag = dr.Item("produk_id").ToString
+        End With
+
+        hargaDiskon = New Label
+        With hargaDiskon
+            .ForeColor = Color.FromArgb(44, 44, 45)
+            .Font = New Font("Segoe UI", 8, FontStyle.Bold)
+            .Cursor = Cursors.Hand
             .TextAlign = ContentAlignment.MiddleLeft
             .Dock = DockStyle.Top
             .Tag = dr.Item("produk_id").ToString
@@ -102,6 +137,7 @@ Public Class FormPOS
         With stok
             .ForeColor = Color.FromArgb(44, 44, 45)
             .Font = New Font("Segoe UI", 8, FontStyle.Bold)
+            .Cursor = Cursors.Hand
             .TextAlign = ContentAlignment.MiddleLeft
             .Dock = DockStyle.Top
             .Tag = dr.Item("produk_id").ToString
@@ -113,17 +149,23 @@ Public Class FormPOS
 
         namaproduk.Text = "Nama : " & dr.Item("nama").ToString
         harga.Text = "Harga : Rp. " & dr.Item("harga").ToString
+        diskon.Text = "Diskon : " & dr.Item("diskon").ToString & "%"
+        hargaDiskon.Text = "Harga Diskon : Rp. " & (dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100))).ToString
         stok.Text = "Stok : " & dr.Item("jumlah").ToString
 
         pan.Controls.Add(img)
         pan.Controls.Add(stok)
         pan.Controls.Add(harga)
+        pan.Controls.Add(diskon)
+        pan.Controls.Add(hargaDiskon)
         pan.Controls.Add(namaproduk)
 
         FlowLayoutPanel1.Controls.Add(pan)
 
         AddHandler namaproduk.Click, AddressOf productClicked
         AddHandler harga.Click, AddressOf productClicked
+        AddHandler diskon.Click, AddressOf productClicked
+        AddHandler hargaDiskon.Click, AddressOf productClicked
         AddHandler stok.Click, AddressOf productClicked
         AddHandler img.Click, AddressOf productClicked
         AddHandler pan.Click, AddressOf productClicked
@@ -150,7 +192,7 @@ Public Class FormPOS
 
                 If exist = False Then
                     'Dim price As Decimal = dr("harga")
-                    DataGridView1.Rows.Add(dr.Item("nama"), dr.Item("harga"), 1, dr.Item("produk_id"))
+                    DataGridView1.Rows.Add(dr.Item("nama"), dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100)), 1, dr.Item("produk_id"), dr.Item("diskon"), dr.Item("harga"))
                 Else
                     DataGridView1.Rows(numrow).Cells(2).Value = 1 + quantity
                 End If
@@ -373,15 +415,17 @@ Public Class FormPOS
                 cmd.Parameters.AddWithValue("@quantity", CInt(DataGridView1.Rows(row).Cells(2).Value))
                 i = cmd.ExecuteNonQuery
 
-                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_penjualan` (`operator` ,`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`) VALUES (@operator, @no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga)", conn)
+                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_penjualan` (`operator` ,`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`, `diskon`) VALUES (@operator, @no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga, @diskon)", conn)
                 cmd2.Parameters.Clear()
                 cmd2.Parameters.AddWithValue("@operator", CurrentUser.Nama.ToString())
                 cmd2.Parameters.AddWithValue("@no_transaksi", invoice)
                 cmd2.Parameters.AddWithValue("@produk_id", DataGridView1.Rows(row).Cells(3).Value)
                 cmd2.Parameters.AddWithValue("@nama_produk", DataGridView1.Rows(row).Cells(0).Value)
-                cmd2.Parameters.AddWithValue("@harga_produk", CInt(DataGridView1.Rows(row).Cells(1).Value))
+                cmd2.Parameters.AddWithValue("@harga_produk", CInt(DataGridView1.Rows(row).Cells(5).Value))
                 cmd2.Parameters.AddWithValue("@kuantitas_produk", CInt(DataGridView1.Rows(row).Cells(2).Value))
                 cmd2.Parameters.AddWithValue("@total_harga", subtotal)
+                cmd2.Parameters.AddWithValue("@diskon", DataGridView1.Rows(row).Cells(4).Value)
+
                 i = cmd2.ExecuteNonQuery
             Catch ex As Exception
                 MsgBox(ex.Message)
@@ -389,6 +433,19 @@ Public Class FormPOS
                 conn.Close()
             End Try
         Next
+
+        Try
+            conn.Open()
+            Dim cmd As New MySqlCommand("UPDATE `tbl_penjualan` SET `grandtotal`= @grandtotal WHERE `no_transaksi`= @invoice", conn)
+            cmd.Parameters.Clear()
+            cmd.Parameters.AddWithValue("@grandtotal", total)
+            cmd.Parameters.AddWithValue("@invoice", invoice)
+            i = cmd.ExecuteNonQuery
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
+        End Try
 
         kembalian = uang - total
 

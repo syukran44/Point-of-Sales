@@ -75,6 +75,7 @@ Partial Class FormPenjualan
         DataGridView1.ReadOnly = True
         DataGridView1.RowHeadersVisible = False
         DataGridView1.RowHeadersWidth = 51
+        DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         DataGridView1.Size = New Size(1237, 511)
         DataGridView1.TabIndex = 18
         DataGridView1.TabStop = False
@@ -225,7 +226,7 @@ Partial Class FormPenjualan
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1301, 781)
+        ClientSize = New Size(1283, 734)
         ControlBox = False
         Controls.Add(btnCetak)
         Controls.Add(DateTimePicker2)

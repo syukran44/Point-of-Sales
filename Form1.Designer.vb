@@ -27,10 +27,17 @@ Partial Class Form1
         Column2 = New DataGridViewTextBoxColumn()
         Column5 = New DataGridViewTextBoxColumn()
         Column3 = New DataGridViewTextBoxColumn()
+        Column6 = New DataGridViewTextBoxColumn()
+        Column8 = New DataGridViewTextBoxColumn()
+        Column7 = New DataGridViewTextBoxColumn()
         Column4 = New DataGridViewTextBoxColumn()
         txtNama = New TextBox()
         txtHarga = New TextBox()
         Panel1 = New Panel()
+        Label6 = New Label()
+        txtPoin = New TextBox()
+        Label4 = New Label()
+        txtDiskon = New TextBox()
         Label3 = New Label()
         txtKategori = New TextBox()
         lblProdukID = New Label()
@@ -61,7 +68,7 @@ Partial Class Form1
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column5, Column3, Column4})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column5, Column3, Column6, Column8, Column7, Column4})
         DataGridView1.Location = New Point(342, 98)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
@@ -105,6 +112,30 @@ Partial Class Form1
         Column3.Name = "Column3"
         Column3.ReadOnly = True
         ' 
+        ' Column6
+        ' 
+        Column6.HeaderText = "Diskon"
+        Column6.MinimumWidth = 6
+        Column6.Name = "Column6"
+        Column6.ReadOnly = True
+        Column6.Width = 125
+        ' 
+        ' Column8
+        ' 
+        Column8.HeaderText = "Harga Diskon"
+        Column8.MinimumWidth = 6
+        Column8.Name = "Column8"
+        Column8.ReadOnly = True
+        Column8.Width = 125
+        ' 
+        ' Column7
+        ' 
+        Column7.HeaderText = "Poin"
+        Column7.MinimumWidth = 6
+        Column7.Name = "Column7"
+        Column7.ReadOnly = True
+        Column7.Width = 125
+        ' 
         ' Column4
         ' 
         Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
@@ -117,7 +148,7 @@ Partial Class Form1
         ' txtNama
         ' 
         txtNama.Anchor = AnchorStyles.Left
-        txtNama.Location = New Point(42, 198)
+        txtNama.Location = New Point(39, 168)
         txtNama.Name = "txtNama"
         txtNama.Size = New Size(224, 38)
         txtNama.TabIndex = 2
@@ -125,7 +156,7 @@ Partial Class Form1
         ' txtHarga
         ' 
         txtHarga.Anchor = AnchorStyles.Left
-        txtHarga.Location = New Point(42, 350)
+        txtHarga.Location = New Point(39, 316)
         txtHarga.Name = "txtHarga"
         txtHarga.Size = New Size(224, 38)
         txtHarga.TabIndex = 4
@@ -133,6 +164,10 @@ Partial Class Form1
         ' Panel1
         ' 
         Panel1.BackColor = SystemColors.ControlLightLight
+        Panel1.Controls.Add(Label6)
+        Panel1.Controls.Add(txtPoin)
+        Panel1.Controls.Add(Label4)
+        Panel1.Controls.Add(txtDiskon)
         Panel1.Controls.Add(Label3)
         Panel1.Controls.Add(txtKategori)
         Panel1.Controls.Add(lblProdukID)
@@ -155,12 +190,51 @@ Partial Class Form1
         Panel1.Size = New Size(318, 752)
         Panel1.TabIndex = 4
         ' 
+        ' Label6
+        ' 
+        Label6.Anchor = AnchorStyles.Left
+        Label6.AutoSize = True
+        Label6.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label6.Location = New Point(39, 441)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(44, 20)
+        Label6.TabIndex = 19
+        Label6.Text = "Poin :"
+        ' 
+        ' txtPoin
+        ' 
+        txtPoin.Anchor = AnchorStyles.Left
+        txtPoin.Location = New Point(39, 464)
+        txtPoin.Name = "txtPoin"
+        txtPoin.Size = New Size(224, 38)
+        txtPoin.TabIndex = 18
+        ' 
+        ' Label4
+        ' 
+        Label4.Anchor = AnchorStyles.Left
+        Label4.AutoSize = True
+        Label4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label4.Location = New Point(39, 366)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(87, 20)
+        Label4.TabIndex = 17
+        Label4.Text = "Diskon (%) :"
+        ' 
+        ' txtDiskon
+        ' 
+        txtDiskon.Anchor = AnchorStyles.Left
+        txtDiskon.Location = New Point(39, 390)
+        txtDiskon.MaxLength = 2
+        txtDiskon.Name = "txtDiskon"
+        txtDiskon.Size = New Size(224, 38)
+        txtDiskon.TabIndex = 16
+        ' 
         ' Label3
         ' 
         Label3.Anchor = AnchorStyles.Left
         Label3.AutoSize = True
         Label3.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label3.Location = New Point(42, 248)
+        Label3.Location = New Point(39, 216)
         Label3.Name = "Label3"
         Label3.Size = New Size(73, 20)
         Label3.TabIndex = 15
@@ -169,7 +243,7 @@ Partial Class Form1
         ' txtKategori
         ' 
         txtKategori.Anchor = AnchorStyles.Left
-        txtKategori.Location = New Point(42, 274)
+        txtKategori.Location = New Point(39, 242)
         txtKategori.Name = "txtKategori"
         txtKategori.Size = New Size(224, 38)
         txtKategori.TabIndex = 3
@@ -179,7 +253,7 @@ Partial Class Form1
         lblProdukID.Anchor = AnchorStyles.Left
         lblProdukID.AutoSize = True
         lblProdukID.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblProdukID.Location = New Point(42, 94)
+        lblProdukID.Location = New Point(39, 66)
         lblProdukID.Name = "lblProdukID"
         lblProdukID.Size = New Size(81, 20)
         lblProdukID.TabIndex = 13
@@ -188,7 +262,7 @@ Partial Class Form1
         ' txtProdukID
         ' 
         txtProdukID.Anchor = AnchorStyles.Left
-        txtProdukID.Location = New Point(42, 122)
+        txtProdukID.Location = New Point(39, 94)
         txtProdukID.Name = "txtProdukID"
         txtProdukID.Size = New Size(224, 38)
         txtProdukID.TabIndex = 1
@@ -202,7 +276,7 @@ Partial Class Form1
         btnClear.FlatStyle = FlatStyle.Flat
         btnClear.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnClear.ForeColor = Color.Black
-        btnClear.Location = New Point(160, 556)
+        btnClear.Location = New Point(157, 664)
         btnClear.Margin = New Padding(0)
         btnClear.Name = "btnClear"
         btnClear.Size = New Size(106, 43)
@@ -219,7 +293,7 @@ Partial Class Form1
         btnHapus.FlatStyle = FlatStyle.Flat
         btnHapus.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnHapus.ForeColor = Color.White
-        btnHapus.Location = New Point(42, 556)
+        btnHapus.Location = New Point(39, 664)
         btnHapus.Margin = New Padding(0)
         btnHapus.Name = "btnHapus"
         btnHapus.Size = New Size(106, 43)
@@ -236,7 +310,7 @@ Partial Class Form1
         btnEdit.FlatStyle = FlatStyle.Flat
         btnEdit.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnEdit.ForeColor = Color.White
-        btnEdit.Location = New Point(160, 498)
+        btnEdit.Location = New Point(157, 606)
         btnEdit.Margin = New Padding(0)
         btnEdit.Name = "btnEdit"
         btnEdit.Size = New Size(106, 43)
@@ -253,7 +327,7 @@ Partial Class Form1
         btnTambah.FlatStyle = FlatStyle.Flat
         btnTambah.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnTambah.ForeColor = Color.White
-        btnTambah.Location = New Point(42, 498)
+        btnTambah.Location = New Point(39, 606)
         btnTambah.Margin = New Padding(0)
         btnTambah.Name = "btnTambah"
         btnTambah.Size = New Size(106, 43)
@@ -266,7 +340,7 @@ Partial Class Form1
         lblStok.Anchor = AnchorStyles.Left
         lblStok.AutoSize = True
         lblStok.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblStok.Location = New Point(42, 402)
+        lblStok.Location = New Point(39, 516)
         lblStok.Name = "lblStok"
         lblStok.Size = New Size(45, 20)
         lblStok.TabIndex = 7
@@ -275,7 +349,7 @@ Partial Class Form1
         ' txtJumlah
         ' 
         txtJumlah.Anchor = AnchorStyles.Left
-        txtJumlah.Location = New Point(42, 426)
+        txtJumlah.Location = New Point(39, 538)
         txtJumlah.Name = "txtJumlah"
         txtJumlah.Size = New Size(224, 38)
         txtJumlah.TabIndex = 5
@@ -285,7 +359,7 @@ Partial Class Form1
         lblHarga.Anchor = AnchorStyles.Left
         lblHarga.AutoSize = True
         lblHarga.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblHarga.Location = New Point(42, 325)
+        lblHarga.Location = New Point(39, 291)
         lblHarga.Name = "lblHarga"
         lblHarga.Size = New Size(57, 20)
         lblHarga.TabIndex = 5
@@ -296,7 +370,7 @@ Partial Class Form1
         lblNama.Anchor = AnchorStyles.Left
         lblNama.AutoSize = True
         lblNama.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblNama.Location = New Point(42, 171)
+        lblNama.Location = New Point(39, 141)
         lblNama.Name = "lblNama"
         lblNama.Size = New Size(56, 20)
         lblNama.TabIndex = 4
@@ -421,14 +495,21 @@ Partial Class Form1
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents btnCetak As Button
     Friend WithEvents Button1 As Button
-    Friend WithEvents Column1 As DataGridViewTextBoxColumn
-    Friend WithEvents Column2 As DataGridViewTextBoxColumn
-    Friend WithEvents Column5 As DataGridViewTextBoxColumn
-    Friend WithEvents Column3 As DataGridViewTextBoxColumn
-    Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Label5 As Label
     Friend WithEvents cmbKategori As ComboBox
     Friend WithEvents Label3 As Label
     Friend WithEvents txtKategori As TextBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents txtPoin As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents txtDiskon As TextBox
+    Friend WithEvents Column1 As DataGridViewTextBoxColumn
+    Friend WithEvents Column2 As DataGridViewTextBoxColumn
+    Friend WithEvents Column5 As DataGridViewTextBoxColumn
+    Friend WithEvents Column3 As DataGridViewTextBoxColumn
+    Friend WithEvents Column6 As DataGridViewTextBoxColumn
+    Friend WithEvents Column8 As DataGridViewTextBoxColumn
+    Friend WithEvents Column7 As DataGridViewTextBoxColumn
+    Friend WithEvents Column4 As DataGridViewTextBoxColumn
 
 End Class

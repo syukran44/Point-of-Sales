@@ -34,12 +34,14 @@ Public Class Form1
     Public Sub create()
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("INSERT INTO `tbl_produk`(`produk_id`, `nama`, `kategori`, `harga`, `jumlah`) VALUES (@produk_id, @nama, @kategori, @harga, @jumlah)", conn)
+            Dim cmd As New MySqlCommand("INSERT INTO `tbl_produk`(`produk_id`, `nama`, `kategori`, `harga`, `diskon`, `poin`, `jumlah`) VALUES (@produk_id, @nama, @kategori, @harga, @diskon, @poin, @jumlah)", conn)
             cmd.Parameters.Clear()
             cmd.Parameters.AddWithValue("@produk_id", txtProdukID.Text)
             cmd.Parameters.AddWithValue("@nama", txtNama.Text)
             cmd.Parameters.AddWithValue("@kategori", txtKategori.Text)
-            cmd.Parameters.AddWithValue("@harga", txtHarga.Text)
+            cmd.Parameters.AddWithValue("@harga", CInt(txtHarga.Text))
+            cmd.Parameters.AddWithValue("@diskon", CInt(txtDiskon.Text))
+            cmd.Parameters.AddWithValue("@poin", CInt(txtPoin.Text))
             cmd.Parameters.AddWithValue("@jumlah", CInt(txtJumlah.Text))
             i = cmd.ExecuteNonQuery
             If i > 0 Then
@@ -61,7 +63,8 @@ Public Class Form1
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"), dr.Item("jumlah"))
+                Dim hargaDiskon As Decimal = dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100))
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"), dr.Item("diskon") & "%", hargaDiskon, dr.Item("poin"), dr.Item("jumlah"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -98,7 +101,8 @@ Public Class Form1
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `kategori` like '%" & cmbKategori.SelectedItem.ToString() & "%'", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"), dr.Item("jumlah"))
+                Dim hargaDiskon As Decimal = dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100))
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"), dr.Item("diskon") & "%", hargaDiskon, dr.Item("poin"), dr.Item("jumlah"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -111,12 +115,14 @@ Public Class Form1
     Public Sub update()
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("UPDATE `tbl_produk` SET `produk_id`= @produk_id, `nama`= @nama, `kategori`= @kategori, `harga`= @harga, `jumlah`= @jumlah WHERE `produk_id` = @produk_id", conn)
+            Dim cmd As New MySqlCommand("UPDATE `tbl_produk` SET `produk_id`= @produk_id, `nama`= @nama, `kategori`= @kategori, `harga`= @harga, `diskon`= @diskon, `poin`= @poin, `jumlah`= @jumlah WHERE `produk_id` = @produk_id", conn)
             cmd.Parameters.Clear()
             cmd.Parameters.AddWithValue("@produk_id", txtProdukID.Text)
             cmd.Parameters.AddWithValue("@nama", txtNama.Text)
             cmd.Parameters.AddWithValue("@kategori", txtKategori.Text)
-            cmd.Parameters.AddWithValue("@harga", txtHarga.Text)
+            cmd.Parameters.AddWithValue("@harga", CInt(txtHarga.Text))
+            cmd.Parameters.AddWithValue("@diskon", CInt(txtDiskon.Text))
+            cmd.Parameters.AddWithValue("@poin", CInt(txtPoin.Text))
             cmd.Parameters.AddWithValue("@jumlah", CInt(txtJumlah.Text))
             i = cmd.ExecuteNonQuery
             If i > 0 Then
@@ -155,6 +161,8 @@ Public Class Form1
         txtNama.Clear()
         txtKategori.Clear()
         txtHarga.Clear()
+        txtDiskon.Clear()
+        txtPoin.Clear()
         txtJumlah.Clear()
 
         DGVRead()
@@ -173,7 +181,9 @@ Public Class Form1
         txtNama.Text = DataGridView1.CurrentRow.Cells(1).Value
         txtKategori.Text = DataGridView1.CurrentRow.Cells(2).Value
         txtHarga.Text = DataGridView1.CurrentRow.Cells(3).Value
-        txtJumlah.Text = DataGridView1.CurrentRow.Cells(4).Value
+        txtDiskon.Text = DataGridView1.CurrentRow.Cells(4).Value.ToString().Replace("%", "")
+        txtPoin.Text = DataGridView1.CurrentRow.Cells(6).Value
+        txtJumlah.Text = DataGridView1.CurrentRow.Cells(7).Value
 
         txtProdukID.ReadOnly = True
         btnTambah.Enabled = False
@@ -208,7 +218,8 @@ Public Class Form1
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `produk_id` like '%" & txtSearch.Text & "%' OR `nama` like '%" & txtSearch.Text & "%' ", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"), dr.Item("jumlah"))
+                Dim hargaDiskon As Decimal = dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100))
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"), dr.Item("diskon") & "%", hargaDiskon, dr.Item("poin"), dr.Item("jumlah"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -220,5 +231,33 @@ Public Class Form1
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         PopupFormBeli.Show()
+    End Sub
+
+    Private Sub txtHarga_TextChanged(sender As Object, e As EventArgs) Handles txtHarga.TextChanged
+        If Not IsNumeric(txtHarga.Text) And Not txtHarga.Text = "" Then
+            MsgBox("Masukkan Jumlah yang benar")
+            txtHarga.Text = 0
+        End If
+    End Sub
+
+    Private Sub txtDiskon_TextChanged(sender As Object, e As EventArgs) Handles txtDiskon.TextChanged
+        If Not IsNumeric(txtDiskon.Text) And Not txtDiskon.Text = "" Then
+            MsgBox("Masukkan Jumlah yang benar")
+            txtDiskon.Text = 0
+        End If
+    End Sub
+
+    Private Sub txtPoin_TextChanged(sender As Object, e As EventArgs) Handles txtPoin.TextChanged
+        If Not IsNumeric(txtPoin.Text) And Not txtPoin.Text = "" Then
+            MsgBox("Masukkan Jumlah yang benar")
+            txtPoin.Text = 0
+        End If
+    End Sub
+
+    Private Sub txtJumlah_TextChanged(sender As Object, e As EventArgs) Handles txtJumlah.TextChanged
+        If Not IsNumeric(txtJumlah.Text) And Not txtJumlah.Text = "" Then
+            MsgBox("Masukkan Jumlah yang benar")
+            txtJumlah.Text = 0
+        End If
     End Sub
 End Class
