@@ -23,10 +23,14 @@ Public Class FormPenjualan
     Dim PPD As New PrintPreviewDialog
     Dim longpaper, invoiceID As Integer
 
-    Private Sub FormTransaksi_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
-        'WindowState = FormWindowState.Maximized        
+    Public Sub InitializeFormPenjualan()
+        conn.Close()
         loadTransaksi()
         loadDGV2()
+    End Sub
+
+    Private Sub FormPenjualan_Loaded(sender As Object, e As EventArgs) Handles MyBase.Load
+        InitializeFormPenjualan()
     End Sub
 
     Public Sub loadTransaksi()
@@ -99,11 +103,11 @@ Public Class FormPenjualan
         DataGridView1.Rows.Clear()
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT * FROM tbl_penjualan WHERE `no_transaksi` like '%" & txtSearch.Text & "%' OR `nama_produk` like '%" & txtSearch.Text & "%' OR `produk_id` like '%" & txtSearch.Text & "%' ", conn)
+            Dim cmd As New MySqlCommand("SELECT * FROM tbl_penjualan WHERE `operator` like '%" & txtSearch.Text & "%' OR `no_transaksi` like '%" & txtSearch.Text & "%' OR `nama_produk` like '%" & txtSearch.Text & "%' OR `produk_id` like '%" & txtSearch.Text & "%' ", conn)
             dr = cmd.ExecuteReader
             While dr.Read
                 i += 1
-                DataGridView1.Rows.Add(i, dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("harga_produk"), dr.Item("kuantitas_produk"), dr.Item("total_harga"))
+                DataGridView1.Rows.Add(i, dr.Item("operator"), dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("harga_produk"), dr.Item("kuantitas_produk"), dr.Item("total_harga"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -158,6 +162,7 @@ Public Class FormPenjualan
         'Dim f10u As New Font("Calibri", 10, FontStyle.Underline)
         Dim f12 As New Font("Calibri", 12, FontStyle.Regular)
         Dim f12b As New Font("Calibri", 12, FontStyle.Bold)
+        Dim lineFont As New Font("Arial", 10, FontStyle.Regular)
 
 
         Dim leftmargin As Integer = PD.DefaultPageSettings.Margins.Left
@@ -172,22 +177,22 @@ Public Class FormPenjualan
         center.Alignment = StringAlignment.Center
 
         Dim line As String
-        line = New String("—", PD.DefaultPageSettings.PaperSize.Width - leftmargin - 1100)
+        line = New String("—", PD.DefaultPageSettings.PaperSize.Width - leftmargin - 1003)
         Dim height As Integer
 
         Dim tglMulai As String = DateTimePicker1.Value.ToString("dd-MM-yyyy")
         Dim tglAkhir As String = DateTimePicker2.Value.ToString("dd-MM-yyyy")
 
-        e.Graphics.DrawString("POS", f12b, Brushes.Black, leftmargin, 40, center)
+        e.Graphics.DrawString("Point of Sales", f12b, Brushes.Black, leftmargin, 40, center)
         e.Graphics.DrawString("Mulai Tgl.   :   " & tglMulai, f12, Brushes.Black, rightmargin, 40, right)
         e.Graphics.DrawString("S/d Tgl.     :   " & tglAkhir, f12, Brushes.Black, rightmargin, 60, right)
 
-        e.Graphics.DrawString("Laporan Penjualan", f10, Brushes.Black, leftmargin, 100, center)
+        e.Graphics.DrawString("Laporan Penjualan", f10b, Brushes.Black, leftmargin, 100)
 
-        e.Graphics.DrawString(line, f8, Brushes.Black, leftmargin, 120)
+        e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 116)
 
         e.Graphics.DrawString("No", f10, Brushes.Black, leftmargin, 128)
-        e.Graphics.DrawString("Operator", f10, Brushes.Black, 20 + leftmargin, 128)
+        e.Graphics.DrawString("Operator", f10, Brushes.Black, 30 + leftmargin, 128)
         e.Graphics.DrawString("Nomor Transaksi", f10, Brushes.Black, 200 + leftmargin, 128)
         e.Graphics.DrawString("Produk ID", f10, Brushes.Black, 400 + leftmargin, 128)
         e.Graphics.DrawString("Nama Produk", f10, Brushes.Black, 550 + leftmargin, 128)
@@ -195,13 +200,11 @@ Public Class FormPenjualan
         e.Graphics.DrawString("Kuantitas", f10, Brushes.Black, 800 + leftmargin, 128)
         e.Graphics.DrawString("Total", f10, Brushes.Black, 900 + leftmargin, 128)
 
-        e.Graphics.DrawString(line, f8, Brushes.Black, leftmargin, 140)
-
-
+        e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 140)
         For row As Integer = 0 To DataGridView1.RowCount - 1
             height += 25
             e.Graphics.DrawString(DataGridView1.Rows(row).Cells(0).Value.ToString, f10, Brushes.Black, leftmargin, 125 + height)
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(1).Value.ToString, f10, Brushes.Black, 20 + leftmargin, 125 + height)
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(1).Value.ToString, f10, Brushes.Black, 30 + leftmargin, 125 + height)
             e.Graphics.DrawString(DataGridView1.Rows(row).Cells(2).Value.ToString, f10, Brushes.Black, 200 + leftmargin, 125 + height)
             e.Graphics.DrawString(DataGridView1.Rows(row).Cells(3).Value.ToString, f10, Brushes.Black, 400 + leftmargin, 125 + height)
             e.Graphics.DrawString(DataGridView1.Rows(row).Cells(4).Value.ToString, f10, Brushes.Black, 550 + leftmargin, 125 + height)
@@ -212,10 +215,7 @@ Public Class FormPenjualan
             i = DataGridView1.Rows(row).Cells(7).Value
             DataGridView1.Rows(row).Cells(7).Value = Format(i, "##,##0")
             e.Graphics.DrawString(DataGridView1.Rows(row).Cells(7).Value.ToString, f10, Brushes.Black, 900 + leftmargin, 125 + height)
-            e.Graphics.DrawString(line, f10, Brushes.Black, leftmargin, 136 + height)
-
-            'i = DataGridView1.Rows(row).Cells(1).Value
-            'DataGridView1.Rows(row).Cells(1).Value = Format(i, "##,##0")
+            e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 138 + height)
         Next
 
     End Sub

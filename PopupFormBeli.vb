@@ -1,4 +1,5 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+﻿Imports System.Drawing.Printing
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports MySql.Data.MySqlClient
 
 Public Class PopupFormBeli
@@ -6,15 +7,18 @@ Public Class PopupFormBeli
     Dim i As Integer
     Dim dr As MySqlDataReader
 
-    Private _currentUser As User
+    'Cetak Pembelian ------------------------------------------------------------------------------
+    Dim WithEvents PD As New PrintDocument
+    Dim PPD As New PrintPreviewDialog
+    Dim longpaper, invoiceID As Integer
 
+    Private _currentUser As User
     Public Property CurrentUser As User
         Get
             Return _currentUser
         End Get
         Set(value As User)
             _currentUser = value
-            ' Optionally, update UI elements based on the current user.
         End Set
     End Property
 
@@ -68,6 +72,10 @@ Public Class PopupFormBeli
     Private Sub btnTambah_Click(sender As Object, e As EventArgs) Handles btnTambah.Click
         Dim exist As Boolean = False, numrow As Integer = 0, quantity As Integer
 
+        If txtQty.Text = "" Then
+            txtQty.Text = 1
+        End If
+
         For Each item As DataGridViewRow In DataGridView2.Rows
             If item.Cells(0).Value IsNot Nothing Then
                 If item.Cells(0).Value.ToString = txtProdukID.Text.ToUpper() Then
@@ -85,7 +93,7 @@ Public Class PopupFormBeli
                 Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `produk_id` like '%" & txtProdukID.Text & "%'", conn)
                 dr = cmd.ExecuteReader
                 While dr.Read
-                    DataGridView2.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("harga"), 1)
+                    DataGridView2.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("harga"), txtQty.Text, dr.Item("kategori"))
                 End While
                 dr.Dispose()
             Catch ex As Exception
@@ -114,7 +122,7 @@ Public Class PopupFormBeli
         Next
 
         If exist = False Then
-            DataGridView2.Rows.Add(DataGridView1.CurrentRow.Cells(0).Value, DataGridView1.CurrentRow.Cells(1).Value, DataGridView1.CurrentRow.Cells(3).Value, 1)
+            DataGridView2.Rows.Add(DataGridView1.CurrentRow.Cells(0).Value, DataGridView1.CurrentRow.Cells(1).Value, DataGridView1.CurrentRow.Cells(3).Value, 1, DataGridView1.CurrentRow.Cells(2).Value)
         Else
             DataGridView2.Rows(numrow).Cells(3).Value = 1 + quantity
         End If
@@ -221,5 +229,158 @@ Public Class PopupFormBeli
         Finally
             conn.Close()
         End Try
+    End Sub
+
+    Private Sub btnBeli_Click(sender As Object, e As EventArgs) Handles btnBeli.Click
+        If DataGridView2.Rows.Count = 0 Then
+            MsgBox("Item tidak ada", MsgBoxStyle.OkOnly)
+            Exit Sub
+        Else
+            changelongpaper()
+            PPD.Document = PD
+            PPD.ShowDialog()
+            DataGridView2.Rows.Clear()
+            txtDiskon.Clear()
+            txtPajak.Clear()
+            txtTotal.Clear()
+        End If
+    End Sub
+
+    Sub changelongpaper()
+        Dim rowcount As Integer
+        longpaper = 0
+        rowcount = DataGridView1.Rows.Count
+        longpaper = rowcount * 15
+        longpaper = longpaper + 240
+    End Sub
+
+    Private Sub PD_BeginPrint(sender As Object, e As PrintEventArgs) Handles PD.BeginPrint
+        Dim pagesetup As New PageSettings
+        pagesetup.PaperSize = New PaperSize("A4", 1169, 827) ' A4 Landscape
+        'pagesetup.PaperSize = New PaperSize("Custom", 250, 500)
+        'pagesetup.PaperSize = New PaperSize("Custom", 250, longpaper)
+        PD.DefaultPageSettings = pagesetup
+    End Sub
+
+    Private Sub PD_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PD.PrintPage
+        Dim f8 As New Font("Calibri", 8, FontStyle.Regular)
+        Dim f10 As New Font("Calibri", 10, FontStyle.Regular)
+        Dim f10b As New Font("Calibri", 10, FontStyle.Bold)
+        'Dim f10u As New Font("Calibri", 10, FontStyle.Underline)
+        Dim f12 As New Font("Calibri", 12, FontStyle.Regular)
+        Dim f12b As New Font("Calibri", 12, FontStyle.Bold)
+        Dim lineFont As New Font("Arial", 10, FontStyle.Regular)
+
+
+        Dim leftmargin As Integer = PD.DefaultPageSettings.Margins.Left
+        Dim centermargin As Integer = PD.DefaultPageSettings.PaperSize.Width / 2
+        Dim rightmargin As Integer = PD.DefaultPageSettings.PaperSize.Width - 50
+
+        'font alignment
+        Dim right As New StringFormat
+        Dim center As New StringFormat
+
+        right.Alignment = StringAlignment.Far
+        center.Alignment = StringAlignment.Center
+
+        Dim line, invoice As String
+        Dim index As Integer = 1
+
+        line = New String("—", PD.DefaultPageSettings.PaperSize.Width - leftmargin - 999)
+        Dim height As Integer
+
+        Dim currentDateAndTime As DateTime = DateTime.Now
+        Dim today As String = currentDateAndTime.ToString("yyyy-MM-dd")
+        Dim tanggal As String = currentDateAndTime.ToString("dd-MM-yyyy")
+        Dim invoiceDate As String = currentDateAndTime.ToString("ddMMM")
+
+        Try
+            conn.Open()
+            Dim maxInvoiceID As Integer
+            Dim cmdMaxID As New MySqlCommand($"SELECT MAX(CAST(SUBSTRING(`no_transaksi`, 9) AS UNSIGNED)) FROM `tbl_pembelian` WHERE `created_at` = '{today}'", conn)
+            Dim result As Object = cmdMaxID.ExecuteScalar()
+            If result IsNot DBNull.Value Then
+                maxInvoiceID = Convert.ToInt32(result)
+            Else
+                maxInvoiceID = 0
+            End If
+            invoiceID = maxInvoiceID + 1
+            invoice = "PBL" & invoiceDate.ToUpper & invoiceID.ToString("D4")
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
+        End Try
+
+        e.Graphics.DrawString("Point of Sales", f12b, Brushes.Black, leftmargin, 40, center)
+        e.Graphics.DrawString("Tgl.             :   " & tanggal, f12, Brushes.Black, rightmargin, 40, right)
+        e.Graphics.DrawString("No. Transaksi    :   " & invoice, f12, Brushes.Black, rightmargin, 60, right)
+        e.Graphics.DrawString("Operator         :   " & CurrentUser.Nama, f12, Brushes.Black, rightmargin, 80, right)
+
+        e.Graphics.DrawString("Pembelian Produk", f10b, Brushes.Black, leftmargin, 100)
+
+        e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 116)
+
+        e.Graphics.DrawString("No", f10, Brushes.Black, leftmargin, 128)
+        e.Graphics.DrawString("Produk ID", f10, Brushes.Black, 30 + leftmargin, 128)
+        e.Graphics.DrawString("Nama Produk", f10, Brushes.Black, 150 + leftmargin, 128)
+        e.Graphics.DrawString("Kategori Produk", f10, Brushes.Black, 400 + leftmargin, 128)
+        e.Graphics.DrawString("Harga Produk", f10, Brushes.Black, 600 + leftmargin, 128)
+        e.Graphics.DrawString("Kuantitas", f10, Brushes.Black, 750 + leftmargin, 128)
+        e.Graphics.DrawString("Total", f10, Brushes.Black, 900 + leftmargin, 128)
+
+        e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 140)
+        For row As Integer = 0 To DataGridView2.RowCount - 1
+            height += 25
+
+            e.Graphics.DrawString(index, f10, Brushes.Black, leftmargin, 125 + height)
+            e.Graphics.DrawString(DataGridView2.Rows(row).Cells(0).Value.ToString, f10, Brushes.Black, 30 + leftmargin, 125 + height)
+            e.Graphics.DrawString(DataGridView2.Rows(row).Cells(1).Value.ToString, f10, Brushes.Black, 150 + leftmargin, 125 + height)
+            e.Graphics.DrawString(DataGridView2.Rows(row).Cells(4).Value.ToString, f10, Brushes.Black, 400 + leftmargin, 125 + height)
+            i = DataGridView2.Rows(row).Cells(2).Value
+            DataGridView2.Rows(row).Cells(2).Value = Format(i, "##,##0")
+            e.Graphics.DrawString(DataGridView2.Rows(row).Cells(2).Value.ToString, f10, Brushes.Black, 600 + leftmargin, 125 + height)
+            e.Graphics.DrawString(DataGridView2.Rows(row).Cells(3).Value.ToString, f10, Brushes.Black, 750 + leftmargin, 125 + height)
+            i = DataGridView2.Rows(row).Cells(2).Value * DataGridView2.Rows(row).Cells(3).Value
+            DataGridView2.Rows(row).Cells(5).Value = Format(i, "##,##0")
+            e.Graphics.DrawString(DataGridView2.Rows(row).Cells(5).Value.ToString, f10, Brushes.Black, 900 + leftmargin, 125 + height)
+
+            e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 138 + height)
+
+            Try
+                conn.Open()
+                Dim cmd As New MySqlCommand("UPDATE `tbl_produk` SET `jumlah`= `jumlah` + @quantity WHERE `produk_id` = @produk_id", conn)
+                cmd.Parameters.Clear()
+                cmd.Parameters.AddWithValue("@produk_id", DataGridView2.Rows(row).Cells(0).Value)
+                cmd.Parameters.AddWithValue("@quantity", CInt(DataGridView2.Rows(row).Cells(3).Value))
+                i = cmd.ExecuteNonQuery
+
+                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_pembelian` (`operator` ,`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`) VALUES (@operator, @no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga)", conn)
+                cmd2.Parameters.Clear()
+                cmd2.Parameters.AddWithValue("@operator", CurrentUser.Nama.ToString())
+                cmd2.Parameters.AddWithValue("@no_transaksi", invoice)
+                cmd2.Parameters.AddWithValue("@produk_id", DataGridView2.Rows(row).Cells(0).Value)
+                cmd2.Parameters.AddWithValue("@nama_produk", DataGridView2.Rows(row).Cells(1).Value)
+                cmd2.Parameters.AddWithValue("@harga_produk", CInt(DataGridView2.Rows(row).Cells(2).Value))
+                cmd2.Parameters.AddWithValue("@kuantitas_produk", CInt(DataGridView2.Rows(row).Cells(3).Value))
+                cmd2.Parameters.AddWithValue("@total_harga", CInt(DataGridView2.Rows(row).Cells(5).Value))
+                i = cmd2.ExecuteNonQuery
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            Finally
+                conn.Close()
+                Form1.InitializeForm1()
+            End Try
+
+            index += 1
+        Next
+    End Sub
+
+    Private Sub DataGridView2_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellValueChanged
+        getTotalHarga()
+    End Sub
+
+    Private Sub btnTutup_Click(sender As Object, e As EventArgs) Handles btnTutup.Click
+        Me.Hide()
     End Sub
 End Class

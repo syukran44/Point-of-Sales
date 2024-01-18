@@ -17,7 +17,7 @@ Public Class FormPOS
 
     Dim conn As New MySqlConnection("server=localhost; port=3306; username=root; password=; database=sales_db")
     Dim i As Integer
-    Dim dr As MySqlDataReader
+    Dim dr, dr2 As MySqlDataReader
     Dim uang As Integer = 0
 
     Private WithEvents pan As Panel
@@ -31,11 +31,15 @@ Public Class FormPOS
     Dim PPD As New PrintPreviewDialog
     Dim longpaper, invoiceID As Integer
 
-
-    Private Sub FormPOS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Public Sub InitializeFormPOS()
+        conn.Close()
         lblUser.Text = CurrentUser.Nama
         btnBayar.Enabled = False
         loadProduct()
+    End Sub
+
+    Private Sub FormPOS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        InitializeFormPOS()
     End Sub
 
     Public Sub loadProduct()
@@ -259,7 +263,6 @@ Public Class FormPOS
             changelongpaper()
             PPD.Document = PD
             PPD.ShowDialog()
-            invoiceID += 1
         End If
     End Sub
 
@@ -299,6 +302,7 @@ Public Class FormPOS
         line = "-------------------------------------------------------------------------------------------"
 
         Dim currentDateAndTime As DateTime = DateTime.Now
+        Dim today As String = currentDateAndTime.ToString("yyyy-MM-dd")
         Dim formattedDate As String = currentDateAndTime.ToString("dd-MM-yyyy")
         Dim formattedTime As String = currentDateAndTime.ToString("HH:mm:ss")
         Dim invoiceDate As String = currentDateAndTime.ToString("ddMMM")
@@ -307,21 +311,16 @@ Public Class FormPOS
 
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT `no_transaksi` FROM `tbl_penjualan`", conn)
-            dr = cmd.ExecuteReader
-            If dr.Read() Then
-                While dr.Read
-                    invoice = "POS" & invoiceDate.ToUpper & invoiceID.ToString("D4")
-                    If invoice = dr.Item("no_transaksi") Then
-                        invoiceID += 1
-                    Else
-                        invoice = "POS" & invoiceDate.ToUpper & invoiceID.ToString("D4")
-                    End If
-                End While
+            Dim maxInvoiceID As Integer
+            Dim cmdMaxID As New MySqlCommand($"SELECT MAX(CAST(SUBSTRING(`no_transaksi`, 9) AS UNSIGNED)) FROM `tbl_penjualan` WHERE `created_at` = '{today}'", conn)
+            Dim result As Object = cmdMaxID.ExecuteScalar()
+            If result IsNot DBNull.Value Then
+                maxInvoiceID = Convert.ToInt32(result)
             Else
-                invoice = "POS" & invoiceDate.ToUpper & invoiceID.ToString("D4")
+                maxInvoiceID = 0
             End If
-            dr.Dispose()
+            invoiceID = maxInvoiceID + 1
+            invoice = "POS" & invoiceDate.ToUpper & invoiceID.ToString("D4")
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
@@ -405,6 +404,8 @@ Public Class FormPOS
         e.Graphics.DrawString(kembalian.ToString("##,##0"), f8, Brushes.Black, rightmargin, height + 180, right)
 
         e.Graphics.DrawString("------------------ TERIMA KASIH ------------------", f8, Brushes.Black, centermargin, height + 200, center)
+
+        InitializeFormPOS()
     End Sub
 
 End Class

@@ -42,6 +42,8 @@ Partial Class PopupFormBeli
         DataGridViewTextBoxColumn3 = New DataGridViewTextBoxColumn()
         DataGridViewTextBoxColumn4 = New DataGridViewTextBoxColumn()
         Column4 = New DataGridViewTextBoxColumn()
+        Column6 = New DataGridViewTextBoxColumn()
+        Column7 = New DataGridViewTextBoxColumn()
         Label5 = New Label()
         Label6 = New Label()
         btnBeli = New Button()
@@ -50,6 +52,7 @@ Partial Class PopupFormBeli
         Label8 = New Label()
         txtProdukID = New TextBox()
         Label9 = New Label()
+        btnTutup = New Button()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         CType(DataGridView2, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -215,10 +218,9 @@ Partial Class PopupFormBeli
         DataGridView2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Right
         DataGridView2.BackgroundColor = Color.White
         DataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView2.Columns.AddRange(New DataGridViewColumn() {DataGridViewTextBoxColumn2, DataGridViewTextBoxColumn3, DataGridViewTextBoxColumn4, Column4})
+        DataGridView2.Columns.AddRange(New DataGridViewColumn() {DataGridViewTextBoxColumn2, DataGridViewTextBoxColumn3, DataGridViewTextBoxColumn4, Column4, Column6, Column7})
         DataGridView2.Location = New Point(532, 103)
         DataGridView2.Name = "DataGridView2"
-        DataGridView2.ReadOnly = True
         DataGridView2.RowHeadersVisible = False
         DataGridView2.RowHeadersWidth = 51
         DataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect
@@ -257,8 +259,25 @@ Partial Class PopupFormBeli
         Column4.HeaderText = "Qty"
         Column4.MinimumWidth = 6
         Column4.Name = "Column4"
-        Column4.ReadOnly = True
         Column4.Width = 70
+        ' 
+        ' Column6
+        ' 
+        Column6.HeaderText = "Kategori"
+        Column6.MinimumWidth = 6
+        Column6.Name = "Column6"
+        Column6.ReadOnly = True
+        Column6.Visible = False
+        Column6.Width = 125
+        ' 
+        ' Column7
+        ' 
+        Column7.HeaderText = "Total"
+        Column7.MinimumWidth = 6
+        Column7.Name = "Column7"
+        Column7.ReadOnly = True
+        Column7.Visible = False
+        Column7.Width = 125
         ' 
         ' Label5
         ' 
@@ -344,11 +363,29 @@ Partial Class PopupFormBeli
         Label9.TabIndex = 43
         Label9.Text = "Akan Dibeli :"
         ' 
+        ' btnTutup
+        ' 
+        btnTutup.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnTutup.BackColor = Color.OrangeRed
+        btnTutup.FlatAppearance.BorderSize = 0
+        btnTutup.FlatAppearance.MouseDownBackColor = Color.Lime
+        btnTutup.FlatStyle = FlatStyle.Flat
+        btnTutup.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnTutup.ForeColor = Color.White
+        btnTutup.Location = New Point(21, 562)
+        btnTutup.Margin = New Padding(0)
+        btnTutup.Name = "btnTutup"
+        btnTutup.Size = New Size(106, 43)
+        btnTutup.TabIndex = 44
+        btnTutup.Text = "Tutup"
+        btnTutup.UseVisualStyleBackColor = False
+        ' 
         ' PopupFormBeli
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1055, 627)
+        Controls.Add(btnTutup)
         Controls.Add(Label9)
         Controls.Add(Label7)
         Controls.Add(txtPajak)
@@ -369,6 +406,7 @@ Partial Class PopupFormBeli
         Controls.Add(Label2)
         Controls.Add(DataGridView1)
         Controls.Add(txtSearch)
+        FormBorderStyle = FormBorderStyle.None
         Name = "PopupFormBeli"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Form Pembelian"
@@ -405,4 +443,7 @@ Partial Class PopupFormBeli
     Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
+    Friend WithEvents Column6 As DataGridViewTextBoxColumn
+    Friend WithEvents Column7 As DataGridViewTextBoxColumn
+    Friend WithEvents btnTutup As Button
 End Class

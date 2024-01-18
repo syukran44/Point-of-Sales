@@ -19,6 +19,7 @@
                 Panel1.Controls.Add(Form1)
             End With
         End If
+        Form1.InitializeForm1()
         Form1.BringToFront()
         Form1.Show()
     End Sub
@@ -44,6 +45,7 @@
                 Panel1.Controls.Add(FormPenjualan)
             End With
         End If
+        FormPenjualan.InitializeFormPenjualan()
         FormPenjualan.BringToFront()
         FormPenjualan.Show()
     End Sub

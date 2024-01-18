@@ -5,6 +5,7 @@ Public Class Form1
     Dim i As Integer
     Dim dr As MySqlDataReader
 
+
     Private _currentUser As User
 
     Public Property CurrentUser As User
@@ -17,13 +18,17 @@ Public Class Form1
         End Set
     End Property
 
-    Private Sub Form1_Loaded(sender As Object, e As EventArgs) Handles MyBase.Load
+    Public Sub InitializeForm1()
         conn.Close()
         Me.WindowState = FormWindowState.Maximized
         DGVRead()
         kategoriRead()
         btnHapus.Enabled = False
         btnEdit.Enabled = False
+    End Sub
+
+    Private Sub Form1_Loaded(sender As Object, e As EventArgs) Handles MyBase.Load
+        InitializeForm1()
     End Sub
 
     Public Sub create()

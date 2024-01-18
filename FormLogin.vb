@@ -4,11 +4,6 @@ Public Class FormLogin
     Dim conn As New MySqlConnection("server=localhost; port=3306; username=root; password=; database=sales_db")
     Dim dr As MySqlDataReader
 
-    Private Sub FormLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-
-    End Sub
-
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         Try
             conn.Open()
@@ -21,7 +16,7 @@ Public Class FormLogin
 
                 If UCase(user.Role) = "ADMIN" Then
                     FormMain.CurrentUser = user
-                    'FormPenjualan.CurrentUser = user
+                    PopupFormBeli.CurrentUser = user
                     FormMain.Show()
                 ElseIf UCase(user.Role) = "KASIR" Then
                     FormMain.CurrentUser = user
