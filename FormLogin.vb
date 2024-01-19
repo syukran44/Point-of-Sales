@@ -1,8 +1,17 @@
 ﻿Imports MySql.Data.MySqlClient
+Imports System.Security.Cryptography
+Imports System.Text
 
 Public Class FormLogin
     Dim conn As New MySqlConnection("server=localhost; port=3306; username=root; password=; database=sales_db")
     Dim dr As MySqlDataReader
+
+    Private Function HashPassword(password As String) As String
+        Using sha256 As New SHA256Managed()
+            Dim hashedBytes As Byte() = sha256.ComputeHash(Encoding.UTF8.GetBytes(password))
+            Return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower()
+        End Using
+    End Function
 
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         Try
@@ -35,10 +44,11 @@ Public Class FormLogin
 
     Private Function GetUser(username As String, password As String) As User
         Dim user As User = Nothing
+        Dim hashedPassword As String = HashPassword(password)
         Try
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_users WHERE username = @username AND password = @password", conn)
             cmd.Parameters.AddWithValue("@username", username)
-            cmd.Parameters.AddWithValue("@password", password)
+            cmd.Parameters.AddWithValue("@password", hashedPassword)
 
             dr = cmd.ExecuteReader()
             If dr.Read() Then

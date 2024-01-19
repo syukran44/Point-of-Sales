@@ -75,7 +75,7 @@ Public Class FormMember
                 Dim count As Integer = Convert.ToInt32(checkCmd.ExecuteScalar())
 
                 If count > 0 Then
-                    MsgBox("Kode Member sudah ada dalam database. Masukkan kode yang lain")
+                    MsgBox("Kode Member sudah ada. Masukkan kode yang lain")
                     Return
                 End If
             End Using
@@ -145,17 +145,14 @@ Public Class FormMember
         txtPoin.Clear()
 
         DGVRead()
+        txtKodeMember.ReadOnly = False
         btnTambah.Enabled = True
         btnEdit.Enabled = False
+        btnHapus.Enabled = False
     End Sub
 
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
-        txtKodeMember.Clear()
-        txtNama.Clear()
-        txtPoin.Clear()
-
-        btnTambah.Enabled = True
-        btnEdit.Enabled = False
+        clear()
     End Sub
 
     Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click

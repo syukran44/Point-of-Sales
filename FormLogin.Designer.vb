@@ -59,11 +59,11 @@ Partial Class FormLogin
         ' 
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label1.Location = New Point(552, 96)
+        Label1.Location = New Point(502, 94)
         Label1.Name = "Label1"
-        Label1.Size = New Size(110, 41)
+        Label1.Size = New Size(209, 41)
         Label1.TabIndex = 20
-        Label1.Text = "LOGIN"
+        Label1.Text = "Point of Sales"
         ' 
         ' txtUser
         ' 
@@ -78,6 +78,7 @@ Partial Class FormLogin
         ' 
         txtPass.Location = New Point(500, 212)
         txtPass.Name = "txtPass"
+        txtPass.PasswordChar = "*"c
         txtPass.PlaceholderText = "password"
         txtPass.Size = New Size(218, 27)
         txtPass.TabIndex = 1

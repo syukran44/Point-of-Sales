@@ -23,6 +23,8 @@ Partial Class FormMain
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         pnlSideBar = New Panel()
+        btnUser = New Button()
+        btnMember = New Button()
         btnLogout = New Button()
         btnPembelian = New Button()
         btnPenjualan = New Button()
@@ -30,13 +32,13 @@ Partial Class FormMain
         btnProduk = New Button()
         Button3 = New Button()
         Panel1 = New Panel()
-        btnMember = New Button()
         pnlSideBar.SuspendLayout()
         SuspendLayout()
         ' 
         ' pnlSideBar
         ' 
         pnlSideBar.BackColor = Color.DeepSkyBlue
+        pnlSideBar.Controls.Add(btnUser)
         pnlSideBar.Controls.Add(btnMember)
         pnlSideBar.Controls.Add(btnLogout)
         pnlSideBar.Controls.Add(btnPembelian)
@@ -49,6 +51,34 @@ Partial Class FormMain
         pnlSideBar.Name = "pnlSideBar"
         pnlSideBar.Size = New Size(181, 752)
         pnlSideBar.TabIndex = 7
+        ' 
+        ' btnUser
+        ' 
+        btnUser.BackColor = Color.DeepSkyBlue
+        btnUser.Dock = DockStyle.Top
+        btnUser.FlatAppearance.MouseOverBackColor = Color.DodgerBlue
+        btnUser.FlatStyle = FlatStyle.Popup
+        btnUser.Location = New Point(0, 265)
+        btnUser.Name = "btnUser"
+        btnUser.Size = New Size(181, 53)
+        btnUser.TabIndex = 8
+        btnUser.TabStop = False
+        btnUser.Text = "User"
+        btnUser.UseVisualStyleBackColor = False
+        ' 
+        ' btnMember
+        ' 
+        btnMember.BackColor = Color.DeepSkyBlue
+        btnMember.Dock = DockStyle.Top
+        btnMember.FlatAppearance.MouseOverBackColor = Color.DodgerBlue
+        btnMember.FlatStyle = FlatStyle.Popup
+        btnMember.Location = New Point(0, 212)
+        btnMember.Name = "btnMember"
+        btnMember.Size = New Size(181, 53)
+        btnMember.TabIndex = 7
+        btnMember.TabStop = False
+        btnMember.Text = "Member"
+        btnMember.UseVisualStyleBackColor = False
         ' 
         ' btnLogout
         ' 
@@ -144,20 +174,6 @@ Partial Class FormMain
         Panel1.Size = New Size(1120, 752)
         Panel1.TabIndex = 8
         ' 
-        ' btnMember
-        ' 
-        btnMember.BackColor = Color.DeepSkyBlue
-        btnMember.Dock = DockStyle.Top
-        btnMember.FlatAppearance.MouseOverBackColor = Color.DodgerBlue
-        btnMember.FlatStyle = FlatStyle.Popup
-        btnMember.Location = New Point(0, 212)
-        btnMember.Name = "btnMember"
-        btnMember.Size = New Size(181, 53)
-        btnMember.TabIndex = 7
-        btnMember.TabStop = False
-        btnMember.Text = "Member"
-        btnMember.UseVisualStyleBackColor = False
-        ' 
         ' FormMain
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
@@ -182,4 +198,5 @@ Partial Class FormMain
     Friend WithEvents btnLogout As Button
     Friend WithEvents Panel1 As Panel
     Friend WithEvents btnMember As Button
+    Friend WithEvents btnUser As Button
 End Class

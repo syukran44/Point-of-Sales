@@ -11,6 +11,7 @@
     End Property
 
     Private Sub btnProduk_Click(sender As Object, e As EventArgs) Handles btnProduk.Click
+        'btnProduk.BackColor = Color.DodgerBlue
         If Not Panel1.Controls.Contains(Form1) Then
             With Form1
                 .TopLevel = False
@@ -56,11 +57,13 @@
             Form1.Close()
             FormPembelian.Close()
             FormMember.Close()
+            FormUser.Close()
 
             btnPOS.Visible = True
             btnProduk.Visible = False
             btnPembelian.Visible = False
             btnMember.Visible = False
+            btnUser.Visible = False
 
             With FormPOS
                 .TopLevel = False
@@ -76,7 +79,7 @@
             btnProduk.Visible = True
             btnPOS.Visible = False
             btnMember.Visible = True
-
+            btnUser.Visible = True
 
             With Form1
                 .TopLevel = False
@@ -122,5 +125,19 @@
             Me.Close()
             FormLogin.Show()
         End If
+    End Sub
+
+    Private Sub btnUser_Click(sender As Object, e As EventArgs) Handles btnUser.Click
+        If Not Panel1.Controls.Contains(FormUser) Then
+            With FormUser
+                .TopLevel = False
+                .AutoSize = True
+                .Size = Panel1.Size
+                Panel1.Controls.Add(FormUser)
+            End With
+        End If
+        FormUser.InitializeFormUser()
+        FormUser.BringToFront()
+        FormUser.Show()
     End Sub
 End Class

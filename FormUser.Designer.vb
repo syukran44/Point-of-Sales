@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class FormMember
+Partial Class FormUser
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,30 +22,29 @@ Partial Class FormMember
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormUser))
         Panel1 = New Panel()
+        btnEye = New Button()
+        cmbRole = New ComboBox()
         lblKodeMember = New Label()
-        txtKodeMember = New TextBox()
+        txtUsername = New TextBox()
         btnClear = New Button()
         btnHapus = New Button()
         btnEdit = New Button()
         btnTambah = New Button()
-        DateTimePicker1 = New DateTimePicker()
         lblPoin = New Label()
-        txtPoin = New TextBox()
+        txtNama = New TextBox()
         lblMasaAktif = New Label()
         lblNama = New Label()
         Label1 = New Label()
-        txtNama = New TextBox()
-        DataGridView1 = New DataGridView()
-        Column5 = New DataGridViewTextBoxColumn()
-        Column6 = New DataGridViewTextBoxColumn()
-        Column1 = New DataGridViewTextBoxColumn()
-        Column2 = New DataGridViewTextBoxColumn()
-        Column7 = New DataGridViewTextBoxColumn()
-        Column3 = New DataGridViewTextBoxColumn()
-        Column4 = New DataGridViewTextBoxColumn()
+        txtPassword = New TextBox()
         Label2 = New Label()
         txtSearch = New TextBox()
+        DataGridView1 = New DataGridView()
+        Column1 = New DataGridViewTextBoxColumn()
+        Column2 = New DataGridViewTextBoxColumn()
+        Column3 = New DataGridViewTextBoxColumn()
+        Column4 = New DataGridViewTextBoxColumn()
         Panel1.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -53,25 +52,54 @@ Partial Class FormMember
         ' Panel1
         ' 
         Panel1.BackColor = SystemColors.ControlLightLight
+        Panel1.Controls.Add(btnEye)
+        Panel1.Controls.Add(cmbRole)
         Panel1.Controls.Add(lblKodeMember)
-        Panel1.Controls.Add(txtKodeMember)
+        Panel1.Controls.Add(txtUsername)
         Panel1.Controls.Add(btnClear)
         Panel1.Controls.Add(btnHapus)
         Panel1.Controls.Add(btnEdit)
         Panel1.Controls.Add(btnTambah)
-        Panel1.Controls.Add(DateTimePicker1)
         Panel1.Controls.Add(lblPoin)
-        Panel1.Controls.Add(txtPoin)
+        Panel1.Controls.Add(txtNama)
         Panel1.Controls.Add(lblMasaAktif)
         Panel1.Controls.Add(lblNama)
         Panel1.Controls.Add(Label1)
-        Panel1.Controls.Add(txtNama)
+        Panel1.Controls.Add(txtPassword)
         Panel1.Dock = DockStyle.Left
         Panel1.Font = New Font("Segoe UI", 13.8F, FontStyle.Bold)
         Panel1.Location = New Point(0, 0)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(318, 752)
-        Panel1.TabIndex = 5
+        Panel1.TabIndex = 6
+        ' 
+        ' btnEye
+        ' 
+        btnEye.Anchor = AnchorStyles.Left
+        btnEye.BackgroundImage = CType(resources.GetObject("btnEye.BackgroundImage"), Image)
+        btnEye.BackgroundImageLayout = ImageLayout.Zoom
+        btnEye.Cursor = Cursors.Hand
+        btnEye.FlatAppearance.BorderSize = 0
+        btnEye.FlatAppearance.MouseDownBackColor = Color.White
+        btnEye.FlatAppearance.MouseOverBackColor = Color.White
+        btnEye.FlatStyle = FlatStyle.Flat
+        btnEye.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnEye.Location = New Point(265, 258)
+        btnEye.Name = "btnEye"
+        btnEye.Size = New Size(31, 31)
+        btnEye.TabIndex = 28
+        btnEye.UseVisualStyleBackColor = True
+        ' 
+        ' cmbRole
+        ' 
+        cmbRole.Anchor = AnchorStyles.Left
+        cmbRole.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        cmbRole.FormattingEnabled = True
+        cmbRole.Items.AddRange(New Object() {"admin", "kasir"})
+        cmbRole.Location = New Point(47, 405)
+        cmbRole.Name = "cmbRole"
+        cmbRole.Size = New Size(224, 33)
+        cmbRole.TabIndex = 27
         ' 
         ' lblKodeMember
         ' 
@@ -80,19 +108,17 @@ Partial Class FormMember
         lblKodeMember.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblKodeMember.Location = New Point(47, 153)
         lblKodeMember.Name = "lblKodeMember"
-        lblKodeMember.Size = New Size(111, 20)
+        lblKodeMember.Size = New Size(82, 20)
         lblKodeMember.TabIndex = 26
-        lblKodeMember.Text = "Kode Member :"
+        lblKodeMember.Text = "Username :"
         ' 
-        ' txtKodeMember
+        ' txtUsername
         ' 
-        txtKodeMember.Anchor = AnchorStyles.Left
-        txtKodeMember.CharacterCasing = CharacterCasing.Upper
-        txtKodeMember.Location = New Point(47, 180)
-        txtKodeMember.MaxLength = 8
-        txtKodeMember.Name = "txtKodeMember"
-        txtKodeMember.Size = New Size(224, 38)
-        txtKodeMember.TabIndex = 1
+        txtUsername.Anchor = AnchorStyles.Left
+        txtUsername.Location = New Point(47, 180)
+        txtUsername.Name = "txtUsername"
+        txtUsername.Size = New Size(224, 38)
+        txtUsername.TabIndex = 1
         ' 
         ' btnClear
         ' 
@@ -162,15 +188,6 @@ Partial Class FormMember
         btnTambah.Text = "Tambah"
         btnTambah.UseVisualStyleBackColor = False
         ' 
-        ' DateTimePicker1
-        ' 
-        DateTimePicker1.Anchor = AnchorStyles.Left
-        DateTimePicker1.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        DateTimePicker1.Location = New Point(47, 409)
-        DateTimePicker1.Name = "DateTimePicker1"
-        DateTimePicker1.Size = New Size(169, 27)
-        DateTimePicker1.TabIndex = 4
-        ' 
         ' lblPoin
         ' 
         lblPoin.Anchor = AnchorStyles.Left
@@ -178,39 +195,39 @@ Partial Class FormMember
         lblPoin.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblPoin.Location = New Point(47, 305)
         lblPoin.Name = "lblPoin"
-        lblPoin.Size = New Size(44, 20)
+        lblPoin.Size = New Size(56, 20)
         lblPoin.TabIndex = 15
-        lblPoin.Text = "Poin :"
+        lblPoin.Text = "Nama :"
         ' 
-        ' txtPoin
+        ' txtNama
         ' 
-        txtPoin.Anchor = AnchorStyles.Left
-        txtPoin.Location = New Point(47, 332)
-        txtPoin.Name = "txtPoin"
-        txtPoin.Size = New Size(224, 38)
-        txtPoin.TabIndex = 3
+        txtNama.Anchor = AnchorStyles.Left
+        txtNama.Location = New Point(47, 330)
+        txtNama.Name = "txtNama"
+        txtNama.Size = New Size(224, 38)
+        txtNama.TabIndex = 3
         ' 
         ' lblMasaAktif
         ' 
         lblMasaAktif.Anchor = AnchorStyles.Left
         lblMasaAktif.AutoSize = True
         lblMasaAktif.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblMasaAktif.Location = New Point(47, 382)
+        lblMasaAktif.Location = New Point(47, 381)
         lblMasaAktif.Name = "lblMasaAktif"
-        lblMasaAktif.Size = New Size(86, 20)
+        lblMasaAktif.Size = New Size(46, 20)
         lblMasaAktif.TabIndex = 5
-        lblMasaAktif.Text = "Masa Aktif :"
+        lblMasaAktif.Text = "Role :"
         ' 
         ' lblNama
         ' 
         lblNama.Anchor = AnchorStyles.Left
         lblNama.AutoSize = True
         lblNama.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblNama.Location = New Point(47, 228)
+        lblNama.Location = New Point(47, 229)
         lblNama.Name = "lblNama"
-        lblNama.Size = New Size(56, 20)
+        lblNama.Size = New Size(77, 20)
         lblNama.TabIndex = 4
-        lblNama.Text = "Nama :"
+        lblNama.Text = "Password :"
         ' 
         ' Label1
         ' 
@@ -218,91 +235,18 @@ Partial Class FormMember
         Label1.Font = New Font("Segoe UI", 13.8F, FontStyle.Bold)
         Label1.Location = New Point(17, 19)
         Label1.Name = "Label1"
-        Label1.Size = New Size(112, 31)
+        Label1.Size = New Size(71, 31)
         Label1.TabIndex = 3
-        Label1.Text = "MEMBER"
+        Label1.Text = "USER"
         ' 
-        ' txtNama
+        ' txtPassword
         ' 
-        txtNama.Anchor = AnchorStyles.Left
-        txtNama.Location = New Point(47, 255)
-        txtNama.Name = "txtNama"
-        txtNama.Size = New Size(224, 38)
-        txtNama.TabIndex = 2
-        ' 
-        ' DataGridView1
-        ' 
-        DataGridView1.AllowUserToAddRows = False
-        DataGridView1.AllowUserToDeleteRows = False
-        DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        DataGridView1.BackgroundColor = Color.White
-        DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column5, Column6, Column1, Column2, Column7, Column3, Column4})
-        DataGridView1.Location = New Point(342, 98)
-        DataGridView1.Name = "DataGridView1"
-        DataGridView1.ReadOnly = True
-        DataGridView1.RowHeadersVisible = False
-        DataGridView1.RowHeadersWidth = 51
-        DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        DataGridView1.Size = New Size(938, 631)
-        DataGridView1.TabIndex = 6
-        DataGridView1.TabStop = False
-        ' 
-        ' Column5
-        ' 
-        Column5.HeaderText = "No."
-        Column5.MinimumWidth = 6
-        Column5.Name = "Column5"
-        Column5.ReadOnly = True
-        Column5.Width = 70
-        ' 
-        ' Column6
-        ' 
-        Column6.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column6.HeaderText = "Kode Member"
-        Column6.MinimumWidth = 6
-        Column6.Name = "Column6"
-        Column6.ReadOnly = True
-        ' 
-        ' Column1
-        ' 
-        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column1.HeaderText = "Nama"
-        Column1.MinimumWidth = 6
-        Column1.Name = "Column1"
-        Column1.ReadOnly = True
-        ' 
-        ' Column2
-        ' 
-        Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column2.HeaderText = "Poin"
-        Column2.MinimumWidth = 6
-        Column2.Name = "Column2"
-        Column2.ReadOnly = True
-        ' 
-        ' Column7
-        ' 
-        Column7.HeaderText = "Status"
-        Column7.MinimumWidth = 6
-        Column7.Name = "Column7"
-        Column7.ReadOnly = True
-        Column7.Width = 125
-        ' 
-        ' Column3
-        ' 
-        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column3.HeaderText = "Registrasi Awal"
-        Column3.MinimumWidth = 6
-        Column3.Name = "Column3"
-        Column3.ReadOnly = True
-        ' 
-        ' Column4
-        ' 
-        Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column4.HeaderText = "Masa Aktif S/D"
-        Column4.MinimumWidth = 6
-        Column4.Name = "Column4"
-        Column4.ReadOnly = True
+        txtPassword.Anchor = AnchorStyles.Left
+        txtPassword.Location = New Point(47, 255)
+        txtPassword.Name = "txtPassword"
+        txtPassword.PasswordChar = "*"c
+        txtPassword.Size = New Size(207, 38)
+        txtPassword.TabIndex = 2
         ' 
         ' Label2
         ' 
@@ -311,7 +255,7 @@ Partial Class FormMember
         Label2.Location = New Point(342, 17)
         Label2.Name = "Label2"
         Label2.Size = New Size(60, 20)
-        Label2.TabIndex = 19
+        Label2.TabIndex = 21
         Label2.Text = "Search :"
         ' 
         ' txtSearch
@@ -319,20 +263,69 @@ Partial Class FormMember
         txtSearch.Location = New Point(342, 45)
         txtSearch.Name = "txtSearch"
         txtSearch.Size = New Size(366, 27)
-        txtSearch.TabIndex = 0
+        txtSearch.TabIndex = 20
         ' 
-        ' FormMember
+        ' DataGridView1
+        ' 
+        DataGridView1.AllowUserToAddRows = False
+        DataGridView1.AllowUserToDeleteRows = False
+        DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        DataGridView1.BackgroundColor = Color.White
+        DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column3, Column4})
+        DataGridView1.Location = New Point(342, 98)
+        DataGridView1.Name = "DataGridView1"
+        DataGridView1.ReadOnly = True
+        DataGridView1.RowHeadersVisible = False
+        DataGridView1.RowHeadersWidth = 51
+        DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        DataGridView1.Size = New Size(938, 631)
+        DataGridView1.TabIndex = 22
+        ' 
+        ' Column1
+        ' 
+        Column1.HeaderText = "No."
+        Column1.MinimumWidth = 6
+        Column1.Name = "Column1"
+        Column1.ReadOnly = True
+        Column1.Width = 50
+        ' 
+        ' Column2
+        ' 
+        Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column2.HeaderText = "Username"
+        Column2.MinimumWidth = 6
+        Column2.Name = "Column2"
+        Column2.ReadOnly = True
+        ' 
+        ' Column3
+        ' 
+        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column3.HeaderText = "Nama"
+        Column3.MinimumWidth = 6
+        Column3.Name = "Column3"
+        Column3.ReadOnly = True
+        ' 
+        ' Column4
+        ' 
+        Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column4.HeaderText = "Role"
+        Column4.MinimumWidth = 6
+        Column4.Name = "Column4"
+        Column4.ReadOnly = True
+        ' 
+        ' FormUser
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1301, 752)
+        Controls.Add(DataGridView1)
         Controls.Add(Label2)
         Controls.Add(txtSearch)
-        Controls.Add(DataGridView1)
         Controls.Add(Panel1)
         FormBorderStyle = FormBorderStyle.None
-        Name = "FormMember"
-        Text = "Form Member"
+        Name = "FormUser"
+        Text = "FormUser"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
@@ -341,27 +334,25 @@ Partial Class FormMember
     End Sub
 
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents DateTimePicker1 As DateTimePicker
-    Friend WithEvents lblPoin As Label
-    Friend WithEvents txtPoin As TextBox
-    Friend WithEvents lblMasaAktif As Label
-    Friend WithEvents lblNama As Label
-    Friend WithEvents Label1 As Label
-    Friend WithEvents txtNama As TextBox
+    Friend WithEvents lblKodeMember As Label
+    Friend WithEvents txtUsername As TextBox
     Friend WithEvents btnClear As Button
     Friend WithEvents btnHapus As Button
     Friend WithEvents btnEdit As Button
     Friend WithEvents btnTambah As Button
-    Friend WithEvents DataGridView1 As DataGridView
+    Friend WithEvents lblPoin As Label
+    Friend WithEvents lblMasaAktif As Label
+    Friend WithEvents lblNama As Label
+    Friend WithEvents Label1 As Label
+    Friend WithEvents txtPassword As TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents txtSearch As TextBox
-    Friend WithEvents lblKodeMember As Label
-    Friend WithEvents txtKodeMember As TextBox
-    Friend WithEvents Column5 As DataGridViewTextBoxColumn
-    Friend WithEvents Column6 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridView1 As DataGridView
+    Friend WithEvents txtNama As TextBox
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
-    Friend WithEvents Column7 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
+    Friend WithEvents cmbRole As ComboBox
+    Friend WithEvents btnEye As Button
 End Class
