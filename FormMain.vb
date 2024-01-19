@@ -55,10 +55,12 @@
         If UCase(CurrentUser.Role.ToString()) = "KASIR" Then
             Form1.Close()
             FormPembelian.Close()
+            FormMember.Close()
 
             btnPOS.Visible = True
             btnProduk.Visible = False
             btnPembelian.Visible = False
+            btnMember.Visible = False
 
             With FormPOS
                 .TopLevel = False
@@ -73,6 +75,8 @@
 
             btnProduk.Visible = True
             btnPOS.Visible = False
+            btnMember.Visible = True
+
 
             With Form1
                 .TopLevel = False
@@ -82,13 +86,6 @@
                 .BringToFront()
                 .Show()
             End With
-        End If
-    End Sub
-
-    Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
-        If MsgBox("Apakah kamu ingin Logout dari Aplikasi?", MsgBoxStyle.Question + vbYesNo) = MsgBoxResult.Yes Then
-            Me.Close()
-            FormLogin.Show()
         End If
     End Sub
 
@@ -104,5 +101,26 @@
         FormPembelian.InitializeFormPembelian()
         FormPembelian.BringToFront()
         FormPembelian.Show()
+    End Sub
+
+    Private Sub btnMember_Click(sender As Object, e As EventArgs) Handles btnMember.Click
+        If Not Panel1.Controls.Contains(FormMember) Then
+            With FormMember
+                .TopLevel = False
+                .AutoSize = True
+                .Size = Panel1.Size
+                Panel1.Controls.Add(FormMember)
+            End With
+        End If
+        FormMember.InitializeFormMember()
+        FormMember.BringToFront()
+        FormMember.Show()
+    End Sub
+
+    Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
+        If MsgBox("Apakah kamu ingin Logout dari Aplikasi?", MsgBoxStyle.Question + vbYesNo) = MsgBoxResult.Yes Then
+            Me.Close()
+            FormLogin.Show()
+        End If
     End Sub
 End Class
