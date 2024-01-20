@@ -26,6 +26,7 @@ Partial Class FormPOS
         Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Panel1 = New Panel()
+        lblDiskon = New Label()
         txtMember = New TextBox()
         Label4 = New Label()
         lblUser = New Label()
@@ -45,6 +46,13 @@ Partial Class FormPOS
         btn1000 = New Button()
         LabelT = New Label()
         DataGridView1 = New DataGridView()
+        Column1 = New DataGridViewTextBoxColumn()
+        Column2 = New DataGridViewTextBoxColumn()
+        Column3 = New DataGridViewTextBoxColumn()
+        Column4 = New DataGridViewTextBoxColumn()
+        Column5 = New DataGridViewTextBoxColumn()
+        Column6 = New DataGridViewTextBoxColumn()
+        Column7 = New DataGridViewTextBoxColumn()
         btnBayar = New Button()
         Panel2 = New Panel()
         txtKembali = New TextBox()
@@ -52,12 +60,6 @@ Partial Class FormPOS
         FlowLayoutPanel1 = New FlowLayoutPanel()
         Label2 = New Label()
         txtSearch = New TextBox()
-        Column1 = New DataGridViewTextBoxColumn()
-        Column2 = New DataGridViewTextBoxColumn()
-        Column3 = New DataGridViewTextBoxColumn()
-        Column4 = New DataGridViewTextBoxColumn()
-        Column5 = New DataGridViewTextBoxColumn()
-        Column6 = New DataGridViewTextBoxColumn()
         Panel1.SuspendLayout()
         Panel3.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
@@ -67,6 +69,7 @@ Partial Class FormPOS
         ' Panel1
         ' 
         Panel1.BackColor = SystemColors.ControlLightLight
+        Panel1.Controls.Add(lblDiskon)
         Panel1.Controls.Add(txtMember)
         Panel1.Controls.Add(Label4)
         Panel1.Controls.Add(lblUser)
@@ -81,19 +84,33 @@ Partial Class FormPOS
         Panel1.Controls.Add(Panel2)
         Panel1.Dock = DockStyle.Right
         Panel1.Font = New Font("Segoe UI", 13.8F, FontStyle.Bold)
-        Panel1.Location = New Point(939, 0)
+        Panel1.Location = New Point(931, 0)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(362, 752)
+        Panel1.Size = New Size(370, 752)
         Panel1.TabIndex = 6
+        ' 
+        ' lblDiskon
+        ' 
+        lblDiskon.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        lblDiskon.AutoSize = True
+        lblDiskon.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblDiskon.ForeColor = Color.LimeGreen
+        lblDiskon.Location = New Point(316, 395)
+        lblDiskon.Name = "lblDiskon"
+        lblDiskon.Size = New Size(54, 25)
+        lblDiskon.TabIndex = 34
+        lblDiskon.Text = "-99%"
         ' 
         ' txtMember
         ' 
         txtMember.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         txtMember.BorderStyle = BorderStyle.FixedSingle
-        txtMember.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        txtMember.Location = New Point(175, 350)
+        txtMember.CharacterCasing = CharacterCasing.Upper
+        txtMember.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        txtMember.Location = New Point(180, 350)
+        txtMember.MaxLength = 8
         txtMember.Name = "txtMember"
-        txtMember.Size = New Size(164, 27)
+        txtMember.Size = New Size(167, 27)
         txtMember.TabIndex = 33
         ' 
         ' Label4
@@ -133,12 +150,12 @@ Partial Class FormPOS
         txtTotal.BackColor = Color.White
         txtTotal.BorderStyle = BorderStyle.None
         txtTotal.Font = New Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        txtTotal.Location = New Point(209, 393)
+        txtTotal.Location = New Point(188, 394)
         txtTotal.MaxLength = 17
         txtTotal.Name = "txtTotal"
         txtTotal.ReadOnly = True
         txtTotal.RightToLeft = RightToLeft.Yes
-        txtTotal.Size = New Size(134, 24)
+        txtTotal.Size = New Size(118, 24)
         txtTotal.TabIndex = 29
         txtTotal.Text = "0"
         ' 
@@ -148,7 +165,7 @@ Partial Class FormPOS
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.DarkSlateGray
-        Label1.Location = New Point(167, 391)
+        Label1.Location = New Point(140, 391)
         Label1.Name = "Label1"
         Label1.Size = New Size(41, 28)
         Label1.TabIndex = 26
@@ -182,7 +199,7 @@ Partial Class FormPOS
         Panel3.Controls.Add(btn1000)
         Panel3.Location = New Point(16, 432)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(325, 179)
+        Panel3.Size = New Size(333, 179)
         Panel3.TabIndex = 26
         ' 
         ' btn100000
@@ -259,7 +276,7 @@ Partial Class FormPOS
         ' 
         rtxtUang.Anchor = AnchorStyles.Right
         rtxtUang.Font = New Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        rtxtUang.Location = New Point(164, 14)
+        rtxtUang.Location = New Point(172, 14)
         rtxtUang.MaxLength = 14
         rtxtUang.Multiline = False
         rtxtUang.Name = "rtxtUang"
@@ -341,7 +358,7 @@ Partial Class FormPOS
         DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
         DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column3, Column4, Column5, Column6})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column3, Column4, Column5, Column6, Column7})
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = SystemColors.Window
         DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
@@ -362,90 +379,8 @@ Partial Class FormPOS
         DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
         DataGridView1.RowHeadersVisible = False
         DataGridView1.RowHeadersWidth = 51
-        DataGridView1.Size = New Size(325, 285)
+        DataGridView1.Size = New Size(333, 285)
         DataGridView1.TabIndex = 22
-        ' 
-        ' btnBayar
-        ' 
-        btnBayar.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        btnBayar.BackColor = Color.DarkTurquoise
-        btnBayar.FlatAppearance.BorderSize = 0
-        btnBayar.FlatAppearance.MouseDownBackColor = Color.Lime
-        btnBayar.FlatStyle = FlatStyle.Flat
-        btnBayar.Font = New Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnBayar.ForeColor = Color.DarkSlateGray
-        btnBayar.Location = New Point(89, 671)
-        btnBayar.Margin = New Padding(0)
-        btnBayar.Name = "btnBayar"
-        btnBayar.Size = New Size(175, 60)
-        btnBayar.TabIndex = 3
-        btnBayar.Text = "BAYAR"
-        btnBayar.UseVisualStyleBackColor = False
-        ' 
-        ' Panel2
-        ' 
-        Panel2.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        Panel2.BackColor = Color.LightCyan
-        Panel2.Controls.Add(txtKembali)
-        Panel2.Controls.Add(LabelK)
-        Panel2.Location = New Point(21, 617)
-        Panel2.Name = "Panel2"
-        Panel2.Size = New Size(318, 48)
-        Panel2.TabIndex = 20
-        ' 
-        ' txtKembali
-        ' 
-        txtKembali.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        txtKembali.BackColor = Color.LightCyan
-        txtKembali.BorderStyle = BorderStyle.None
-        txtKembali.Font = New Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        txtKembali.ForeColor = Color.Teal
-        txtKembali.Location = New Point(176, 12)
-        txtKembali.MaxLength = 17
-        txtKembali.Name = "txtKembali"
-        txtKembali.ReadOnly = True
-        txtKembali.RightToLeft = RightToLeft.Yes
-        txtKembali.Size = New Size(134, 24)
-        txtKembali.TabIndex = 30
-        txtKembali.Text = "0"
-        ' 
-        ' LabelK
-        ' 
-        LabelK.AutoSize = True
-        LabelK.Font = New Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        LabelK.ForeColor = Color.Teal
-        LabelK.Location = New Point(10, 11)
-        LabelK.Name = "LabelK"
-        LabelK.Size = New Size(86, 25)
-        LabelK.TabIndex = 0
-        LabelK.Text = "KEMBALI"
-        ' 
-        ' FlowLayoutPanel1
-        ' 
-        FlowLayoutPanel1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        FlowLayoutPanel1.BackColor = SystemColors.Control
-        FlowLayoutPanel1.Location = New Point(5, 84)
-        FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        FlowLayoutPanel1.Padding = New Padding(10)
-        FlowLayoutPanel1.Size = New Size(920, 657)
-        FlowLayoutPanel1.TabIndex = 7
-        ' 
-        ' Label2
-        ' 
-        Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.Location = New Point(29, 18)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(60, 20)
-        Label2.TabIndex = 15
-        Label2.Text = "Search :"
-        ' 
-        ' txtSearch
-        ' 
-        txtSearch.Location = New Point(29, 46)
-        txtSearch.Name = "txtSearch"
-        txtSearch.Size = New Size(385, 27)
-        txtSearch.TabIndex = 0
         ' 
         ' Column1
         ' 
@@ -494,6 +429,96 @@ Partial Class FormPOS
         Column6.Name = "Column6"
         Column6.Visible = False
         Column6.Width = 125
+        ' 
+        ' Column7
+        ' 
+        Column7.HeaderText = "Poin"
+        Column7.MinimumWidth = 6
+        Column7.Name = "Column7"
+        Column7.Visible = False
+        Column7.Width = 125
+        ' 
+        ' btnBayar
+        ' 
+        btnBayar.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        btnBayar.BackColor = Color.DarkTurquoise
+        btnBayar.FlatAppearance.BorderSize = 0
+        btnBayar.FlatAppearance.MouseDownBackColor = Color.Lime
+        btnBayar.FlatStyle = FlatStyle.Flat
+        btnBayar.Font = New Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnBayar.ForeColor = Color.DarkSlateGray
+        btnBayar.Location = New Point(89, 671)
+        btnBayar.Margin = New Padding(0)
+        btnBayar.Name = "btnBayar"
+        btnBayar.Size = New Size(183, 60)
+        btnBayar.TabIndex = 3
+        btnBayar.Text = "BAYAR"
+        btnBayar.UseVisualStyleBackColor = False
+        ' 
+        ' Panel2
+        ' 
+        Panel2.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        Panel2.BackColor = Color.LightCyan
+        Panel2.Controls.Add(txtKembali)
+        Panel2.Controls.Add(LabelK)
+        Panel2.Location = New Point(21, 617)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(326, 48)
+        Panel2.TabIndex = 20
+        ' 
+        ' txtKembali
+        ' 
+        txtKembali.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        txtKembali.BackColor = Color.LightCyan
+        txtKembali.BorderStyle = BorderStyle.None
+        txtKembali.Font = New Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        txtKembali.ForeColor = Color.Teal
+        txtKembali.Location = New Point(184, 12)
+        txtKembali.MaxLength = 17
+        txtKembali.Name = "txtKembali"
+        txtKembali.ReadOnly = True
+        txtKembali.RightToLeft = RightToLeft.Yes
+        txtKembali.Size = New Size(134, 24)
+        txtKembali.TabIndex = 30
+        txtKembali.Text = "0"
+        ' 
+        ' LabelK
+        ' 
+        LabelK.AutoSize = True
+        LabelK.Font = New Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        LabelK.ForeColor = Color.Teal
+        LabelK.Location = New Point(10, 11)
+        LabelK.Name = "LabelK"
+        LabelK.Size = New Size(86, 25)
+        LabelK.TabIndex = 0
+        LabelK.Text = "KEMBALI"
+        ' 
+        ' FlowLayoutPanel1
+        ' 
+        FlowLayoutPanel1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        FlowLayoutPanel1.BackColor = SystemColors.Control
+        FlowLayoutPanel1.Location = New Point(5, 84)
+        FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        FlowLayoutPanel1.Padding = New Padding(10)
+        FlowLayoutPanel1.Size = New Size(920, 657)
+        FlowLayoutPanel1.TabIndex = 7
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label2.Location = New Point(29, 18)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(60, 20)
+        Label2.TabIndex = 15
+        Label2.Text = "Search :"
+        ' 
+        ' txtSearch
+        ' 
+        txtSearch.Location = New Point(29, 46)
+        txtSearch.Name = "txtSearch"
+        txtSearch.Size = New Size(385, 27)
+        txtSearch.TabIndex = 0
         ' 
         ' FormPOS
         ' 
@@ -555,4 +580,6 @@ Partial Class FormPOS
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
+    Friend WithEvents Column7 As DataGridViewTextBoxColumn
+    Friend WithEvents lblDiskon As Label
 End Class

@@ -42,6 +42,7 @@ Public Class FormPOS
         conn.Close()
         lblUser.Text = CurrentUser.Nama
         btnBayar.Enabled = False
+        lblDiskon.Text = ""
         ClearData()
         loadProduct()
     End Sub
@@ -191,8 +192,7 @@ Public Class FormPOS
                 Next
 
                 If exist = False Then
-                    'Dim price As Decimal = dr("harga")
-                    DataGridView1.Rows.Add(dr.Item("nama"), dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100)), 1, dr.Item("produk_id"), dr.Item("diskon"), dr.Item("harga"))
+                    DataGridView1.Rows.Add(dr.Item("nama"), dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100)), 1, dr.Item("produk_id"), dr.Item("diskon"), dr.Item("harga"), dr.Item("poin"))
                 Else
                     DataGridView1.Rows(numrow).Cells(2).Value = 1 + quantity
                 End If
@@ -229,6 +229,8 @@ Public Class FormPOS
         txtTotal.Text = 0
         rtxtUang.Text = 0
         txtKembali.Text = 0
+        lblDiskon.Text = ""
+        txtMember.Text = ""
     End Sub
 
     Private Sub btn1000_Click(sender As Object, e As EventArgs) Handles btn1000.Click
@@ -257,6 +259,7 @@ Public Class FormPOS
 
     Private Sub rtxtUang_TextChanged(sender As Object, e As EventArgs) Handles rtxtUang.TextChanged
         If String.IsNullOrWhiteSpace(rtxtUang.Text) Then
+            rtxtUang.Text = 0
             uang = 0
         ElseIf IsNumeric(rtxtUang.Text) Then
             uang = rtxtUang.Text
@@ -302,6 +305,43 @@ Public Class FormPOS
             MsgBox("Item tidak ada", MsgBoxStyle.OkOnly)
             Exit Sub
         Else
+            If txtMember.Text IsNot "" Then
+                Try
+                    Dim totalPoin As Integer
+                    conn.Open()
+                    Dim cmd As New MySqlCommand("SELECT * FROM `tbl_member` WHERE `kode_member` = @kode_member", conn)
+                    cmd.Parameters.Clear()
+                    cmd.Parameters.AddWithValue("@kode_member", txtMember.Text)
+
+                    dr = cmd.ExecuteReader()
+                    If dr.Read() Then
+                        For row As Integer = 0 To DataGridView1.RowCount - 1
+                            totalPoin += DataGridView1.Rows(row).Cells(2).Value * DataGridView1.Rows(row).Cells(6).Value
+                        Next
+                        Try
+                            Dim cmd2 As New MySqlCommand("UPDATE `tbl_member` SET `poin`= `poin` + @totalPoin WHERE `kode_member`= @kode_member", conn)
+                            cmd2.Parameters.Clear()
+                            cmd2.Parameters.AddWithValue("@totalPoin", totalPoin)
+                            cmd2.Parameters.AddWithValue("@kode_member", txtMember.Text)
+                            dr.Dispose()
+                            i = cmd2.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MsgBox(ex.Message)
+                        Finally
+                            conn.Close()
+                        End Try
+                    Else
+                        MsgBox("Kode Member salah, Silahkan masukkan kode yang benar")
+                        conn.Close()
+                        Exit Sub
+                    End If
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                Finally
+                    conn.Close()
+                End Try
+            End If
+
             changelongpaper()
             PPD.Document = PD
             PPD.ShowDialog()
@@ -324,6 +364,17 @@ Public Class FormPOS
     End Sub
 
     Private Sub PD_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PD.PrintPage
+        Dim height As Integer
+        Dim i As Long
+        Dim total, kembalian As Decimal
+        Dim diskon As Boolean = False
+
+        If lblDiskon.Text IsNot "" Then
+            diskon = True
+        End If
+
+        DataGridView1.AllowUserToAddRows = False
+
         Dim f8 As New Font("Calibri", 8, FontStyle.Regular)
         Dim f10 As New Font("Calibri", 10, FontStyle.Regular)
         Dim f10b As New Font("Calibri", 10, FontStyle.Bold)
@@ -388,11 +439,6 @@ Public Class FormPOS
 
         e.Graphics.DrawString(line, f8, Brushes.Black, 0, 130)
 
-        Dim height As Integer
-        Dim i As Long
-        Dim total, kembalian As Decimal
-        DataGridView1.AllowUserToAddRows = False
-
         For row As Integer = 0 To DataGridView1.RowCount - 1
             height += 15
             e.Graphics.DrawString(DataGridView1.Rows(row).Cells(2).Value.ToString, f8, Brushes.Black, 0, 125 + height)
@@ -434,6 +480,8 @@ Public Class FormPOS
             End Try
         Next
 
+        total = CDec(txtTotal.Text)
+
         Try
             conn.Open()
             Dim cmd As New MySqlCommand("UPDATE `tbl_penjualan` SET `grandtotal`= @grandtotal WHERE `no_transaksi`= @invoice", conn)
@@ -451,6 +499,12 @@ Public Class FormPOS
 
         e.Graphics.DrawString(line, f8, Brushes.Black, 0, height + 135)
 
+        If diskon Then
+            e.Graphics.DrawString("Diskon", f8, Brushes.Black, 0, height + 150)
+            e.Graphics.DrawString(lblDiskon.Text.Replace("-", ""), f8, Brushes.Black, rightmargin, height + 150, right)
+            height += 15
+        End If
+
         e.Graphics.DrawString("Total", f8, Brushes.Black, 0, height + 150)
         e.Graphics.DrawString(total.ToString("##,##0"), f8, Brushes.Black, rightmargin, height + 150, right)
 
@@ -465,4 +519,75 @@ Public Class FormPOS
         InitializeFormPOS()
     End Sub
 
+    Private Sub txtMember_Leave(sender As Object, e As EventArgs) Handles txtMember.Leave
+        getTotalHarga()
+        getDiskon()
+    End Sub
+
+    Private Sub txtMember_KeyDown(sender As Object, e As KeyEventArgs) Handles txtMember.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
+            getTotalHarga()
+            getDiskon()
+            rtxtUang.Focus()
+        End If
+    End Sub
+
+    Private Sub getDiskon()
+        Try
+            Dim totalPoin As Integer
+            conn.Open()
+            Dim cmd As New MySqlCommand("SELECT * FROM `tbl_member` WHERE `kode_member` = @kode_member", conn)
+            cmd.Parameters.Clear()
+            cmd.Parameters.AddWithValue("@kode_member", txtMember.Text)
+
+            dr = cmd.ExecuteReader()
+            If dr.Read() Then
+                If dr.Item("poin") >= 1000 And dr.Item("poin") < 3000 Then
+                    lblDiskon.Text = "-2%"
+                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.02)).ToString("N0")
+                ElseIf dr.Item("poin") >= 3000 And dr.Item("poin") < 6000 Then
+                    lblDiskon.Text = "-4%"
+                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.04)).ToString("N0")
+                ElseIf dr.Item("poin") >= 6000 And dr.Item("poin") < 10000 Then
+                    lblDiskon.Text = "-7%"
+                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.07)).ToString("N0")
+                ElseIf dr.Item("poin") >= 10000 Then
+                    lblDiskon.Text = "-10%"
+                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.1)).ToString("N0")
+                Else
+                    lblDiskon.Text = ""
+                End If
+                Format(txtTotal.Text, "#,##0.00")
+                dr.Dispose()
+            Else
+                lblDiskon.Text = ""
+                conn.Close()
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub txtTotal_TextChanged(sender As Object, e As EventArgs) Handles txtTotal.TextChanged
+        If String.IsNullOrWhiteSpace(rtxtUang.Text) Then
+            rtxtUang.Text = 0
+        End If
+
+        Dim kembalian As Decimal = (uang - CDec(txtTotal.Text)).ToString("N2")
+        txtKembali.Text = String.Format("{0:N}", kembalian)
+        If kembalian >= 0 And CInt(rtxtUang.Text) > 0 Then
+            btnBayar.Enabled = True
+        Else
+            btnBayar.Enabled = False
+        End If
+    End Sub
+
+    Private Sub DataGridView1_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
+        getTotalHarga()
+        getDiskon()
+    End Sub
 End Class
