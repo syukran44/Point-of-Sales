@@ -22,11 +22,7 @@ Public Class FormPOS
     Dim uang As Integer = 0
 
     Private WithEvents pan As Panel
-    Private WithEvents namaproduk As Label
-    Private WithEvents harga As Label
-    Private WithEvents diskon As Label
-    Private WithEvents hargaDiskon As Label
-    Private WithEvents stok As Label
+    Private WithEvents namaproduk, harga, diskon, hargaDiskon, stok, poin As Label
     Private WithEvents img As PictureBox
 
     'Invoice Print ------------------------------------------------------------------------------
@@ -42,7 +38,6 @@ Public Class FormPOS
         conn.Close()
         lblUser.Text = CurrentUser.Nama
         btnBayar.Enabled = False
-        lblDiskon.Text = ""
         ClearData()
         loadProduct()
     End Sub
@@ -52,6 +47,7 @@ Public Class FormPOS
         txtTotal.Text = 0
         rtxtUang.Text = 0
         txtKembali.Text = 0
+        lblDiskon.Text = ""
     End Sub
 
     Public Sub loadProduct()
@@ -134,6 +130,16 @@ Public Class FormPOS
             .Tag = dr.Item("produk_id").ToString
         End With
 
+        poin = New Label
+        With poin
+            .ForeColor = Color.FromArgb(44, 44, 45)
+            .Font = New Font("Segoe UI", 8, FontStyle.Bold)
+            .Cursor = Cursors.Hand
+            .TextAlign = ContentAlignment.MiddleLeft
+            .Dock = DockStyle.Top
+            .Tag = dr.Item("produk_id").ToString
+        End With
+
         stok = New Label
         With stok
             .ForeColor = Color.FromArgb(44, 44, 45)
@@ -152,13 +158,15 @@ Public Class FormPOS
         harga.Text = "Harga : Rp. " & dr.Item("harga").ToString
         diskon.Text = "Diskon : " & dr.Item("diskon").ToString & "%"
         hargaDiskon.Text = "Harga Diskon : Rp. " & (dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100))).ToString
+        poin.Text = "Poin : " & dr.Item("poin").ToString
         stok.Text = "Stok : " & dr.Item("jumlah").ToString
 
         pan.Controls.Add(img)
         pan.Controls.Add(stok)
-        pan.Controls.Add(harga)
-        pan.Controls.Add(diskon)
+        pan.Controls.Add(poin)
         pan.Controls.Add(hargaDiskon)
+        pan.Controls.Add(diskon)
+        pan.Controls.Add(harga)
         pan.Controls.Add(namaproduk)
 
         FlowLayoutPanel1.Controls.Add(pan)
@@ -167,6 +175,7 @@ Public Class FormPOS
         AddHandler harga.Click, AddressOf productClicked
         AddHandler diskon.Click, AddressOf productClicked
         AddHandler hargaDiskon.Click, AddressOf productClicked
+        AddHandler poin.Click, AddressOf productClicked
         AddHandler stok.Click, AddressOf productClicked
         AddHandler img.Click, AddressOf productClicked
         AddHandler pan.Click, AddressOf productClicked
@@ -177,7 +186,7 @@ Public Class FormPOS
             conn.Open()
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE produk_id like '" & sender.tag.ToString & "%'", conn)
             dr = cmd.ExecuteReader
-            While dr.Read
+            If dr.Read Then
                 Dim exist As Boolean = False, numrow As Integer = 0, quantity As Integer
 
                 For Each item As DataGridViewRow In DataGridView1.Rows
@@ -194,16 +203,37 @@ Public Class FormPOS
                 If exist = False Then
                     DataGridView1.Rows.Add(dr.Item("nama"), dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100)), 1, dr.Item("produk_id"), dr.Item("diskon"), dr.Item("harga"), dr.Item("poin"))
                 Else
+                    conn.Close()
                     DataGridView1.Rows(numrow).Cells(2).Value = 1 + quantity
                 End If
-            End While
+            End If
             dr.Dispose()
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
-            getTotalHarga()
             conn.Close()
+            getTotalHarga()
         End Try
+    End Sub
+
+    Private Sub txtMember_Leave(sender As Object, e As EventArgs) Handles txtMember.Leave
+        getTotalHarga()
+    End Sub
+
+    Private Sub txtMember_KeyDown(sender As Object, e As KeyEventArgs) Handles txtMember.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
+            getTotalHarga()
+            rtxtUang.Focus()
+        End If
+    End Sub
+
+    Private Sub DataGridView1_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
+        getTotalHarga()
+    End Sub
+
+    Private Sub DataGridView1_RowsRemoved(sender As Object, e As DataGridViewRowsRemovedEventArgs) Handles DataGridView1.RowsRemoved
+        getTotalHarga()
     End Sub
 
     Sub getTotalHarga()
@@ -218,9 +248,53 @@ Public Class FormPOS
                 End If
             Next
             txtTotal.Text = Format(grandtotal, "#,##0.00")
+            lblDiskon.Text = ""
+
+            If Format(grandtotal, "#,##0.00") = txtTotal.Text And Not String.IsNullOrWhiteSpace(txtMember.Text) Then
+                getDiskon()
+            End If
 
         Catch ex As Exception
             MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub getDiskon()
+        Try
+            Dim totalPoin As Integer
+            conn.Open()
+            Dim cmd As New MySqlCommand("SELECT * FROM `tbl_member` WHERE `kode_member` = @kode_member", conn)
+            cmd.Parameters.Clear()
+            cmd.Parameters.AddWithValue("@kode_member", txtMember.Text)
+
+            dr = cmd.ExecuteReader()
+            If dr.Read() Then
+                If dr.Item("poin") >= 1000 And dr.Item("poin") < 3000 Then
+                    lblDiskon.Text = "-2%"
+                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.02)).ToString("N0")
+                ElseIf dr.Item("poin") >= 3000 And dr.Item("poin") < 6000 Then
+                    lblDiskon.Text = "-4%"
+                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.04)).ToString("N0")
+                ElseIf dr.Item("poin") >= 6000 And dr.Item("poin") < 10000 Then
+                    lblDiskon.Text = "-7%"
+                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.07)).ToString("N0")
+                ElseIf dr.Item("poin") >= 10000 Then
+                    lblDiskon.Text = "-10%"
+                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.1)).ToString("N0")
+                Else
+                    lblDiskon.Text = ""
+                End If
+                Format(txtTotal.Text, "#,##0.00")
+                dr.Dispose()
+            Else
+                lblDiskon.Text = ""
+                conn.Close()
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
         End Try
     End Sub
 
@@ -467,10 +541,10 @@ Public Class FormPOS
                 cmd2.Parameters.AddWithValue("@no_transaksi", invoice)
                 cmd2.Parameters.AddWithValue("@produk_id", DataGridView1.Rows(row).Cells(3).Value)
                 cmd2.Parameters.AddWithValue("@nama_produk", DataGridView1.Rows(row).Cells(0).Value)
-                cmd2.Parameters.AddWithValue("@harga_produk", CInt(DataGridView1.Rows(row).Cells(5).Value))
+                cmd2.Parameters.AddWithValue("@harga_produk", CInt(DataGridView1.Rows(row).Cells(1).Value))
                 cmd2.Parameters.AddWithValue("@kuantitas_produk", CInt(DataGridView1.Rows(row).Cells(2).Value))
                 cmd2.Parameters.AddWithValue("@total_harga", subtotal)
-                cmd2.Parameters.AddWithValue("@diskon", DataGridView1.Rows(row).Cells(4).Value)
+                cmd2.Parameters.AddWithValue("@diskon", CInt(lblDiskon.Text.Replace("-", "").Replace("%", "")))
 
                 i = cmd2.ExecuteNonQuery
             Catch ex As Exception
@@ -500,7 +574,7 @@ Public Class FormPOS
         e.Graphics.DrawString(line, f8, Brushes.Black, 0, height + 135)
 
         If diskon Then
-            e.Graphics.DrawString("Diskon", f8, Brushes.Black, 0, height + 150)
+            e.Graphics.DrawString("Diskon Member", f8, Brushes.Black, 0, height + 150)
             e.Graphics.DrawString(lblDiskon.Text.Replace("-", ""), f8, Brushes.Black, rightmargin, height + 150, right)
             height += 15
         End If
@@ -519,59 +593,6 @@ Public Class FormPOS
         InitializeFormPOS()
     End Sub
 
-    Private Sub txtMember_Leave(sender As Object, e As EventArgs) Handles txtMember.Leave
-        getTotalHarga()
-        getDiskon()
-    End Sub
-
-    Private Sub txtMember_KeyDown(sender As Object, e As KeyEventArgs) Handles txtMember.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            e.SuppressKeyPress = True
-            getTotalHarga()
-            getDiskon()
-            rtxtUang.Focus()
-        End If
-    End Sub
-
-    Private Sub getDiskon()
-        Try
-            Dim totalPoin As Integer
-            conn.Open()
-            Dim cmd As New MySqlCommand("SELECT * FROM `tbl_member` WHERE `kode_member` = @kode_member", conn)
-            cmd.Parameters.Clear()
-            cmd.Parameters.AddWithValue("@kode_member", txtMember.Text)
-
-            dr = cmd.ExecuteReader()
-            If dr.Read() Then
-                If dr.Item("poin") >= 1000 And dr.Item("poin") < 3000 Then
-                    lblDiskon.Text = "-2%"
-                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.02)).ToString("N0")
-                ElseIf dr.Item("poin") >= 3000 And dr.Item("poin") < 6000 Then
-                    lblDiskon.Text = "-4%"
-                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.04)).ToString("N0")
-                ElseIf dr.Item("poin") >= 6000 And dr.Item("poin") < 10000 Then
-                    lblDiskon.Text = "-7%"
-                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.07)).ToString("N0")
-                ElseIf dr.Item("poin") >= 10000 Then
-                    lblDiskon.Text = "-10%"
-                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.1)).ToString("N0")
-                Else
-                    lblDiskon.Text = ""
-                End If
-                Format(txtTotal.Text, "#,##0.00")
-                dr.Dispose()
-            Else
-                lblDiskon.Text = ""
-                conn.Close()
-                Exit Sub
-            End If
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        Finally
-            conn.Close()
-        End Try
-    End Sub
-
     Private Sub txtTotal_TextChanged(sender As Object, e As EventArgs) Handles txtTotal.TextChanged
         If String.IsNullOrWhiteSpace(rtxtUang.Text) Then
             rtxtUang.Text = 0
@@ -584,10 +605,5 @@ Public Class FormPOS
         Else
             btnBayar.Enabled = False
         End If
-    End Sub
-
-    Private Sub DataGridView1_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
-        getTotalHarga()
-        getDiskon()
     End Sub
 End Class
