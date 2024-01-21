@@ -100,12 +100,6 @@ Public Class FormMember
         End Try
     End Sub
 
-    Private Sub txtPoin_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPoin.KeyPress
-        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
-            e.Handled = True
-        End If
-    End Sub
-
     Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
         clear()
         DataGridView1.Rows.Clear()
@@ -213,5 +207,20 @@ Public Class FormMember
         btnTambah.Enabled = False
         btnEdit.Enabled = True
         btnHapus.Enabled = True
+    End Sub
+
+
+    'Proteksi Angka---------------------------------------------------------------------------------------
+    Private Sub txtPoin_TextChanged(sender As Object, e As EventArgs) Handles txtPoin.TextChanged
+        If Not IsNumeric(txtPoin.Text) And Not txtPoin.Text = "" Then
+            MsgBox("Masukkan Jumlah yang benar")
+            txtPoin.Text = 0
+        End If
+    End Sub
+
+    Private Sub txtPoin_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPoin.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
     End Sub
 End Class

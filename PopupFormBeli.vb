@@ -273,8 +273,10 @@ Public Class PopupFormBeli
     End Sub
 
     Private Sub PD_BeginPrint(sender As Object, e As PrintEventArgs) Handles PD.BeginPrint
-        Dim pagesetup As New PageSettings
-        pagesetup.PaperSize = New PaperSize("A4", 1169, 827) ' A4 Landscape
+        Dim pagesetup As New PageSettings With {
+            .PaperSize = New PaperSize("A4", 827, 1169),
+            .Landscape = True
+            }
         'pagesetup.PaperSize = New PaperSize("Custom", 250, 500)
         'pagesetup.PaperSize = New PaperSize("Custom", 250, longpaper)
         PD.DefaultPageSettings = pagesetup
@@ -291,8 +293,8 @@ Public Class PopupFormBeli
 
 
         Dim leftmargin As Integer = PD.DefaultPageSettings.Margins.Left
-        Dim centermargin As Integer = PD.DefaultPageSettings.PaperSize.Width / 2
-        Dim rightmargin As Integer = PD.DefaultPageSettings.PaperSize.Width - 50
+        Dim centermargin As Integer = PD.DefaultPageSettings.PaperSize.Height / 2
+        Dim rightmargin As Integer = PD.DefaultPageSettings.PaperSize.Height - 50
 
         'font alignment
         Dim right As New StringFormat
@@ -304,7 +306,7 @@ Public Class PopupFormBeli
         Dim line, invoice As String
         Dim index As Integer = 1
 
-        line = New String("—", PD.DefaultPageSettings.PaperSize.Width - leftmargin - 999)
+        line = New String("—", PD.DefaultPageSettings.PaperSize.Height - leftmargin - 999)
         Dim height As Integer
         Dim total As Decimal
 
@@ -407,6 +409,11 @@ Public Class PopupFormBeli
     End Sub
 
     Private Sub DataGridView2_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellValueChanged
+        For row As Integer = 0 To DataGridView2.RowCount - 1
+            If Not IsNumeric(DataGridView1.Rows(row).Cells(2).Value) Then
+                DataGridView1.Rows(row).Cells(2).Value = 1
+            End If
+        Next
         getTotalHarga()
     End Sub
 
@@ -416,5 +423,39 @@ Public Class PopupFormBeli
 
     Private Sub btnTutup_Click(sender As Object, e As EventArgs) Handles btnTutup.Click
         Me.Hide()
+    End Sub
+
+    'Proteksi Angka---------------------------------------------------------------------------------------
+    Private Sub txtQty_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtQty.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub txtDiskon_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDiskon.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub txtPajak_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPajak.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub DataGridView2_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DataGridView2.EditingControlShowing
+        If DataGridView2.CurrentCell.ColumnIndex = 3 Then
+            ' Menghapus handler sebelumnya (jika ada)
+            RemoveHandler e.Control.KeyPress, AddressOf NumericOnly_KeyPress
+            ' Menambahkan handler KeyPress baru
+            AddHandler e.Control.KeyPress, AddressOf NumericOnly_KeyPress
+        End If
+    End Sub
+
+    Private Sub NumericOnly_KeyPress(sender As Object, e As KeyPressEventArgs)
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
     End Sub
 End Class

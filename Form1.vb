@@ -233,6 +233,7 @@ Public Class Form1
         PopupFormBeli.Show()
     End Sub
 
+    'Proteksi Angka---------------------------------------------------------------------------------------
     Private Sub txtHarga_TextChanged(sender As Object, e As EventArgs) Handles txtHarga.TextChanged
         If Not IsNumeric(txtHarga.Text) And Not txtHarga.Text = "" Then
             MsgBox("Masukkan Jumlah yang benar")
@@ -240,10 +241,23 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub txtHarga_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtHarga.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+
     Private Sub txtDiskon_TextChanged(sender As Object, e As EventArgs) Handles txtDiskon.TextChanged
         If Not IsNumeric(txtDiskon.Text) And Not txtDiskon.Text = "" Then
             MsgBox("Masukkan Jumlah yang benar")
             txtDiskon.Text = 0
+        End If
+    End Sub
+
+    Private Sub txtDiskon_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDiskon.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
         End If
     End Sub
 
@@ -254,10 +268,23 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub txtPoin_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPoin.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
     Private Sub txtJumlah_TextChanged(sender As Object, e As EventArgs) Handles txtJumlah.TextChanged
         If Not IsNumeric(txtJumlah.Text) And Not txtJumlah.Text = "" Then
             MsgBox("Masukkan Jumlah yang benar")
             txtJumlah.Text = 0
         End If
     End Sub
+
+    Private Sub txtJumlah_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtJumlah.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
 End Class

@@ -262,6 +262,7 @@ Partial Class Form1
         ' txtProdukID
         ' 
         txtProdukID.Anchor = AnchorStyles.Left
+        txtProdukID.CharacterCasing = CharacterCasing.Upper
         txtProdukID.Location = New Point(39, 94)
         txtProdukID.Name = "txtProdukID"
         txtProdukID.Size = New Size(224, 38)

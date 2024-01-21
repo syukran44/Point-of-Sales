@@ -229,6 +229,11 @@ Public Class FormPOS
     End Sub
 
     Private Sub DataGridView1_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
+        For row As Integer = 0 To DataGridView1.RowCount - 1
+            If Not IsNumeric(DataGridView1.Rows(row).Cells(2).Value) Then
+                DataGridView1.Rows(row).Cells(2).Value = 1
+            End If
+        Next
         getTotalHarga()
     End Sub
 
@@ -608,6 +613,28 @@ Public Class FormPOS
             btnBayar.Enabled = True
         Else
             btnBayar.Enabled = False
+        End If
+    End Sub
+
+    'Proteksi Angka---------------------------------------------------------------------------------------
+    Private Sub rtxtUang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles rtxtUang.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub DataGridView1_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DataGridView1.EditingControlShowing
+        If DataGridView1.CurrentCell.ColumnIndex = 2 AndAlso TypeOf e.Control Is TextBox Then
+            ' Menghapus handler sebelumnya (jika ada)
+            RemoveHandler CType(e.Control, TextBox).KeyPress, AddressOf NumericOnly_KeyPress
+            ' Menambahkan handler KeyPress baru
+            AddHandler CType(e.Control, TextBox).KeyPress, AddressOf NumericOnly_KeyPress
+        End If
+    End Sub
+
+    Private Sub NumericOnly_KeyPress(sender As Object, e As KeyPressEventArgs)
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
         End If
     End Sub
 End Class
