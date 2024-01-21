@@ -261,7 +261,6 @@ Public Class FormPOS
 
     Private Sub getDiskon()
         Try
-            Dim totalPoin As Integer
             conn.Open()
             Dim cmd As New MySqlCommand("SELECT * FROM `tbl_member` WHERE `kode_member` = @kode_member", conn)
             cmd.Parameters.Clear()
@@ -427,12 +426,13 @@ Public Class FormPOS
         longpaper = 0
         rowcount = DataGridView1.Rows.Count
         longpaper = rowcount * 15
-        longpaper = longpaper + 240
+        longpaper += 240
     End Sub
 
     Private Sub PD_BeginPrint(sender As Object, e As PrintEventArgs) Handles PD.BeginPrint
-        Dim pagesetup As New PageSettings
-        pagesetup.PaperSize = New PaperSize("Custom", 250, 500) 'fixed size
+        Dim pagesetup As New PageSettings With {
+            .PaperSize = New PaperSize("Custom", 250, 500) 'fixed size
+            }
         'pagesetup.PaperSize = New PaperSize("Custom", 250, longpaper)
         PD.DefaultPageSettings = pagesetup
     End Sub
