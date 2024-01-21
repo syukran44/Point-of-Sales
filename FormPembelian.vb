@@ -42,7 +42,7 @@ Public Class FormPembelian
             dr = cmd.ExecuteReader
             While dr.Read
                 i += 1
-                DataGridView1.Rows.Add("", dr.Item("operator"), dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("harga_produk"), dr.Item("kuantitas_produk"), dr.Item("total_harga"))
+                DataGridView1.Rows.Add(i, dr.Item("operator"), dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), Format(dr.Item("harga_produk"), "##,##0"), dr.Item("kuantitas_produk"), dr.Item("diskon") & "%", dr.Item("pajak") & "%", Format(dr.Item("grandtotal"), "##,##0"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -70,14 +70,19 @@ Public Class FormPembelian
         Dim formattedWaktu2 As String = rentangWaktu2.ToString("yyyy-MM-dd")
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT SUM(`kuantitas_produk`) as total_produk_terjual, SUM(`total_harga`) as total_keuntungan FROM tbl_pembelian WHERE created_at BETWEEN @waktu1 AND @waktu2", conn)
+            Dim cmd As New MySqlCommand("SELECT SUM(`kuantitas_produk`) as total_produk_terbeli, grandtotal as total_pembelian FROM tbl_pembelian WHERE created_at BETWEEN @waktu1 AND @waktu2 GROUP BY no_transaksi, operator", conn)
             cmd.Parameters.Clear()
             cmd.Parameters.AddWithValue("@waktu1", formattedWaktu1)
             cmd.Parameters.AddWithValue("@waktu2", formattedWaktu2)
 
             dr = cmd.ExecuteReader
-            dr.Read()
-            DataGridView2.Rows.Add(formattedWaktu1 & " - " & formattedWaktu2, dr.Item("total_produk_terjual"), dr.Item("total_keuntungan"))
+            Dim totalProdukTerbeli As Integer = 0
+            Dim totalPembelian As Decimal = 0
+            While dr.Read()
+                totalProdukTerbeli += dr.Item("total_produk_terbeli")
+                totalPembelian += dr.Item("total_pembelian")
+            End While
+            DataGridView2.Rows.Add(formattedWaktu1 & " S/d " & formattedWaktu2, totalProdukTerbeli, Format(totalPembelian, "##,##0"))
             dr.Dispose()
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -96,7 +101,7 @@ Public Class FormPembelian
             dr = cmd.ExecuteReader
             While dr.Read
                 i += 1
-                DataGridView1.Rows.Add(i, dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("harga_produk"), dr.Item("kuantitas_produk"), dr.Item("total_harga"))
+                DataGridView1.Rows.Add(i, dr.Item("operator"), dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), Format(dr.Item("harga_produk"), "##,##0"), dr.Item("kuantitas_produk"), dr.Item("diskon") & "%", dr.Item("pajak") & "%", Format(dr.Item("grandtotal"), "##,##0"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -117,6 +122,7 @@ Public Class FormPembelian
     End Sub
 
     Private Sub btnCetak_Click(sender As Object, e As EventArgs) Handles btnCetak.Click
+        total = 0
         If DataGridView1.Rows.Count = 0 Then
             MsgBox("Pembelian tidak ada", MsgBoxStyle.OkOnly)
             Exit Sub
@@ -135,9 +141,15 @@ Public Class FormPembelian
         longpaper += 240
     End Sub
 
+    Dim currentPage As Integer = 1
+    Dim rowsPerPage As Integer = 20 ' Ubah sesuai dengan jumlah baris yang dapat masuk ke satu halaman
+    Dim total As Decimal
+
     Private Sub PD_BeginPrint(sender As Object, e As PrintEventArgs) Handles PD.BeginPrint
+        currentPage = 1
         Dim pagesetup As New PageSettings With {
-            .PaperSize = New PaperSize("A4", 1169, 827) ' A4 Landscape
+            .PaperSize = New PaperSize("A4", 827, 1169),
+            .Landscape = True
             }
         'pagesetup.PaperSize = New PaperSize("Custom", 250, 500)
         'pagesetup.PaperSize = New PaperSize("Custom", 250, longpaper)
@@ -155,8 +167,8 @@ Public Class FormPembelian
 
 
         Dim leftmargin As Integer = PD.DefaultPageSettings.Margins.Left
-        Dim centermargin As Integer = PD.DefaultPageSettings.PaperSize.Width / 2
-        Dim rightmargin As Integer = PD.DefaultPageSettings.PaperSize.Width - 50
+        Dim centermargin As Integer = PD.DefaultPageSettings.PaperSize.Height / 2
+        Dim rightmargin As Integer = PD.DefaultPageSettings.PaperSize.Height - 50
 
         'font alignment
         Dim right As New StringFormat
@@ -166,9 +178,8 @@ Public Class FormPembelian
         center.Alignment = StringAlignment.Center
 
         Dim line As String
-        line = New String("—", PD.DefaultPageSettings.PaperSize.Width - leftmargin - 1003)
+        line = New String("—", PD.DefaultPageSettings.PaperSize.Height - leftmargin - 1003)
         Dim height As Integer
-        Dim total As Decimal
 
         Dim tglMulai As String = DateTimePicker1.Value.ToString("dd-MM-yyyy")
         Dim tglAkhir As String = DateTimePicker2.Value.ToString("dd-MM-yyyy")
@@ -183,34 +194,57 @@ Public Class FormPembelian
 
         e.Graphics.DrawString("No", f10, Brushes.Black, leftmargin, 128)
         e.Graphics.DrawString("Operator", f10, Brushes.Black, 30 + leftmargin, 128)
-        e.Graphics.DrawString("Nomor Transaksi", f10, Brushes.Black, 200 + leftmargin, 128)
-        e.Graphics.DrawString("Produk ID", f10, Brushes.Black, 400 + leftmargin, 128)
-        e.Graphics.DrawString("Nama Produk", f10, Brushes.Black, 550 + leftmargin, 128)
-        e.Graphics.DrawString("Harga Produk", f10, Brushes.Black, 700 + leftmargin, 128)
-        e.Graphics.DrawString("Kuantitas", f10, Brushes.Black, 815 + leftmargin, 128)
-        e.Graphics.DrawString("Total", f10, Brushes.Black, 900 + leftmargin, 128)
+        e.Graphics.DrawString("Nomor Transaksi", f10, Brushes.Black, 150 + leftmargin, 128)
+        e.Graphics.DrawString("Produk ID", f10, Brushes.Black, 300 + leftmargin, 128)
+        e.Graphics.DrawString("Nama Produk", f10, Brushes.Black, 400 + leftmargin, 128)
+        e.Graphics.DrawString("Harga Produk", f10, Brushes.Black, 530 + leftmargin, 128)
+        e.Graphics.DrawString("Kuantitas", f10, Brushes.Black, 645 + leftmargin, 128)
+        e.Graphics.DrawString("Diskon", f10, Brushes.Black, 740 + leftmargin, 128)
+        e.Graphics.DrawString("Pajak", f10, Brushes.Black, 820 + leftmargin, 128)
+        e.Graphics.DrawString("Total", f10, Brushes.Black, 890 + leftmargin, 128)
 
         e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 140)
+
+        Dim startIndex As Integer = (currentPage - 1) * rowsPerPage
+        Dim endIndex As Integer = Math.Min(currentPage * rowsPerPage, DataGridView1.Rows.Count)
+
         For row As Integer = 0 To DataGridView1.RowCount - 1
             height += 25
+            'no
             e.Graphics.DrawString(DataGridView1.Rows(row).Cells(0).Value.ToString, f10, Brushes.Black, leftmargin, 125 + height)
+            'Operator
             e.Graphics.DrawString(DataGridView1.Rows(row).Cells(1).Value.ToString, f10, Brushes.Black, 30 + leftmargin, 125 + height)
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(2).Value.ToString, f10, Brushes.Black, 200 + leftmargin, 125 + height)
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(3).Value.ToString, f10, Brushes.Black, 400 + leftmargin, 125 + height)
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(4).Value.ToString, f10, Brushes.Black, 550 + leftmargin, 125 + height)
-            i = DataGridView1.Rows(row).Cells(5).Value
-            DataGridView1.Rows(row).Cells(5).Value = Format(i, "##,##0")
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(5).Value.ToString, f10, Brushes.Black, 785 + leftmargin, 125 + height, right)
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(6).Value.ToString, f10, Brushes.Black, 830 + leftmargin, 125 + height)
-            i = DataGridView1.Rows(row).Cells(7).Value
-            DataGridView1.Rows(row).Cells(7).Value = Format(i, "##,##0")
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(7).Value.ToString, f10, Brushes.Black, 950 + leftmargin, 125 + height, right)
+            'Nomor Transaksi
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(2).Value.ToString, f10, Brushes.Black, 150 + leftmargin, 125 + height)
+            'Produk ID
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(3).Value.ToString, f10, Brushes.Black, 300 + leftmargin, 125 + height)
+            'Nama Produk
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(4).Value.ToString, f10, Brushes.Black, 400 + leftmargin, 125 + height)
+            'Harga Produk            
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(5).Value.ToString, f10, Brushes.Black, 615 + leftmargin, 125 + height, right)
+            'Kuantitas
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(6).Value.ToString, f10, Brushes.Black, 665 + leftmargin, 125 + height)
+            'Diskon
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(7).Value.ToString, f10, Brushes.Black, 750 + leftmargin, 125 + height)
+            'pajak
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(8).Value.ToString, f10, Brushes.Black, 825 + leftmargin, 125 + height)
+            'grandtotal
+            i = DataGridView1.Rows(row).Cells(9).Value
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(9).Value.ToString, f10, Brushes.Black, 950 + leftmargin, 125 + height, right)
+
             e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 138 + height)
 
             total += i
         Next
 
-        e.Graphics.DrawString("Total Pembelian  : " & Format(total, "##,##0"), f10, Brushes.Black, rightmargin, 170 + height, right)
-        e.Graphics.DrawString("Produk Terbeli   : " & DataGridView2.Rows(0).Cells(1).Value.ToString(), f10, Brushes.Black, rightmargin, 190 + height, right)
+        currentPage += 1
+
+        e.HasMorePages = currentPage <= Math.Ceiling(DataGridView1.Rows.Count / rowsPerPage)
+
+        If Not e.HasMorePages Then
+            e.Graphics.DrawString("Total Pembelian  : " & DataGridView2.Rows(0).Cells(2).Value.ToString(), f10, Brushes.Black, rightmargin, 170 + height, right)
+            e.Graphics.DrawString("Produk Terbeli   : " & DataGridView2.Rows(0).Cells(1).Value.ToString(), f10, Brushes.Black, rightmargin, 190 + height, right)
+        End If
     End Sub
+
 End Class

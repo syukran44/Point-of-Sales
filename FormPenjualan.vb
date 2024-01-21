@@ -81,14 +81,19 @@ Public Class FormPenjualan
         Dim formattedWaktu2 As String = rentangWaktu2.ToString("yyyy-MM-dd")
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT SUM(`kuantitas_produk`) as total_produk_terjual, SUM(`grandtotal`) as total_keuntungan FROM tbl_penjualan WHERE created_at BETWEEN @waktu1 AND @waktu2", conn)
+            Dim cmd As New MySqlCommand("SELECT SUM(`kuantitas_produk`) as total_produk_terjual, grandtotal as total_keuntungan FROM tbl_penjualan WHERE created_at BETWEEN @waktu1 AND @waktu2 GROUP BY no_transaksi, operator", conn)
             cmd.Parameters.Clear()
             cmd.Parameters.AddWithValue("@waktu1", formattedWaktu1)
             cmd.Parameters.AddWithValue("@waktu2", formattedWaktu2)
 
             dr = cmd.ExecuteReader
-            dr.Read()
-            DataGridView2.Rows.Add(formattedWaktu1 & " - " & formattedWaktu2, dr.Item("total_produk_terjual"), Format(dr.Item("total_keuntungan"), "##,##0"))
+            Dim totalProdukTerjual As Integer = 0
+            Dim totalKeuntungan As Decimal = 0
+            While dr.Read()
+                totalProdukTerjual += dr.Item("total_produk_terjual")
+                totalKeuntungan += dr.Item("total_keuntungan")
+            End While
+            DataGridView2.Rows.Add(formattedWaktu1 & " S/d " & formattedWaktu2, totalProdukTerjual, Format(totalKeuntungan, "##,##0"))
             dr.Dispose()
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -154,7 +159,8 @@ Public Class FormPenjualan
     Private Sub PD_BeginPrint(sender As Object, e As PrintEventArgs) Handles PD.BeginPrint
         currentPage = 1
         Dim pagesetup As New PageSettings With {
-            .PaperSize = New PaperSize("A4", 1169, 827)
+            .PaperSize = New PaperSize("A4", 827, 1169),
+            .Landscape = True
             }
         'pagesetup.PaperSize = New PaperSize("Custom", 250, 500)
         'pagesetup.PaperSize = New PaperSize("Custom", 250, longpaper)
@@ -172,8 +178,8 @@ Public Class FormPenjualan
 
 
         Dim leftmargin As Integer = PD.DefaultPageSettings.Margins.Left
-        Dim centermargin As Integer = PD.DefaultPageSettings.PaperSize.Width / 2
-        Dim rightmargin As Integer = PD.DefaultPageSettings.PaperSize.Width - 50
+        Dim centermargin As Integer = PD.DefaultPageSettings.PaperSize.Height / 2
+        Dim rightmargin As Integer = PD.DefaultPageSettings.PaperSize.Height - 50
 
         'font alignment
         Dim right As New StringFormat
@@ -183,7 +189,7 @@ Public Class FormPenjualan
         center.Alignment = StringAlignment.Center
 
         Dim line As String
-        line = New String("—", PD.DefaultPageSettings.PaperSize.Width - leftmargin - 1003)
+        line = New String("—", PD.DefaultPageSettings.PaperSize.Height - leftmargin - 1003)
         Dim height As Integer
 
         Dim tglMulai As String = DateTimePicker1.Value.ToString("dd-MM-yyyy")
@@ -244,7 +250,7 @@ Public Class FormPenjualan
         e.HasMorePages = currentPage <= Math.Ceiling(DataGridView1.Rows.Count / rowsPerPage)
 
         If Not e.HasMorePages Then
-            e.Graphics.DrawString("Total Penjualan  : " & Format(total, "##,##0"), f10, Brushes.Black, rightmargin, 170 + height, right)
+            e.Graphics.DrawString("Total Penjualan  : " & DataGridView2.Rows(0).Cells(2).Value.ToString(), f10, Brushes.Black, rightmargin, 170 + height, right)
             e.Graphics.DrawString("Produk Terjual   : " & DataGridView2.Rows(0).Cells(1).Value.ToString(), f10, Brushes.Black, rightmargin, 190 + height, right)
         End If
     End Sub

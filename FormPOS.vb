@@ -544,7 +544,11 @@ Public Class FormPOS
                 cmd2.Parameters.AddWithValue("@harga_produk", CInt(DataGridView1.Rows(row).Cells(1).Value))
                 cmd2.Parameters.AddWithValue("@kuantitas_produk", CInt(DataGridView1.Rows(row).Cells(2).Value))
                 cmd2.Parameters.AddWithValue("@total_harga", subtotal)
-                cmd2.Parameters.AddWithValue("@diskon", CInt(lblDiskon.Text.Replace("-", "").Replace("%", "")))
+                If lblDiskon.Text Is "" Then
+                    cmd2.Parameters.AddWithValue("@diskon", 0)
+                Else
+                    cmd2.Parameters.AddWithValue("@diskon", CInt(lblDiskon.Text.Replace("-", "").Replace("%", "")))
+                End If
 
                 i = cmd2.ExecuteNonQuery
             Catch ex As Exception

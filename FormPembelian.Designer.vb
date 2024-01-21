@@ -31,6 +31,8 @@ Partial Class FormPembelian
         Column10 = New DataGridViewTextBoxColumn()
         lblWaktu = New Label()
         DataGridView1 = New DataGridView()
+        Label2 = New Label()
+        txtSearch = New TextBox()
         Column7 = New DataGridViewTextBoxColumn()
         Column11 = New DataGridViewTextBoxColumn()
         Column1 = New DataGridViewTextBoxColumn()
@@ -38,9 +40,9 @@ Partial Class FormPembelian
         Column3 = New DataGridViewTextBoxColumn()
         Column4 = New DataGridViewTextBoxColumn()
         Column5 = New DataGridViewTextBoxColumn()
+        Column12 = New DataGridViewTextBoxColumn()
+        Column13 = New DataGridViewTextBoxColumn()
         Column6 = New DataGridViewTextBoxColumn()
-        Label2 = New Label()
-        txtSearch = New TextBox()
         CType(DataGridView2, ComponentModel.ISupportInitialize).BeginInit()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -130,7 +132,7 @@ Partial Class FormPembelian
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column7, Column11, Column1, Column2, Column3, Column4, Column5, Column6})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column7, Column11, Column1, Column2, Column3, Column4, Column5, Column12, Column13, Column6})
         DataGridView1.Location = New Point(29, 98)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
@@ -140,6 +142,23 @@ Partial Class FormPembelian
         DataGridView1.Size = New Size(1237, 511)
         DataGridView1.TabIndex = 27
         DataGridView1.TabStop = False
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label2.Location = New Point(29, 18)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(60, 20)
+        Label2.TabIndex = 26
+        Label2.Text = "Search :"
+        ' 
+        ' txtSearch
+        ' 
+        txtSearch.Location = New Point(29, 46)
+        txtSearch.Name = "txtSearch"
+        txtSearch.Size = New Size(385, 27)
+        txtSearch.TabIndex = 23
         ' 
         ' Column7
         ' 
@@ -159,11 +178,11 @@ Partial Class FormPembelian
         ' 
         ' Column1
         ' 
-        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         Column1.HeaderText = "Nomor Transaksi"
         Column1.MinimumWidth = 6
         Column1.Name = "Column1"
         Column1.ReadOnly = True
+        Column1.Width = 200
         ' 
         ' Column2
         ' 
@@ -197,6 +216,22 @@ Partial Class FormPembelian
         Column5.ReadOnly = True
         Column5.Width = 80
         ' 
+        ' Column12
+        ' 
+        Column12.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column12.HeaderText = "Diskon"
+        Column12.MinimumWidth = 6
+        Column12.Name = "Column12"
+        Column12.ReadOnly = True
+        ' 
+        ' Column13
+        ' 
+        Column13.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column13.HeaderText = "Pajak"
+        Column13.MinimumWidth = 6
+        Column13.Name = "Column13"
+        Column13.ReadOnly = True
+        ' 
         ' Column6
         ' 
         Column6.HeaderText = "Total"
@@ -204,23 +239,6 @@ Partial Class FormPembelian
         Column6.Name = "Column6"
         Column6.ReadOnly = True
         Column6.Width = 125
-        ' 
-        ' Label2
-        ' 
-        Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.Location = New Point(29, 18)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(60, 20)
-        Label2.TabIndex = 26
-        Label2.Text = "Search :"
-        ' 
-        ' txtSearch
-        ' 
-        txtSearch.Location = New Point(29, 46)
-        txtSearch.Name = "txtSearch"
-        txtSearch.Size = New Size(385, 27)
-        txtSearch.TabIndex = 23
         ' 
         ' FormPembelian
         ' 
@@ -252,6 +270,9 @@ Partial Class FormPembelian
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents Label2 As Label
     Friend WithEvents txtSearch As TextBox
+    Friend WithEvents Column8 As DataGridViewTextBoxColumn
+    Friend WithEvents Column9 As DataGridViewTextBoxColumn
+    Friend WithEvents Column10 As DataGridViewTextBoxColumn
     Friend WithEvents Column7 As DataGridViewTextBoxColumn
     Friend WithEvents Column11 As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
@@ -259,8 +280,7 @@ Partial Class FormPembelian
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
+    Friend WithEvents Column12 As DataGridViewTextBoxColumn
+    Friend WithEvents Column13 As DataGridViewTextBoxColumn
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
-    Friend WithEvents Column8 As DataGridViewTextBoxColumn
-    Friend WithEvents Column9 As DataGridViewTextBoxColumn
-    Friend WithEvents Column10 As DataGridViewTextBoxColumn
 End Class

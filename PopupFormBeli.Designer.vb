@@ -126,7 +126,7 @@ Partial Class PopupFormBeli
         txtSearch.Location = New Point(21, 38)
         txtSearch.Name = "txtSearch"
         txtSearch.Size = New Size(206, 27)
-        txtSearch.TabIndex = 24
+        txtSearch.TabIndex = 0
         ' 
         ' btnTambah
         ' 
@@ -141,7 +141,7 @@ Partial Class PopupFormBeli
         btnTambah.Margin = New Padding(0)
         btnTambah.Name = "btnTambah"
         btnTambah.Size = New Size(106, 43)
-        btnTambah.TabIndex = 30
+        btnTambah.TabIndex = 3
         btnTambah.Text = "Tambahkan"
         btnTambah.UseVisualStyleBackColor = False
         ' 
@@ -151,7 +151,7 @@ Partial Class PopupFormBeli
         cmbKategori.Location = New Point(233, 37)
         cmbKategori.Name = "cmbKategori"
         cmbKategori.Size = New Size(153, 28)
-        cmbKategori.TabIndex = 35
+        cmbKategori.TabIndex = 1
         ' 
         ' txtQty
         ' 
@@ -159,7 +159,7 @@ Partial Class PopupFormBeli
         txtQty.Location = New Point(829, 38)
         txtQty.Name = "txtQty"
         txtQty.Size = New Size(63, 27)
-        txtQty.TabIndex = 29
+        txtQty.TabIndex = 3
         ' 
         ' Label1
         ' 
@@ -178,7 +178,7 @@ Partial Class PopupFormBeli
         txtDiskon.MaxLength = 2
         txtDiskon.Name = "txtDiskon"
         txtDiskon.Size = New Size(84, 27)
-        txtDiskon.TabIndex = 31
+        txtDiskon.TabIndex = 4
         txtDiskon.Text = "0"
         ' 
         ' Label3
@@ -311,7 +311,7 @@ Partial Class PopupFormBeli
         btnBeli.Margin = New Padding(0)
         btnBeli.Name = "btnBeli"
         btnBeli.Size = New Size(106, 43)
-        btnBeli.TabIndex = 38
+        btnBeli.TabIndex = 6
         btnBeli.Text = "Beli"
         btnBeli.UseVisualStyleBackColor = False
         ' 
@@ -332,7 +332,7 @@ Partial Class PopupFormBeli
         txtPajak.MaxLength = 2
         txtPajak.Name = "txtPajak"
         txtPajak.Size = New Size(84, 27)
-        txtPajak.TabIndex = 41
+        txtPajak.TabIndex = 5
         txtPajak.Text = "0"
         ' 
         ' Label8
@@ -351,7 +351,7 @@ Partial Class PopupFormBeli
         txtProdukID.Location = New Point(721, 38)
         txtProdukID.Name = "txtProdukID"
         txtProdukID.Size = New Size(91, 27)
-        txtProdukID.TabIndex = 28
+        txtProdukID.TabIndex = 2
         ' 
         ' Label9
         ' 
@@ -376,7 +376,7 @@ Partial Class PopupFormBeli
         btnTutup.Margin = New Padding(0)
         btnTutup.Name = "btnTutup"
         btnTutup.Size = New Size(106, 43)
-        btnTutup.TabIndex = 44
+        btnTutup.TabIndex = 7
         btnTutup.Text = "Tutup"
         btnTutup.UseVisualStyleBackColor = False
         ' 

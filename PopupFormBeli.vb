@@ -25,7 +25,8 @@ Public Class PopupFormBeli
     Private Sub PopupFormBeli_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         conn.Close()
         DGVRead()
-        kategoriRead()
+        getKategori()
+        cmbKategori.SelectedIndex = 0
     End Sub
 
     Public Sub DGVRead()
@@ -45,7 +46,8 @@ Public Class PopupFormBeli
         End Try
     End Sub
 
-    Public Sub kategoriRead()
+    Public Sub getKategori()
+        cmbKategori.Items.Add("Semua")
         Try
             conn.Open()
             Dim cmd As New MySqlCommand("SELECT `kategori` FROM tbl_produk", conn)
@@ -216,19 +218,35 @@ Public Class PopupFormBeli
 
     Private Sub cmbKategori_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbKategori.SelectedIndexChanged
         DataGridView1.Rows.Clear()
-        Try
-            conn.Open()
-            Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `kategori` like '%" & cmbKategori.SelectedItem.ToString() & "%'", conn)
-            dr = cmd.ExecuteReader
-            While dr.Read
-                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"))
-            End While
-            dr.Dispose()
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        Finally
-            conn.Close()
-        End Try
+        If cmbKategori.SelectedItem.ToString().ToUpper() = "SEMUA" Then
+            Try
+                conn.Open()
+                Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk", conn)
+                dr = cmd.ExecuteReader
+                While dr.Read
+                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"))
+                End While
+                dr.Dispose()
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            Finally
+                conn.Close()
+            End Try
+        Else
+            Try
+                conn.Open()
+                Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `kategori` like '%" & cmbKategori.SelectedItem.ToString() & "%'", conn)
+                dr = cmd.ExecuteReader
+                While dr.Read
+                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"))
+                End While
+                dr.Dispose()
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            Finally
+                conn.Close()
+            End Try
+        End If
     End Sub
 
     Private Sub btnBeli_Click(sender As Object, e As EventArgs) Handles btnBeli.Click
@@ -389,6 +407,10 @@ Public Class PopupFormBeli
     End Sub
 
     Private Sub DataGridView2_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellValueChanged
+        getTotalHarga()
+    End Sub
+
+    Private Sub DataGridView2_RowsRemoved(sender As Object, e As DataGridViewRowsRemovedEventArgs) Handles DataGridView2.RowsRemoved
         getTotalHarga()
     End Sub
 
