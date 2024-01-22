@@ -272,6 +272,10 @@ Public Class PopupFormBeli
         longpaper = longpaper + 240
     End Sub
 
+    Dim currentPage As Integer = 1
+    Dim rowsPerPage As Integer = 20 ' Ubah sesuai dengan jumlah baris yang dapat masuk ke satu halaman
+    Dim total As Decimal
+
     Private Sub PD_BeginPrint(sender As Object, e As PrintEventArgs) Handles PD.BeginPrint
         Dim pagesetup As New PageSettings With {
             .PaperSize = New PaperSize("A4", 827, 1169),
@@ -350,18 +354,28 @@ Public Class PopupFormBeli
         e.Graphics.DrawString("Kuantitas", f10, Brushes.Black, 750 + leftmargin, 128)
         e.Graphics.DrawString("Total", f10, Brushes.Black, 900 + leftmargin, 128)
 
+        Dim startIndex As Integer = (currentPage - 1) * rowsPerPage
+        Dim endIndex As Integer = Math.Min(currentPage * rowsPerPage, DataGridView2.Rows.Count)
+
         e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 140)
-        For row As Integer = 0 To DataGridView2.RowCount - 1
+        For row As Integer = startIndex To endIndex - 1
             height += 25
 
+            'no
             e.Graphics.DrawString(index, f10, Brushes.Black, leftmargin, 125 + height)
+            'Produk ID
             e.Graphics.DrawString(DataGridView2.Rows(row).Cells(0).Value.ToString, f10, Brushes.Black, 30 + leftmargin, 125 + height)
+            'Nama Produk
             e.Graphics.DrawString(DataGridView2.Rows(row).Cells(1).Value.ToString, f10, Brushes.Black, 150 + leftmargin, 125 + height)
+            'Kategori Produk
             e.Graphics.DrawString(DataGridView2.Rows(row).Cells(4).Value.ToString, f10, Brushes.Black, 400 + leftmargin, 125 + height)
+            'Harga Produk
             i = DataGridView2.Rows(row).Cells(2).Value
             DataGridView2.Rows(row).Cells(2).Value = Format(i, "##,##0")
-            e.Graphics.DrawString(DataGridView2.Rows(row).Cells(2).Value.ToString, f10, Brushes.Black, 600 + leftmargin, 125 + height)
-            e.Graphics.DrawString(DataGridView2.Rows(row).Cells(3).Value.ToString, f10, Brushes.Black, 750 + leftmargin, 125 + height)
+            e.Graphics.DrawString(DataGridView2.Rows(row).Cells(2).Value.ToString, f10, Brushes.Black, 625 + leftmargin, 125 + height)
+            'Kuantitas
+            e.Graphics.DrawString(DataGridView2.Rows(row).Cells(3).Value.ToString, f10, Brushes.Black, 765 + leftmargin, 125 + height)
+            'Total
             i = DataGridView2.Rows(row).Cells(2).Value * DataGridView2.Rows(row).Cells(3).Value
             DataGridView2.Rows(row).Cells(5).Value = Format(i, "##,##0")
             e.Graphics.DrawString(DataGridView2.Rows(row).Cells(5).Value.ToString, f10, Brushes.Black, 900 + leftmargin, 125 + height)
@@ -401,10 +415,17 @@ Public Class PopupFormBeli
 
             index += 1
         Next
-        e.Graphics.DrawString("Total Pembelian  :               " & Format(total, "##,##0"), f10, Brushes.Black, rightmargin, 170 + height, right)
-        e.Graphics.DrawString("Diskon           :               " & txtDiskon.Text & "%", f10, Brushes.Black, rightmargin, 190 + height, right)
-        e.Graphics.DrawString("Pajak            :               " & txtPajak.Text & "%", f10, Brushes.Black, rightmargin, 210 + height, right)
-        e.Graphics.DrawString("Grand Total      :               " & txtTotal.Text, f10, Brushes.Black, rightmargin, 230 + height, right)
+
+        currentPage += 1
+
+        e.HasMorePages = currentPage <= Math.Ceiling(DataGridView1.Rows.Count / rowsPerPage)
+
+        If Not e.HasMorePages Then
+            e.Graphics.DrawString("Total Pembelian  :               " & Format(total, "##,##0"), f10, Brushes.Black, rightmargin, 170 + height, right)
+            e.Graphics.DrawString("Diskon           :               " & txtDiskon.Text & "%", f10, Brushes.Black, rightmargin, 190 + height, right)
+            e.Graphics.DrawString("Pajak            :               " & txtPajak.Text & "%", f10, Brushes.Black, rightmargin, 210 + height, right)
+            e.Graphics.DrawString("Grand Total      :               " & txtTotal.Text, f10, Brushes.Black, rightmargin, 230 + height, right)
+        End If
 
     End Sub
 

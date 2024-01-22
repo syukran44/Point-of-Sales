@@ -63,6 +63,29 @@ Public Class FormPembelian
     Public Sub loadDGV2()
         DataGridView2.Rows.Clear()
 
+        If txtSearch.Text <> "" Then
+            Try
+                conn.Open()
+                Dim cmd As New MySqlCommand("SELECT SUM(`kuantitas_produk`) as total_produk_terbeli, grandtotal as total_pembelian FROM tbl_pembelian WHERE `operator` like '%" & txtSearch.Text & "%' OR `no_transaksi` like '%" & txtSearch.Text & "%' GROUP BY no_transaksi, operator", conn)
+                cmd.Parameters.Clear()
+
+                dr = cmd.ExecuteReader
+                Dim totalProdukTerbeli As Integer = 0
+                Dim totalPembelian As Decimal = 0
+                While dr.Read()
+                    totalProdukTerbeli += dr.Item("total_produk_terbeli")
+                    totalPembelian += dr.Item("total_pembelian")
+                End While
+                DataGridView2.Rows.Add(DateTimePicker1.Value & " S/d " & DateTimePicker2.Value, totalProdukTerbeli, Format(totalPembelian, "##,##0"))
+                dr.Dispose()
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            Finally
+                DataGridView1.Sort(DataGridView1.Columns("Column1"), ListSortDirection.Descending)
+                conn.Close()
+            End Try
+        End If
+
         Dim rentangWaktu1 As Date = DateTimePicker1.Value
         Dim rentangWaktu2 As Date = DateTimePicker2.Value
 
@@ -87,7 +110,6 @@ Public Class FormPembelian
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
-            DataGridView1.Sort(DataGridView1.Columns("Column1"), ListSortDirection.Descending)
             conn.Close()
         End Try
     End Sub
@@ -95,6 +117,8 @@ Public Class FormPembelian
     Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
         i = 0
         DataGridView1.Rows.Clear()
+        DateTimePicker1.Value = DateTime.Now.ToString("yyyy-MM-dd")
+        DateTimePicker2.Value = DateTime.Now.ToString("yyyy-MM-dd")
         Try
             conn.Open()
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_pembelian WHERE `no_transaksi` like '%" & txtSearch.Text & "%' OR `nama_produk` like '%" & txtSearch.Text & "%' OR `produk_id` like '%" & txtSearch.Text & "%' ", conn)
@@ -107,7 +131,16 @@ Public Class FormPembelian
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
+            DataGridView1.Sort(DataGridView1.Columns("Column1"), ListSortDirection.Descending)
+            For Each item As DataGridViewRow In DataGridView1.Rows
+                If item.Cells(0).Value Is Nothing Then
+                    Exit For
+                Else
+                    item.Cells(0).Value = item.Index + 1
+                End If
+            Next
             conn.Close()
+            loadDGV2()
         End Try
     End Sub
 
@@ -183,6 +216,11 @@ Public Class FormPembelian
 
         Dim tglMulai As String = DateTimePicker1.Value.ToString("dd-MM-yyyy")
         Dim tglAkhir As String = DateTimePicker2.Value.ToString("dd-MM-yyyy")
+
+        If txtSearch.Text <> "" Then
+            tglMulai = "-"
+            tglAkhir = "-"
+        End If
 
         e.Graphics.DrawString("Point of Sales", f12b, Brushes.Black, leftmargin, 40, center)
         e.Graphics.DrawString("Mulai Tgl.   :   " & tglMulai, f12, Brushes.Black, rightmargin, 40, right)

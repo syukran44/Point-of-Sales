@@ -190,4 +190,23 @@ Public Class FormUser
             clear()
         End Try
     End Sub
+
+    Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
+        Dim index As Integer = 0
+        DataGridView1.Rows.Clear()
+        Try
+            conn.Open()
+            Dim cmd As New MySqlCommand("SELECT * FROM tbl_users WHERE `username` LIKE '%" & txtSearch.Text & "%' OR `nama` LIKE '%" & txtSearch.Text & "%' OR `role` LIKE '%" & txtSearch.Text & "%'", conn)
+            dr = cmd.ExecuteReader
+            While dr.Read
+                index += 1
+                DataGridView1.Rows.Add(index, dr.Item("username"), dr.Item("nama"), dr.Item("role"))
+            End While
+            dr.Dispose()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
 End Class

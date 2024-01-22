@@ -263,7 +263,7 @@ Partial Class FormUser
         txtSearch.Location = New Point(342, 45)
         txtSearch.Name = "txtSearch"
         txtSearch.Size = New Size(366, 27)
-        txtSearch.TabIndex = 20
+        txtSearch.TabIndex = 0
         ' 
         ' DataGridView1
         ' 
@@ -281,6 +281,7 @@ Partial Class FormUser
         DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         DataGridView1.Size = New Size(938, 631)
         DataGridView1.TabIndex = 22
+        DataGridView1.TabStop = False
         ' 
         ' Column1
         ' 

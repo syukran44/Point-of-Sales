@@ -183,7 +183,7 @@ Partial Class FormMain
         Controls.Add(pnlSideBar)
         Name = "FormMain"
         StartPosition = FormStartPosition.CenterScreen
-        Text = "FormMain"
+        Text = "Point of Sales"
         pnlSideBar.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()

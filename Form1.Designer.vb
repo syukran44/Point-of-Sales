@@ -23,6 +23,7 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         DataGridView1 = New DataGridView()
+        Column9 = New DataGridViewTextBoxColumn()
         Column1 = New DataGridViewTextBoxColumn()
         Column2 = New DataGridViewTextBoxColumn()
         Column5 = New DataGridViewTextBoxColumn()
@@ -68,7 +69,7 @@ Partial Class Form1
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column5, Column3, Column6, Column8, Column7, Column4})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column9, Column1, Column2, Column5, Column3, Column6, Column8, Column7, Column4})
         DataGridView1.Location = New Point(342, 98)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
@@ -78,6 +79,14 @@ Partial Class Form1
         DataGridView1.Size = New Size(937, 629)
         DataGridView1.TabIndex = 5
         DataGridView1.TabStop = False
+        ' 
+        ' Column9
+        ' 
+        Column9.HeaderText = "No."
+        Column9.MinimumWidth = 6
+        Column9.Name = "Column9"
+        Column9.ReadOnly = True
+        Column9.Width = 50
         ' 
         ' Column1
         ' 
@@ -98,11 +107,11 @@ Partial Class Form1
         ' 
         ' Column5
         ' 
+        Column5.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         Column5.HeaderText = "Kategori"
         Column5.MinimumWidth = 6
         Column5.Name = "Column5"
         Column5.ReadOnly = True
-        Column5.Width = 250
         ' 
         ' Column3
         ' 
@@ -207,7 +216,7 @@ Partial Class Form1
         txtPoin.Location = New Point(39, 464)
         txtPoin.Name = "txtPoin"
         txtPoin.Size = New Size(224, 38)
-        txtPoin.TabIndex = 18
+        txtPoin.TabIndex = 6
         ' 
         ' Label4
         ' 
@@ -227,7 +236,7 @@ Partial Class Form1
         txtDiskon.MaxLength = 2
         txtDiskon.Name = "txtDiskon"
         txtDiskon.Size = New Size(224, 38)
-        txtDiskon.TabIndex = 16
+        txtDiskon.TabIndex = 5
         ' 
         ' Label3
         ' 
@@ -281,7 +290,7 @@ Partial Class Form1
         btnClear.Margin = New Padding(0)
         btnClear.Name = "btnClear"
         btnClear.Size = New Size(106, 43)
-        btnClear.TabIndex = 11
+        btnClear.TabIndex = 9
         btnClear.Text = "Clear"
         btnClear.UseVisualStyleBackColor = False
         ' 
@@ -298,7 +307,7 @@ Partial Class Form1
         btnHapus.Margin = New Padding(0)
         btnHapus.Name = "btnHapus"
         btnHapus.Size = New Size(106, 43)
-        btnHapus.TabIndex = 10
+        btnHapus.TabIndex = 11
         btnHapus.Text = "Hapus"
         btnHapus.UseVisualStyleBackColor = False
         ' 
@@ -315,7 +324,7 @@ Partial Class Form1
         btnEdit.Margin = New Padding(0)
         btnEdit.Name = "btnEdit"
         btnEdit.Size = New Size(106, 43)
-        btnEdit.TabIndex = 9
+        btnEdit.TabIndex = 10
         btnEdit.Text = "Edit"
         btnEdit.UseVisualStyleBackColor = False
         ' 
@@ -332,7 +341,7 @@ Partial Class Form1
         btnTambah.Margin = New Padding(0)
         btnTambah.Name = "btnTambah"
         btnTambah.Size = New Size(106, 43)
-        btnTambah.TabIndex = 6
+        btnTambah.TabIndex = 8
         btnTambah.Text = "Tambah"
         btnTambah.UseVisualStyleBackColor = False
         ' 
@@ -353,7 +362,7 @@ Partial Class Form1
         txtJumlah.Location = New Point(39, 538)
         txtJumlah.Name = "txtJumlah"
         txtJumlah.Size = New Size(224, 38)
-        txtJumlah.TabIndex = 5
+        txtJumlah.TabIndex = 7
         ' 
         ' lblHarga
         ' 
@@ -408,12 +417,13 @@ Partial Class Form1
         ' 
         btnCetak.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnCetak.BackColor = Color.MediumAquamarine
+        btnCetak.FlatAppearance.BorderSize = 0
         btnCetak.FlatStyle = FlatStyle.Flat
         btnCetak.ForeColor = Color.White
         btnCetak.Location = New Point(1173, 35)
         btnCetak.Name = "btnCetak"
         btnCetak.Size = New Size(106, 47)
-        btnCetak.TabIndex = 23
+        btnCetak.TabIndex = 13
         btnCetak.Text = "Cetak"
         btnCetak.UseVisualStyleBackColor = False
         ' 
@@ -430,7 +440,7 @@ Partial Class Form1
         Button1.Margin = New Padding(0)
         Button1.Name = "Button1"
         Button1.Size = New Size(106, 47)
-        Button1.TabIndex = 14
+        Button1.TabIndex = 12
         Button1.Text = "Beli"
         Button1.UseVisualStyleBackColor = False
         ' 
@@ -504,6 +514,7 @@ Partial Class Form1
     Friend WithEvents txtPoin As TextBox
     Friend WithEvents Label4 As Label
     Friend WithEvents txtDiskon As TextBox
+    Friend WithEvents Column9 As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn

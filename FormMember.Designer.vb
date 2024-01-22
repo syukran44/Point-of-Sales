@@ -37,6 +37,8 @@ Partial Class FormMember
         Label1 = New Label()
         txtNama = New TextBox()
         DataGridView1 = New DataGridView()
+        Label2 = New Label()
+        txtSearch = New TextBox()
         Column5 = New DataGridViewTextBoxColumn()
         Column6 = New DataGridViewTextBoxColumn()
         Column1 = New DataGridViewTextBoxColumn()
@@ -44,8 +46,6 @@ Partial Class FormMember
         Column7 = New DataGridViewTextBoxColumn()
         Column3 = New DataGridViewTextBoxColumn()
         Column4 = New DataGridViewTextBoxColumn()
-        Label2 = New Label()
-        txtSearch = New TextBox()
         Panel1.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -248,13 +248,30 @@ Partial Class FormMember
         DataGridView1.TabIndex = 6
         DataGridView1.TabStop = False
         ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label2.Location = New Point(342, 17)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(60, 20)
+        Label2.TabIndex = 19
+        Label2.Text = "Search :"
+        ' 
+        ' txtSearch
+        ' 
+        txtSearch.Location = New Point(342, 45)
+        txtSearch.Name = "txtSearch"
+        txtSearch.Size = New Size(366, 27)
+        txtSearch.TabIndex = 0
+        ' 
         ' Column5
         ' 
         Column5.HeaderText = "No."
         Column5.MinimumWidth = 6
         Column5.Name = "Column5"
         Column5.ReadOnly = True
-        Column5.Width = 70
+        Column5.Width = 50
         ' 
         ' Column6
         ' 
@@ -303,23 +320,6 @@ Partial Class FormMember
         Column4.MinimumWidth = 6
         Column4.Name = "Column4"
         Column4.ReadOnly = True
-        ' 
-        ' Label2
-        ' 
-        Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.Location = New Point(342, 17)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(60, 20)
-        Label2.TabIndex = 19
-        Label2.Text = "Search :"
-        ' 
-        ' txtSearch
-        ' 
-        txtSearch.Location = New Point(342, 45)
-        txtSearch.Name = "txtSearch"
-        txtSearch.Size = New Size(366, 27)
-        txtSearch.TabIndex = 0
         ' 
         ' FormMember
         ' 
