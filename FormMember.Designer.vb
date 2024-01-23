@@ -22,7 +22,13 @@ Partial Class FormMember
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Panel1 = New Panel()
+        Panel2 = New Panel()
+        btnSimpanEdit = New Button()
+        btnGenerate = New Button()
+        btnBatal = New Button()
+        btnSimpanTambah = New Button()
         lblKodeMember = New Label()
         txtKodeMember = New TextBox()
         btnClear = New Button()
@@ -34,8 +40,8 @@ Partial Class FormMember
         txtPoin = New TextBox()
         lblMasaAktif = New Label()
         lblNama = New Label()
-        Label1 = New Label()
         txtNama = New TextBox()
+        Label1 = New Label()
         DataGridView1 = New DataGridView()
         Label2 = New Label()
         txtSearch = New TextBox()
@@ -46,26 +52,17 @@ Partial Class FormMember
         Column7 = New DataGridViewTextBoxColumn()
         Column3 = New DataGridViewTextBoxColumn()
         Column4 = New DataGridViewTextBoxColumn()
+        Column8 = New DataGridViewTextBoxColumn()
         Panel1.SuspendLayout()
+        Panel2.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Panel1
         ' 
         Panel1.BackColor = SystemColors.ControlLightLight
-        Panel1.Controls.Add(lblKodeMember)
-        Panel1.Controls.Add(txtKodeMember)
-        Panel1.Controls.Add(btnClear)
-        Panel1.Controls.Add(btnHapus)
-        Panel1.Controls.Add(btnEdit)
-        Panel1.Controls.Add(btnTambah)
-        Panel1.Controls.Add(DateTimePicker1)
-        Panel1.Controls.Add(lblPoin)
-        Panel1.Controls.Add(txtPoin)
-        Panel1.Controls.Add(lblMasaAktif)
-        Panel1.Controls.Add(lblNama)
+        Panel1.Controls.Add(Panel2)
         Panel1.Controls.Add(Label1)
-        Panel1.Controls.Add(txtNama)
         Panel1.Dock = DockStyle.Left
         Panel1.Font = New Font("Segoe UI", 13.8F, FontStyle.Bold)
         Panel1.Location = New Point(0, 0)
@@ -73,12 +70,98 @@ Partial Class FormMember
         Panel1.Size = New Size(318, 752)
         Panel1.TabIndex = 5
         ' 
+        ' Panel2
+        ' 
+        Panel2.Anchor = AnchorStyles.Left
+        Panel2.Controls.Add(btnSimpanEdit)
+        Panel2.Controls.Add(btnGenerate)
+        Panel2.Controls.Add(btnBatal)
+        Panel2.Controls.Add(btnSimpanTambah)
+        Panel2.Controls.Add(lblKodeMember)
+        Panel2.Controls.Add(txtKodeMember)
+        Panel2.Controls.Add(btnClear)
+        Panel2.Controls.Add(btnHapus)
+        Panel2.Controls.Add(btnEdit)
+        Panel2.Controls.Add(btnTambah)
+        Panel2.Controls.Add(DateTimePicker1)
+        Panel2.Controls.Add(lblPoin)
+        Panel2.Controls.Add(txtPoin)
+        Panel2.Controls.Add(lblMasaAktif)
+        Panel2.Controls.Add(lblNama)
+        Panel2.Controls.Add(txtNama)
+        Panel2.Location = New Point(33, 96)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(251, 577)
+        Panel2.TabIndex = 30
+        ' 
+        ' btnSimpanEdit
+        ' 
+        btnSimpanEdit.BackColor = Color.LimeGreen
+        btnSimpanEdit.FlatAppearance.BorderSize = 0
+        btnSimpanEdit.FlatAppearance.MouseDownBackColor = Color.Lime
+        btnSimpanEdit.FlatStyle = FlatStyle.Flat
+        btnSimpanEdit.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnSimpanEdit.ForeColor = Color.White
+        btnSimpanEdit.Location = New Point(12, 525)
+        btnSimpanEdit.Margin = New Padding(0)
+        btnSimpanEdit.Name = "btnSimpanEdit"
+        btnSimpanEdit.Size = New Size(106, 43)
+        btnSimpanEdit.TabIndex = 30
+        btnSimpanEdit.Text = "Simpan"
+        btnSimpanEdit.UseVisualStyleBackColor = False
+        btnSimpanEdit.Visible = False
+        ' 
+        ' btnGenerate
+        ' 
+        btnGenerate.Anchor = AnchorStyles.Left
+        btnGenerate.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnGenerate.Location = New Point(12, 15)
+        btnGenerate.Name = "btnGenerate"
+        btnGenerate.Size = New Size(100, 36)
+        btnGenerate.TabIndex = 29
+        btnGenerate.Text = "Generate"
+        btnGenerate.UseVisualStyleBackColor = True
+        btnGenerate.Visible = False
+        ' 
+        ' btnBatal
+        ' 
+        btnBatal.BackColor = Color.OrangeRed
+        btnBatal.FlatAppearance.BorderSize = 0
+        btnBatal.FlatAppearance.MouseDownBackColor = Color.Lime
+        btnBatal.FlatStyle = FlatStyle.Flat
+        btnBatal.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnBatal.ForeColor = Color.White
+        btnBatal.Location = New Point(130, 470)
+        btnBatal.Margin = New Padding(0)
+        btnBatal.Name = "btnBatal"
+        btnBatal.Size = New Size(106, 43)
+        btnBatal.TabIndex = 28
+        btnBatal.Text = "Batal"
+        btnBatal.UseVisualStyleBackColor = False
+        btnBatal.Visible = False
+        ' 
+        ' btnSimpanTambah
+        ' 
+        btnSimpanTambah.BackColor = Color.LimeGreen
+        btnSimpanTambah.FlatAppearance.BorderSize = 0
+        btnSimpanTambah.FlatAppearance.MouseDownBackColor = Color.Lime
+        btnSimpanTambah.FlatStyle = FlatStyle.Flat
+        btnSimpanTambah.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnSimpanTambah.ForeColor = Color.White
+        btnSimpanTambah.Location = New Point(12, 470)
+        btnSimpanTambah.Margin = New Padding(0)
+        btnSimpanTambah.Name = "btnSimpanTambah"
+        btnSimpanTambah.Size = New Size(106, 43)
+        btnSimpanTambah.TabIndex = 27
+        btnSimpanTambah.Text = "Simpan"
+        btnSimpanTambah.UseVisualStyleBackColor = False
+        btnSimpanTambah.Visible = False
+        ' 
         ' lblKodeMember
         ' 
-        lblKodeMember.Anchor = AnchorStyles.Left
         lblKodeMember.AutoSize = True
         lblKodeMember.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblKodeMember.Location = New Point(47, 153)
+        lblKodeMember.Location = New Point(12, 58)
         lblKodeMember.Name = "lblKodeMember"
         lblKodeMember.Size = New Size(111, 20)
         lblKodeMember.TabIndex = 26
@@ -86,24 +169,23 @@ Partial Class FormMember
         ' 
         ' txtKodeMember
         ' 
-        txtKodeMember.Anchor = AnchorStyles.Left
         txtKodeMember.CharacterCasing = CharacterCasing.Upper
-        txtKodeMember.Location = New Point(47, 180)
+        txtKodeMember.Location = New Point(14, 84)
         txtKodeMember.MaxLength = 8
         txtKodeMember.Name = "txtKodeMember"
+        txtKodeMember.ReadOnly = True
         txtKodeMember.Size = New Size(224, 38)
         txtKodeMember.TabIndex = 1
         ' 
         ' btnClear
         ' 
-        btnClear.Anchor = AnchorStyles.Left
         btnClear.BackColor = SystemColors.AppWorkspace
         btnClear.FlatAppearance.BorderSize = 0
         btnClear.FlatAppearance.MouseDownBackColor = Color.Yellow
         btnClear.FlatStyle = FlatStyle.Flat
         btnClear.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnClear.ForeColor = Color.Black
-        btnClear.Location = New Point(163, 534)
+        btnClear.Location = New Point(130, 414)
         btnClear.Margin = New Padding(0)
         btnClear.Name = "btnClear"
         btnClear.Size = New Size(106, 43)
@@ -113,14 +195,13 @@ Partial Class FormMember
         ' 
         ' btnHapus
         ' 
-        btnHapus.Anchor = AnchorStyles.Left
         btnHapus.BackColor = Color.OrangeRed
         btnHapus.FlatAppearance.BorderSize = 0
         btnHapus.FlatAppearance.MouseDownBackColor = Color.Lime
         btnHapus.FlatStyle = FlatStyle.Flat
         btnHapus.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnHapus.ForeColor = Color.White
-        btnHapus.Location = New Point(45, 534)
+        btnHapus.Location = New Point(12, 414)
         btnHapus.Margin = New Padding(0)
         btnHapus.Name = "btnHapus"
         btnHapus.Size = New Size(106, 43)
@@ -130,14 +211,13 @@ Partial Class FormMember
         ' 
         ' btnEdit
         ' 
-        btnEdit.Anchor = AnchorStyles.Left
         btnEdit.BackColor = Color.Gold
         btnEdit.FlatAppearance.BorderSize = 0
         btnEdit.FlatAppearance.MouseDownBackColor = Color.Yellow
         btnEdit.FlatStyle = FlatStyle.Flat
         btnEdit.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnEdit.ForeColor = Color.White
-        btnEdit.Location = New Point(163, 476)
+        btnEdit.Location = New Point(130, 358)
         btnEdit.Margin = New Padding(0)
         btnEdit.Name = "btnEdit"
         btnEdit.Size = New Size(106, 43)
@@ -147,14 +227,13 @@ Partial Class FormMember
         ' 
         ' btnTambah
         ' 
-        btnTambah.Anchor = AnchorStyles.Left
         btnTambah.BackColor = Color.LimeGreen
         btnTambah.FlatAppearance.BorderSize = 0
         btnTambah.FlatAppearance.MouseDownBackColor = Color.Lime
         btnTambah.FlatStyle = FlatStyle.Flat
         btnTambah.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnTambah.ForeColor = Color.White
-        btnTambah.Location = New Point(45, 476)
+        btnTambah.Location = New Point(12, 358)
         btnTambah.Margin = New Padding(0)
         btnTambah.Name = "btnTambah"
         btnTambah.Size = New Size(106, 43)
@@ -164,19 +243,18 @@ Partial Class FormMember
         ' 
         ' DateTimePicker1
         ' 
-        DateTimePicker1.Anchor = AnchorStyles.Left
+        DateTimePicker1.Enabled = False
         DateTimePicker1.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        DateTimePicker1.Location = New Point(47, 409)
+        DateTimePicker1.Location = New Point(14, 313)
         DateTimePicker1.Name = "DateTimePicker1"
         DateTimePicker1.Size = New Size(169, 27)
         DateTimePicker1.TabIndex = 4
         ' 
         ' lblPoin
         ' 
-        lblPoin.Anchor = AnchorStyles.Left
         lblPoin.AutoSize = True
         lblPoin.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblPoin.Location = New Point(47, 305)
+        lblPoin.Location = New Point(13, 208)
         lblPoin.Name = "lblPoin"
         lblPoin.Size = New Size(44, 20)
         lblPoin.TabIndex = 15
@@ -184,18 +262,17 @@ Partial Class FormMember
         ' 
         ' txtPoin
         ' 
-        txtPoin.Anchor = AnchorStyles.Left
-        txtPoin.Location = New Point(47, 332)
+        txtPoin.Location = New Point(14, 236)
         txtPoin.Name = "txtPoin"
+        txtPoin.ReadOnly = True
         txtPoin.Size = New Size(224, 38)
         txtPoin.TabIndex = 3
         ' 
         ' lblMasaAktif
         ' 
-        lblMasaAktif.Anchor = AnchorStyles.Left
         lblMasaAktif.AutoSize = True
         lblMasaAktif.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblMasaAktif.Location = New Point(47, 382)
+        lblMasaAktif.Location = New Point(14, 286)
         lblMasaAktif.Name = "lblMasaAktif"
         lblMasaAktif.Size = New Size(86, 20)
         lblMasaAktif.TabIndex = 5
@@ -203,14 +280,21 @@ Partial Class FormMember
         ' 
         ' lblNama
         ' 
-        lblNama.Anchor = AnchorStyles.Left
         lblNama.AutoSize = True
         lblNama.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblNama.Location = New Point(47, 228)
+        lblNama.Location = New Point(13, 133)
         lblNama.Name = "lblNama"
         lblNama.Size = New Size(56, 20)
         lblNama.TabIndex = 4
         lblNama.Text = "Nama :"
+        ' 
+        ' txtNama
+        ' 
+        txtNama.Location = New Point(14, 160)
+        txtNama.Name = "txtNama"
+        txtNama.ReadOnly = True
+        txtNama.Size = New Size(224, 38)
+        txtNama.TabIndex = 2
         ' 
         ' Label1
         ' 
@@ -222,14 +306,6 @@ Partial Class FormMember
         Label1.TabIndex = 3
         Label1.Text = "MEMBER"
         ' 
-        ' txtNama
-        ' 
-        txtNama.Anchor = AnchorStyles.Left
-        txtNama.Location = New Point(47, 255)
-        txtNama.Name = "txtNama"
-        txtNama.Size = New Size(224, 38)
-        txtNama.TabIndex = 2
-        ' 
         ' DataGridView1
         ' 
         DataGridView1.AllowUserToAddRows = False
@@ -237,7 +313,7 @@ Partial Class FormMember
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column5, Column6, Column1, Column2, Column7, Column3, Column4})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column5, Column6, Column1, Column2, Column7, Column3, Column4, Column8})
         DataGridView1.Location = New Point(342, 98)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
@@ -292,6 +368,8 @@ Partial Class FormMember
         ' Column2
         ' 
         Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column2.DefaultCellStyle = DataGridViewCellStyle1
         Column2.HeaderText = "Poin"
         Column2.MinimumWidth = 6
         Column2.Name = "Column2"
@@ -299,7 +377,7 @@ Partial Class FormMember
         ' 
         ' Column7
         ' 
-        Column7.HeaderText = "Status"
+        Column7.HeaderText = "Tingkat"
         Column7.MinimumWidth = 6
         Column7.Name = "Column7"
         Column7.ReadOnly = True
@@ -321,6 +399,14 @@ Partial Class FormMember
         Column4.Name = "Column4"
         Column4.ReadOnly = True
         ' 
+        ' Column8
+        ' 
+        Column8.HeaderText = "Status"
+        Column8.MinimumWidth = 6
+        Column8.Name = "Column8"
+        Column8.ReadOnly = True
+        Column8.Width = 125
+        ' 
         ' FormMember
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
@@ -335,6 +421,8 @@ Partial Class FormMember
         Text = "Form Member"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
+        Panel2.ResumeLayout(False)
+        Panel2.PerformLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
@@ -357,6 +445,11 @@ Partial Class FormMember
     Friend WithEvents txtSearch As TextBox
     Friend WithEvents lblKodeMember As Label
     Friend WithEvents txtKodeMember As TextBox
+    Friend WithEvents btnSimpanTambah As Button
+    Friend WithEvents btnBatal As Button
+    Friend WithEvents btnGenerate As Button
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents btnSimpanEdit As Button
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
@@ -364,4 +457,5 @@ Partial Class FormMember
     Friend WithEvents Column7 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
+    Friend WithEvents Column8 As DataGridViewTextBoxColumn
 End Class
