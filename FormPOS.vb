@@ -31,6 +31,7 @@ Public Class FormPOS
     Dim longpaper, invoiceID As Integer
 
     Private Sub FormPOS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        kategoriRead()
         InitializeFormPOS()
     End Sub
 
@@ -154,7 +155,7 @@ Public Class FormPOS
         'Dim bitmap As New System.Drawing.Bitmap(ms)
         'img.BackgroundImage = bitmap
 
-        namaproduk.Text = "Nama : " & dr.Item("nama").ToString
+        namaproduk.Text = "Nama : " & dr.Item("nama_produk").ToString
         harga.Text = "Harga : Rp. " & dr.Item("harga").ToString
         diskon.Text = "Diskon : " & dr.Item("diskon").ToString & "%"
         hargaDiskon.Text = "Harga Diskon : Rp. " & (dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100))).ToString
@@ -191,7 +192,7 @@ Public Class FormPOS
 
                 For Each item As DataGridViewRow In DataGridView1.Rows
                     If item.Cells(0).Value IsNot Nothing Then
-                        If item.Cells(0).Value.ToString = dr.Item("nama") Then
+                        If item.Cells(0).Value.ToString = dr.Item("nama_produk") Then
                             exist = True
                             numrow = item.Index
                             quantity = CInt(item.Cells(2).Value)
@@ -201,7 +202,7 @@ Public Class FormPOS
                 Next
 
                 If exist = False Then
-                    DataGridView1.Rows.Add(dr.Item("nama"), dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100)), 1, dr.Item("produk_id"), dr.Item("diskon"), dr.Item("harga"), dr.Item("poin"))
+                    DataGridView1.Rows.Add(dr.Item("nama_produk"), Format(dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100)), "#,##0.00"), 1, dr.Item("produk_id"), dr.Item("diskon"), dr.Item("harga"), dr.Item("poin"))
                 Else
                     conn.Close()
                     DataGridView1.Rows(numrow).Cells(2).Value = 1 + quantity
@@ -366,7 +367,46 @@ Public Class FormPOS
         FlowLayoutPanel1.AutoScroll = True
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT * FROM `tbl_produk` WHERE produk_id like '%" & txtSearch.Text & "%' OR `nama` like '%" & txtSearch.Text & "%' ", conn)
+            Dim cmd As New MySqlCommand("SELECT * FROM `tbl_produk` WHERE produk_id like '%" & txtSearch.Text & "%' OR `nama_produk` like '%" & txtSearch.Text & "%' ", conn)
+            dr = cmd.ExecuteReader
+            While dr.Read
+                loadControls()
+            End While
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub kategoriRead()
+        Try
+            conn.Open()
+            Dim cmd As New MySqlCommand("SELECT * FROM tbl_kategori", conn)
+            dr = cmd.ExecuteReader
+
+            cmbKategori.Items.Clear()
+            cmbKategori.DisplayMember = "nama_kategori"
+            cmbKategori.ValueMember = "id_kategori"
+
+            While dr.Read
+                cmbKategori.Items.Add(dr("nama_kategori"))
+            End While
+
+            dr.Dispose()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub cmbKategori_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbKategori.SelectedIndexChanged
+        FlowLayoutPanel1.Controls.Clear()
+        FlowLayoutPanel1.AutoScroll = True
+        Try
+            conn.Open()
+            Dim cmd As New MySqlCommand("SELECT * FROM `tbl_produk` INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE nama_kategori like '%" & cmbKategori.SelectedItem & "%'", conn)
             dr = cmd.ExecuteReader
             While dr.Read
                 loadControls()
@@ -478,13 +518,14 @@ Public Class FormPOS
         Dim formattedDate As String = currentDateAndTime.ToString("dd-MM-yyyy")
         Dim formattedTime As String = currentDateAndTime.ToString("HH:mm:ss")
         Dim invoiceDate As String = currentDateAndTime.ToString("ddMMM")
+        Dim yearDate As String = currentDateAndTime.ToString("yy")
 
         e.Graphics.DrawString("POS", f10, Brushes.Black, centermargin, 40, center)
 
         Try
             conn.Open()
             Dim maxInvoiceID As Integer
-            Dim cmdMaxID As New MySqlCommand($"SELECT MAX(CAST(SUBSTRING(`no_transaksi`, 9) AS UNSIGNED)) FROM `tbl_penjualan` WHERE `created_at` = '{today}'", conn)
+            Dim cmdMaxID As New MySqlCommand($"SELECT MAX(CAST(SUBSTRING(`no_transaksi`, 11) AS UNSIGNED)) FROM `tbl_penjualan` WHERE `created_at` = '{today}'", conn)
             Dim result As Object = cmdMaxID.ExecuteScalar()
             If result IsNot DBNull.Value Then
                 maxInvoiceID = Convert.ToInt32(result)
@@ -492,7 +533,7 @@ Public Class FormPOS
                 maxInvoiceID = 0
             End If
             invoiceID = maxInvoiceID + 1
-            invoice = "POS" & invoiceDate.ToUpper & invoiceID.ToString("D4")
+            invoice = "POS" & invoiceDate.ToUpper & yearDate & invoiceID.ToString("D4")
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
@@ -637,4 +678,6 @@ Public Class FormPOS
             e.Handled = True
         End If
     End Sub
+
+
 End Class

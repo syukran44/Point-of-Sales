@@ -80,7 +80,7 @@ Public Class PopupFormBeli
 
         For Each item As DataGridViewRow In DataGridView2.Rows
             If item.Cells(0).Value IsNot Nothing Then
-                If item.Cells(0).Value.ToString = txtProdukID.Text.ToUpper() Then
+                If item.Cells(0).Value.ToString() = txtProdukID.Text.ToUpper() Then
                     exist = True
                     numrow = item.Index
                     quantity = CInt(item.Cells(3).Value)
@@ -218,7 +218,7 @@ Public Class PopupFormBeli
 
     Private Sub cmbKategori_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbKategori.SelectedIndexChanged
         DataGridView1.Rows.Clear()
-        If cmbKategori.SelectedItem.ToString().ToUpper() = "SEMUA" Then
+        If cmbKategori.SelectedItem.ToString().Equals("SEMUA", StringComparison.CurrentCultureIgnoreCase) Then
             Try
                 conn.Open()
                 Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk", conn)
@@ -287,6 +287,7 @@ Public Class PopupFormBeli
     End Sub
 
     Private Sub PD_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PD.PrintPage
+        currentPage = 1
         Dim f8 As New Font("Calibri", 8, FontStyle.Regular)
         Dim f10 As New Font("Calibri", 10, FontStyle.Regular)
         Dim f10b As New Font("Calibri", 10, FontStyle.Bold)

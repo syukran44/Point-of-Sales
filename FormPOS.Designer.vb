@@ -23,6 +23,8 @@ Partial Class FormPOS
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Panel1 = New Panel()
@@ -46,13 +48,6 @@ Partial Class FormPOS
         btn1000 = New Button()
         LabelT = New Label()
         DataGridView1 = New DataGridView()
-        Column1 = New DataGridViewTextBoxColumn()
-        Column2 = New DataGridViewTextBoxColumn()
-        Column3 = New DataGridViewTextBoxColumn()
-        Column4 = New DataGridViewTextBoxColumn()
-        Column5 = New DataGridViewTextBoxColumn()
-        Column6 = New DataGridViewTextBoxColumn()
-        Column7 = New DataGridViewTextBoxColumn()
         btnBayar = New Button()
         Panel2 = New Panel()
         txtKembali = New TextBox()
@@ -60,6 +55,15 @@ Partial Class FormPOS
         FlowLayoutPanel1 = New FlowLayoutPanel()
         Label2 = New Label()
         txtSearch = New TextBox()
+        Label5 = New Label()
+        cmbKategori = New ComboBox()
+        Column1 = New DataGridViewTextBoxColumn()
+        Column2 = New DataGridViewTextBoxColumn()
+        Column3 = New DataGridViewTextBoxColumn()
+        Column4 = New DataGridViewTextBoxColumn()
+        Column5 = New DataGridViewTextBoxColumn()
+        Column6 = New DataGridViewTextBoxColumn()
+        Column7 = New DataGridViewTextBoxColumn()
         Panel1.SuspendLayout()
         Panel3.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
@@ -359,85 +363,29 @@ Partial Class FormPOS
         DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column3, Column4, Column5, Column6, Column7})
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = SystemColors.Window
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle2.ForeColor = Color.Black
-        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
-        DataGridView1.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = SystemColors.Window
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle4.ForeColor = Color.Black
+        DataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = DataGridViewTriState.False
+        DataGridView1.DefaultCellStyle = DataGridViewCellStyle4
         DataGridView1.Location = New Point(16, 57)
         DataGridView1.Name = "DataGridView1"
-        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = SystemColors.Control
-        DataGridViewCellStyle3.Font = New Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle3.ForeColor = SystemColors.WindowText
-        DataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
-        DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = SystemColors.Control
+        DataGridViewCellStyle5.Font = New Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle5.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = DataGridViewTriState.True
+        DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle5
         DataGridView1.RowHeadersVisible = False
         DataGridView1.RowHeadersWidth = 51
         DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         DataGridView1.Size = New Size(333, 285)
         DataGridView1.TabIndex = 22
-        ' 
-        ' Column1
-        ' 
-        Column1.HeaderText = "Nama"
-        Column1.MinimumWidth = 6
-        Column1.Name = "Column1"
-        Column1.ReadOnly = True
-        Column1.Width = 125
-        ' 
-        ' Column2
-        ' 
-        Column2.HeaderText = "Harga"
-        Column2.MinimumWidth = 6
-        Column2.Name = "Column2"
-        Column2.ReadOnly = True
-        Column2.Width = 125
-        ' 
-        ' Column3
-        ' 
-        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column3.HeaderText = "Qty"
-        Column3.MinimumWidth = 6
-        Column3.Name = "Column3"
-        ' 
-        ' Column4
-        ' 
-        Column4.HeaderText = "Produk_id"
-        Column4.MinimumWidth = 6
-        Column4.Name = "Column4"
-        Column4.ReadOnly = True
-        Column4.Visible = False
-        Column4.Width = 125
-        ' 
-        ' Column5
-        ' 
-        Column5.HeaderText = "Diskon"
-        Column5.MinimumWidth = 6
-        Column5.Name = "Column5"
-        Column5.Visible = False
-        Column5.Width = 125
-        ' 
-        ' Column6
-        ' 
-        Column6.HeaderText = "Harga notDiskon"
-        Column6.MinimumWidth = 6
-        Column6.Name = "Column6"
-        Column6.Visible = False
-        Column6.Width = 125
-        ' 
-        ' Column7
-        ' 
-        Column7.HeaderText = "Poin"
-        Column7.MinimumWidth = 6
-        Column7.Name = "Column7"
-        Column7.Visible = False
-        Column7.Width = 125
         ' 
         ' btnBayar
         ' 
@@ -521,11 +469,90 @@ Partial Class FormPOS
         txtSearch.Size = New Size(385, 27)
         txtSearch.TabIndex = 0
         ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Location = New Point(429, 17)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(73, 20)
+        Label5.TabIndex = 40
+        Label5.Text = "Kategori :"
+        ' 
+        ' cmbKategori
+        ' 
+        cmbKategori.FormattingEnabled = True
+        cmbKategori.Location = New Point(429, 45)
+        cmbKategori.Name = "cmbKategori"
+        cmbKategori.Size = New Size(153, 28)
+        cmbKategori.TabIndex = 39
+        ' 
+        ' Column1
+        ' 
+        Column1.HeaderText = "Nama"
+        Column1.MinimumWidth = 6
+        Column1.Name = "Column1"
+        Column1.ReadOnly = True
+        Column1.Width = 140
+        ' 
+        ' Column2
+        ' 
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.TopRight
+        Column2.DefaultCellStyle = DataGridViewCellStyle2
+        Column2.HeaderText = "Harga(Rp)"
+        Column2.MinimumWidth = 6
+        Column2.Name = "Column2"
+        Column2.ReadOnly = True
+        Column2.Width = 103
+        ' 
+        ' Column3
+        ' 
+        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column3.DefaultCellStyle = DataGridViewCellStyle3
+        Column3.HeaderText = "Qty(PCS)"
+        Column3.MinimumWidth = 6
+        Column3.Name = "Column3"
+        ' 
+        ' Column4
+        ' 
+        Column4.HeaderText = "Produk_id"
+        Column4.MinimumWidth = 6
+        Column4.Name = "Column4"
+        Column4.ReadOnly = True
+        Column4.Visible = False
+        Column4.Width = 125
+        ' 
+        ' Column5
+        ' 
+        Column5.HeaderText = "Diskon"
+        Column5.MinimumWidth = 6
+        Column5.Name = "Column5"
+        Column5.Visible = False
+        Column5.Width = 125
+        ' 
+        ' Column6
+        ' 
+        Column6.HeaderText = "Harga notDiskon"
+        Column6.MinimumWidth = 6
+        Column6.Name = "Column6"
+        Column6.Visible = False
+        Column6.Width = 125
+        ' 
+        ' Column7
+        ' 
+        Column7.HeaderText = "Poin"
+        Column7.MinimumWidth = 6
+        Column7.Name = "Column7"
+        Column7.Visible = False
+        Column7.Width = 125
+        ' 
         ' FormPOS
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1301, 752)
+        Controls.Add(Label5)
+        Controls.Add(cmbKategori)
         Controls.Add(Label2)
         Controls.Add(txtSearch)
         Controls.Add(FlowLayoutPanel1)
@@ -575,6 +602,9 @@ Partial Class FormPOS
     Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents txtMember As TextBox
+    Friend WithEvents lblDiskon As Label
+    Friend WithEvents Label5 As Label
+    Friend WithEvents cmbKategori As ComboBox
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
@@ -582,5 +612,4 @@ Partial Class FormPOS
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
     Friend WithEvents Column7 As DataGridViewTextBoxColumn
-    Friend WithEvents lblDiskon As Label
 End Class

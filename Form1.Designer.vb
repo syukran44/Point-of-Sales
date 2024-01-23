@@ -22,32 +22,39 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As DataGridViewCellStyle = New DataGridViewCellStyle()
         DataGridView1 = New DataGridView()
         Column9 = New DataGridViewTextBoxColumn()
         Column1 = New DataGridViewTextBoxColumn()
         Column2 = New DataGridViewTextBoxColumn()
         Column5 = New DataGridViewTextBoxColumn()
-        Column3 = New DataGridViewTextBoxColumn()
-        Column6 = New DataGridViewTextBoxColumn()
-        Column8 = New DataGridViewTextBoxColumn()
+        ColumnHarga = New DataGridViewTextBoxColumn()
+        ColumnDiskon = New DataGridViewTextBoxColumn()
+        ColumnHargaDiskon = New DataGridViewTextBoxColumn()
         Column7 = New DataGridViewTextBoxColumn()
         Column4 = New DataGridViewTextBoxColumn()
         txtNama = New TextBox()
         txtHarga = New TextBox()
         Panel1 = New Panel()
+        cmbKategoriInput = New ComboBox()
+        btnBatal = New Button()
+        btnSimpanTambah = New Button()
         Label6 = New Label()
         txtPoin = New TextBox()
         Label4 = New Label()
         txtDiskon = New TextBox()
         Label3 = New Label()
-        txtKategori = New TextBox()
         lblProdukID = New Label()
         txtProdukID = New TextBox()
         btnClear = New Button()
         btnHapus = New Button()
         btnEdit = New Button()
         btnTambah = New Button()
-        lblStok = New Label()
+        lblJumlah = New Label()
         txtJumlah = New TextBox()
         lblHarga = New Label()
         lblNama = New Label()
@@ -69,7 +76,7 @@ Partial Class Form1
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column9, Column1, Column2, Column5, Column3, Column6, Column8, Column7, Column4})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column9, Column1, Column2, Column5, ColumnHarga, ColumnDiskon, ColumnHargaDiskon, Column7, Column4})
         DataGridView1.Location = New Point(342, 98)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
@@ -113,32 +120,40 @@ Partial Class Form1
         Column5.Name = "Column5"
         Column5.ReadOnly = True
         ' 
-        ' Column3
+        ' ColumnHarga
         ' 
-        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column3.HeaderText = "Harga"
-        Column3.MinimumWidth = 6
-        Column3.Name = "Column3"
-        Column3.ReadOnly = True
+        ColumnHarga.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight
+        ColumnHarga.DefaultCellStyle = DataGridViewCellStyle1
+        ColumnHarga.HeaderText = "Harga"
+        ColumnHarga.MinimumWidth = 6
+        ColumnHarga.Name = "ColumnHarga"
+        ColumnHarga.ReadOnly = True
         ' 
-        ' Column6
+        ' ColumnDiskon
         ' 
-        Column6.HeaderText = "Diskon"
-        Column6.MinimumWidth = 6
-        Column6.Name = "Column6"
-        Column6.ReadOnly = True
-        Column6.Width = 125
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight
+        ColumnDiskon.DefaultCellStyle = DataGridViewCellStyle2
+        ColumnDiskon.HeaderText = "Diskon"
+        ColumnDiskon.MinimumWidth = 6
+        ColumnDiskon.Name = "ColumnDiskon"
+        ColumnDiskon.ReadOnly = True
+        ColumnDiskon.Width = 80
         ' 
-        ' Column8
+        ' ColumnHargaDiskon
         ' 
-        Column8.HeaderText = "Harga Diskon"
-        Column8.MinimumWidth = 6
-        Column8.Name = "Column8"
-        Column8.ReadOnly = True
-        Column8.Width = 125
+        ColumnHargaDiskon.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleRight
+        ColumnHargaDiskon.DefaultCellStyle = DataGridViewCellStyle3
+        ColumnHargaDiskon.HeaderText = "Harga Diskon"
+        ColumnHargaDiskon.MinimumWidth = 6
+        ColumnHargaDiskon.Name = "ColumnHargaDiskon"
+        ColumnHargaDiskon.ReadOnly = True
         ' 
         ' Column7
         ' 
+        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column7.DefaultCellStyle = DataGridViewCellStyle4
         Column7.HeaderText = "Poin"
         Column7.MinimumWidth = 6
         Column7.Name = "Column7"
@@ -148,17 +163,20 @@ Partial Class Form1
         ' Column4
         ' 
         Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        Column4.HeaderText = "Stok"
+        DataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column4.DefaultCellStyle = DataGridViewCellStyle5
+        Column4.HeaderText = "Stok (PCS)"
         Column4.MinimumWidth = 6
         Column4.Name = "Column4"
         Column4.ReadOnly = True
-        Column4.Width = 67
+        Column4.Width = 98
         ' 
         ' txtNama
         ' 
         txtNama.Anchor = AnchorStyles.Left
         txtNama.Location = New Point(39, 168)
         txtNama.Name = "txtNama"
+        txtNama.ReadOnly = True
         txtNama.Size = New Size(224, 38)
         txtNama.TabIndex = 2
         ' 
@@ -167,25 +185,28 @@ Partial Class Form1
         txtHarga.Anchor = AnchorStyles.Left
         txtHarga.Location = New Point(39, 316)
         txtHarga.Name = "txtHarga"
+        txtHarga.ReadOnly = True
         txtHarga.Size = New Size(224, 38)
         txtHarga.TabIndex = 4
         ' 
         ' Panel1
         ' 
         Panel1.BackColor = SystemColors.ControlLightLight
+        Panel1.Controls.Add(cmbKategoriInput)
+        Panel1.Controls.Add(btnBatal)
+        Panel1.Controls.Add(btnSimpanTambah)
         Panel1.Controls.Add(Label6)
         Panel1.Controls.Add(txtPoin)
         Panel1.Controls.Add(Label4)
         Panel1.Controls.Add(txtDiskon)
         Panel1.Controls.Add(Label3)
-        Panel1.Controls.Add(txtKategori)
         Panel1.Controls.Add(lblProdukID)
         Panel1.Controls.Add(txtProdukID)
         Panel1.Controls.Add(btnClear)
         Panel1.Controls.Add(btnHapus)
         Panel1.Controls.Add(btnEdit)
         Panel1.Controls.Add(btnTambah)
-        Panel1.Controls.Add(lblStok)
+        Panel1.Controls.Add(lblJumlah)
         Panel1.Controls.Add(txtJumlah)
         Panel1.Controls.Add(lblHarga)
         Panel1.Controls.Add(lblNama)
@@ -198,6 +219,52 @@ Partial Class Form1
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(318, 752)
         Panel1.TabIndex = 4
+        ' 
+        ' cmbKategoriInput
+        ' 
+        cmbKategoriInput.Anchor = AnchorStyles.Left
+        cmbKategoriInput.Enabled = False
+        cmbKategoriInput.FormattingEnabled = True
+        cmbKategoriInput.Location = New Point(39, 244)
+        cmbKategoriInput.Name = "cmbKategoriInput"
+        cmbKategoriInput.Size = New Size(218, 39)
+        cmbKategoriInput.TabIndex = 22
+        ' 
+        ' btnBatal
+        ' 
+        btnBatal.Anchor = AnchorStyles.Left
+        btnBatal.BackColor = Color.OrangeRed
+        btnBatal.FlatAppearance.BorderSize = 0
+        btnBatal.FlatAppearance.MouseDownBackColor = Color.Lime
+        btnBatal.FlatStyle = FlatStyle.Flat
+        btnBatal.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnBatal.ForeColor = Color.White
+        btnBatal.Location = New Point(157, 702)
+        btnBatal.Margin = New Padding(0)
+        btnBatal.Name = "btnBatal"
+        btnBatal.Size = New Size(106, 43)
+        btnBatal.TabIndex = 21
+        btnBatal.Text = "Batal"
+        btnBatal.UseVisualStyleBackColor = False
+        btnBatal.Visible = False
+        ' 
+        ' btnSimpanTambah
+        ' 
+        btnSimpanTambah.Anchor = AnchorStyles.Left
+        btnSimpanTambah.BackColor = Color.LimeGreen
+        btnSimpanTambah.FlatAppearance.BorderSize = 0
+        btnSimpanTambah.FlatAppearance.MouseDownBackColor = Color.Lime
+        btnSimpanTambah.FlatStyle = FlatStyle.Flat
+        btnSimpanTambah.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnSimpanTambah.ForeColor = Color.White
+        btnSimpanTambah.Location = New Point(39, 702)
+        btnSimpanTambah.Margin = New Padding(0)
+        btnSimpanTambah.Name = "btnSimpanTambah"
+        btnSimpanTambah.Size = New Size(106, 43)
+        btnSimpanTambah.TabIndex = 20
+        btnSimpanTambah.Text = "Simpan"
+        btnSimpanTambah.UseVisualStyleBackColor = False
+        btnSimpanTambah.Visible = False
         ' 
         ' Label6
         ' 
@@ -215,6 +282,7 @@ Partial Class Form1
         txtPoin.Anchor = AnchorStyles.Left
         txtPoin.Location = New Point(39, 464)
         txtPoin.Name = "txtPoin"
+        txtPoin.ReadOnly = True
         txtPoin.Size = New Size(224, 38)
         txtPoin.TabIndex = 6
         ' 
@@ -235,6 +303,7 @@ Partial Class Form1
         txtDiskon.Location = New Point(39, 390)
         txtDiskon.MaxLength = 2
         txtDiskon.Name = "txtDiskon"
+        txtDiskon.ReadOnly = True
         txtDiskon.Size = New Size(224, 38)
         txtDiskon.TabIndex = 5
         ' 
@@ -248,14 +317,6 @@ Partial Class Form1
         Label3.Size = New Size(73, 20)
         Label3.TabIndex = 15
         Label3.Text = "Kategori :"
-        ' 
-        ' txtKategori
-        ' 
-        txtKategori.Anchor = AnchorStyles.Left
-        txtKategori.Location = New Point(39, 242)
-        txtKategori.Name = "txtKategori"
-        txtKategori.Size = New Size(224, 38)
-        txtKategori.TabIndex = 3
         ' 
         ' lblProdukID
         ' 
@@ -274,6 +335,7 @@ Partial Class Form1
         txtProdukID.CharacterCasing = CharacterCasing.Upper
         txtProdukID.Location = New Point(39, 94)
         txtProdukID.Name = "txtProdukID"
+        txtProdukID.ReadOnly = True
         txtProdukID.Size = New Size(224, 38)
         txtProdukID.TabIndex = 1
         ' 
@@ -286,7 +348,7 @@ Partial Class Form1
         btnClear.FlatStyle = FlatStyle.Flat
         btnClear.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnClear.ForeColor = Color.Black
-        btnClear.Location = New Point(157, 664)
+        btnClear.Location = New Point(157, 656)
         btnClear.Margin = New Padding(0)
         btnClear.Name = "btnClear"
         btnClear.Size = New Size(106, 43)
@@ -303,7 +365,7 @@ Partial Class Form1
         btnHapus.FlatStyle = FlatStyle.Flat
         btnHapus.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnHapus.ForeColor = Color.White
-        btnHapus.Location = New Point(39, 664)
+        btnHapus.Location = New Point(39, 656)
         btnHapus.Margin = New Padding(0)
         btnHapus.Name = "btnHapus"
         btnHapus.Size = New Size(106, 43)
@@ -320,7 +382,7 @@ Partial Class Form1
         btnEdit.FlatStyle = FlatStyle.Flat
         btnEdit.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnEdit.ForeColor = Color.White
-        btnEdit.Location = New Point(157, 606)
+        btnEdit.Location = New Point(157, 598)
         btnEdit.Margin = New Padding(0)
         btnEdit.Name = "btnEdit"
         btnEdit.Size = New Size(106, 43)
@@ -337,7 +399,7 @@ Partial Class Form1
         btnTambah.FlatStyle = FlatStyle.Flat
         btnTambah.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnTambah.ForeColor = Color.White
-        btnTambah.Location = New Point(39, 606)
+        btnTambah.Location = New Point(39, 598)
         btnTambah.Margin = New Padding(0)
         btnTambah.Name = "btnTambah"
         btnTambah.Size = New Size(106, 43)
@@ -345,22 +407,23 @@ Partial Class Form1
         btnTambah.Text = "Tambah"
         btnTambah.UseVisualStyleBackColor = False
         ' 
-        ' lblStok
+        ' lblJumlah
         ' 
-        lblStok.Anchor = AnchorStyles.Left
-        lblStok.AutoSize = True
-        lblStok.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblStok.Location = New Point(39, 516)
-        lblStok.Name = "lblStok"
-        lblStok.Size = New Size(45, 20)
-        lblStok.TabIndex = 7
-        lblStok.Text = "Stok :"
+        lblJumlah.Anchor = AnchorStyles.Left
+        lblJumlah.AutoSize = True
+        lblJumlah.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblJumlah.Location = New Point(39, 516)
+        lblJumlah.Name = "lblJumlah"
+        lblJumlah.Size = New Size(45, 20)
+        lblJumlah.TabIndex = 7
+        lblJumlah.Text = "Stok :"
         ' 
         ' txtJumlah
         ' 
         txtJumlah.Anchor = AnchorStyles.Left
         txtJumlah.Location = New Point(39, 538)
         txtJumlah.Name = "txtJumlah"
+        txtJumlah.ReadOnly = True
         txtJumlah.Size = New Size(224, 38)
         txtJumlah.TabIndex = 7
         ' 
@@ -493,7 +556,7 @@ Partial Class Form1
     Friend WithEvents Label1 As Label
     Friend WithEvents lblNama As Label
     Friend WithEvents lblHarga As Label
-    Friend WithEvents lblStok As Label
+    Friend WithEvents lblJumlah As Label
     Friend WithEvents txtJumlah As TextBox
     Friend WithEvents btnTambah As Button
     Friend WithEvents btnEdit As Button
@@ -509,7 +572,6 @@ Partial Class Form1
     Friend WithEvents Label5 As Label
     Friend WithEvents cmbKategori As ComboBox
     Friend WithEvents Label3 As Label
-    Friend WithEvents txtKategori As TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents txtPoin As TextBox
     Friend WithEvents Label4 As Label
@@ -518,10 +580,13 @@ Partial Class Form1
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
-    Friend WithEvents Column3 As DataGridViewTextBoxColumn
-    Friend WithEvents Column6 As DataGridViewTextBoxColumn
-    Friend WithEvents Column8 As DataGridViewTextBoxColumn
+    Friend WithEvents ColumnHarga As DataGridViewTextBoxColumn
+    Friend WithEvents ColumnDiskon As DataGridViewTextBoxColumn
+    Friend WithEvents ColumnHargaDiskon As DataGridViewTextBoxColumn
     Friend WithEvents Column7 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
+    Friend WithEvents btnSimpanTambah As Button
+    Friend WithEvents btnBatal As Button
+    Friend WithEvents cmbKategoriInput As ComboBox
 
 End Class
