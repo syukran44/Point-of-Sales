@@ -295,11 +295,12 @@ Public Class FormPenjualan
     End Sub
 
     Private Sub DataGridView1_CellMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView1.CellMouseDoubleClick
-        ' Get the value from the selected row
+        ' Value no transaksi
         Dim noTransaksi As String = DataGridView1.CurrentRow.Cells(2).Value.ToString()
+        Dim penjualan As Boolean = True
 
         ' Create an instance of FormDetailTransaksi and pass the data through the constructor
-        Dim detailForm As New FormDetailTransaksi(noTransaksi)
+        Dim detailForm As New FormDetailTransaksi(noTransaksi, penjualan)
         detailForm.Show()
     End Sub
 End Class

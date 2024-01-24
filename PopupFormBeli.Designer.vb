@@ -22,12 +22,11 @@ Partial Class PopupFormBeli
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Label2 = New Label()
         DataGridView1 = New DataGridView()
-        Column1 = New DataGridViewTextBoxColumn()
-        Column2 = New DataGridViewTextBoxColumn()
-        Column5 = New DataGridViewTextBoxColumn()
-        Column3 = New DataGridViewTextBoxColumn()
         txtSearch = New TextBox()
         btnTambah = New Button()
         cmbKategori = New ComboBox()
@@ -38,12 +37,6 @@ Partial Class PopupFormBeli
         Label4 = New Label()
         txtTotal = New TextBox()
         DataGridView2 = New DataGridView()
-        DataGridViewTextBoxColumn2 = New DataGridViewTextBoxColumn()
-        DataGridViewTextBoxColumn3 = New DataGridViewTextBoxColumn()
-        DataGridViewTextBoxColumn4 = New DataGridViewTextBoxColumn()
-        Column4 = New DataGridViewTextBoxColumn()
-        Column6 = New DataGridViewTextBoxColumn()
-        Column7 = New DataGridViewTextBoxColumn()
         Label5 = New Label()
         Label6 = New Label()
         btnBeli = New Button()
@@ -53,6 +46,16 @@ Partial Class PopupFormBeli
         txtProdukID = New TextBox()
         Label9 = New Label()
         btnTutup = New Button()
+        Column1 = New DataGridViewTextBoxColumn()
+        Column2 = New DataGridViewTextBoxColumn()
+        Column5 = New DataGridViewTextBoxColumn()
+        Column3 = New DataGridViewTextBoxColumn()
+        DataGridViewTextBoxColumn2 = New DataGridViewTextBoxColumn()
+        DataGridViewTextBoxColumn3 = New DataGridViewTextBoxColumn()
+        DataGridViewTextBoxColumn4 = New DataGridViewTextBoxColumn()
+        Column4 = New DataGridViewTextBoxColumn()
+        Column6 = New DataGridViewTextBoxColumn()
+        Column7 = New DataGridViewTextBoxColumn()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         CType(DataGridView2, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -86,40 +89,6 @@ Partial Class PopupFormBeli
         DataGridView1.Size = New Size(494, 428)
         DataGridView1.TabIndex = 25
         DataGridView1.TabStop = False
-        ' 
-        ' Column1
-        ' 
-        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-        Column1.HeaderText = "Produk ID"
-        Column1.MinimumWidth = 6
-        Column1.Name = "Column1"
-        Column1.ReadOnly = True
-        Column1.Width = 70
-        ' 
-        ' Column2
-        ' 
-        Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column2.HeaderText = "Nama"
-        Column2.MinimumWidth = 6
-        Column2.Name = "Column2"
-        Column2.ReadOnly = True
-        ' 
-        ' Column5
-        ' 
-        Column5.HeaderText = "Kategori"
-        Column5.MinimumWidth = 6
-        Column5.Name = "Column5"
-        Column5.ReadOnly = True
-        Column5.Width = 125
-        ' 
-        ' Column3
-        ' 
-        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-        Column3.HeaderText = "Harga"
-        Column3.MinimumWidth = 6
-        Column3.Name = "Column3"
-        Column3.ReadOnly = True
-        Column3.Width = 90
         ' 
         ' txtSearch
         ' 
@@ -167,9 +136,9 @@ Partial Class PopupFormBeli
         Label1.AutoSize = True
         Label1.Location = New Point(825, 9)
         Label1.Name = "Label1"
-        Label1.Size = New Size(39, 20)
+        Label1.Size = New Size(78, 20)
         Label1.TabIndex = 30
-        Label1.Text = "Qty :"
+        Label1.Text = "Qty (PCS) :"
         ' 
         ' txtDiskon
         ' 
@@ -197,9 +166,9 @@ Partial Class PopupFormBeli
         Label4.AutoSize = True
         Label4.Location = New Point(744, 549)
         Label4.Name = "Label4"
-        Label4.Size = New Size(49, 20)
+        Label4.Size = New Size(84, 20)
         Label4.TabIndex = 33
-        Label4.Text = "Total :"
+        Label4.Text = "Total (Rp.) :"
         ' 
         ' txtTotal
         ' 
@@ -207,6 +176,7 @@ Partial Class PopupFormBeli
         txtTotal.Location = New Point(744, 578)
         txtTotal.Name = "txtTotal"
         txtTotal.ReadOnly = True
+        txtTotal.RightToLeft = RightToLeft.Yes
         txtTotal.Size = New Size(148, 27)
         txtTotal.TabIndex = 34
         ' 
@@ -227,57 +197,6 @@ Partial Class PopupFormBeli
         DataGridView2.Size = New Size(494, 428)
         DataGridView2.TabIndex = 35
         DataGridView2.TabStop = False
-        ' 
-        ' DataGridViewTextBoxColumn2
-        ' 
-        DataGridViewTextBoxColumn2.HeaderText = "Produk ID"
-        DataGridViewTextBoxColumn2.MinimumWidth = 6
-        DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
-        DataGridViewTextBoxColumn2.ReadOnly = True
-        DataGridViewTextBoxColumn2.Width = 70
-        ' 
-        ' DataGridViewTextBoxColumn3
-        ' 
-        DataGridViewTextBoxColumn3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewTextBoxColumn3.FillWeight = 85.71429F
-        DataGridViewTextBoxColumn3.HeaderText = "Nama"
-        DataGridViewTextBoxColumn3.MinimumWidth = 6
-        DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
-        DataGridViewTextBoxColumn3.ReadOnly = True
-        ' 
-        ' DataGridViewTextBoxColumn4
-        ' 
-        DataGridViewTextBoxColumn4.FillWeight = 114.285713F
-        DataGridViewTextBoxColumn4.HeaderText = "Harga"
-        DataGridViewTextBoxColumn4.MinimumWidth = 6
-        DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
-        DataGridViewTextBoxColumn4.ReadOnly = True
-        DataGridViewTextBoxColumn4.Width = 125
-        ' 
-        ' Column4
-        ' 
-        Column4.HeaderText = "Qty"
-        Column4.MinimumWidth = 6
-        Column4.Name = "Column4"
-        Column4.Width = 70
-        ' 
-        ' Column6
-        ' 
-        Column6.HeaderText = "Kategori"
-        Column6.MinimumWidth = 6
-        Column6.Name = "Column6"
-        Column6.ReadOnly = True
-        Column6.Visible = False
-        Column6.Width = 125
-        ' 
-        ' Column7
-        ' 
-        Column7.HeaderText = "Total"
-        Column7.MinimumWidth = 6
-        Column7.Name = "Column7"
-        Column7.ReadOnly = True
-        Column7.Visible = False
-        Column7.Width = 125
         ' 
         ' Label5
         ' 
@@ -380,6 +299,97 @@ Partial Class PopupFormBeli
         btnTutup.Text = "Tutup"
         btnTutup.UseVisualStyleBackColor = False
         ' 
+        ' Column1
+        ' 
+        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+        Column1.HeaderText = "Produk ID"
+        Column1.MinimumWidth = 6
+        Column1.Name = "Column1"
+        Column1.ReadOnly = True
+        Column1.Width = 70
+        ' 
+        ' Column2
+        ' 
+        Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column2.HeaderText = "Nama"
+        Column2.MinimumWidth = 6
+        Column2.Name = "Column2"
+        Column2.ReadOnly = True
+        ' 
+        ' Column5
+        ' 
+        Column5.HeaderText = "Kategori"
+        Column5.MinimumWidth = 6
+        Column5.Name = "Column5"
+        Column5.ReadOnly = True
+        Column5.Width = 125
+        ' 
+        ' Column3
+        ' 
+        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column3.DefaultCellStyle = DataGridViewCellStyle1
+        Column3.HeaderText = "Harga"
+        Column3.MinimumWidth = 6
+        Column3.Name = "Column3"
+        Column3.ReadOnly = True
+        Column3.Width = 90
+        ' 
+        ' DataGridViewTextBoxColumn2
+        ' 
+        DataGridViewTextBoxColumn2.HeaderText = "Produk ID"
+        DataGridViewTextBoxColumn2.MinimumWidth = 6
+        DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        DataGridViewTextBoxColumn2.ReadOnly = True
+        DataGridViewTextBoxColumn2.Width = 70
+        ' 
+        ' DataGridViewTextBoxColumn3
+        ' 
+        DataGridViewTextBoxColumn3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewTextBoxColumn3.FillWeight = 85.71429F
+        DataGridViewTextBoxColumn3.HeaderText = "Nama"
+        DataGridViewTextBoxColumn3.MinimumWidth = 6
+        DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
+        DataGridViewTextBoxColumn3.ReadOnly = True
+        ' 
+        ' DataGridViewTextBoxColumn4
+        ' 
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight
+        DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewTextBoxColumn4.FillWeight = 114.285713F
+        DataGridViewTextBoxColumn4.HeaderText = "Harga"
+        DataGridViewTextBoxColumn4.MinimumWidth = 6
+        DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
+        DataGridViewTextBoxColumn4.ReadOnly = True
+        DataGridViewTextBoxColumn4.Width = 125
+        ' 
+        ' Column4
+        ' 
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column4.DefaultCellStyle = DataGridViewCellStyle3
+        Column4.HeaderText = "Qty (PCS)"
+        Column4.MinimumWidth = 6
+        Column4.Name = "Column4"
+        Column4.Width = 70
+        ' 
+        ' Column6
+        ' 
+        Column6.HeaderText = "Kategori"
+        Column6.MinimumWidth = 6
+        Column6.Name = "Column6"
+        Column6.ReadOnly = True
+        Column6.Visible = False
+        Column6.Width = 125
+        ' 
+        ' Column7
+        ' 
+        Column7.HeaderText = "Total"
+        Column7.MinimumWidth = 6
+        Column7.Name = "Column7"
+        Column7.ReadOnly = True
+        Column7.Visible = False
+        Column7.Width = 125
+        ' 
         ' PopupFormBeli
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
@@ -435,6 +445,7 @@ Partial Class PopupFormBeli
     Friend WithEvents Label8 As Label
     Friend WithEvents txtProdukID As TextBox
     Friend WithEvents Label9 As Label
+    Friend WithEvents btnTutup As Button
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
@@ -445,5 +456,4 @@ Partial Class PopupFormBeli
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
     Friend WithEvents Column7 As DataGridViewTextBoxColumn
-    Friend WithEvents btnTutup As Button
 End Class

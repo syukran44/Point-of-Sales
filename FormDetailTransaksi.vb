@@ -13,13 +13,20 @@ Public Class FormDetailTransaksi
     Dim PPD As New PrintPreviewDialog
     Dim longpaper, invoiceID As Integer
     Dim nomorTransaksi As String
+    Dim tipeTransaksi As Boolean
 
-    Public Sub New(noTransaksi As String)
+    Public Sub New(noTransaksi As String, tipe As Boolean)
         InitializeComponent()
 
         nomorTransaksi = noTransaksi
-        ' Use the received data as needed
-        loadDGV(noTransaksi)
+        tipeTransaksi = tipe
+
+        If tipe = True Then
+            loadDGV(noTransaksi)
+        Else
+            loadDGVPembelian(noTransaksi)
+            'MsgBox("bukan Pembelian")
+        End If
     End Sub
 
     Private Sub FormDetailTransaksi_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -32,6 +39,31 @@ Public Class FormDetailTransaksi
         Try
             conn.Open()
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_detail_penjualan JOIN tbl_penjualan ON tbl_detail_penjualan.no_transaksi=tbl_penjualan.no_transaksi WHERE tbl_detail_penjualan.no_transaksi = @no_transaksi", conn)
+            cmd.Parameters.Clear()
+            cmd.Parameters.AddWithValue("@no_transaksi", noTransaksi)
+
+            dr = cmd.ExecuteReader
+            While dr.Read
+                i += 1
+                DataGridView1.Rows.Add(i, dr.Item("produk_id"), dr.Item("nama_produk"), "Rp. " & Format(dr.Item("harga_produk"), "##,##0"), dr.Item("kuantitas_produk"), "Rp. " & Format(dr.Item("total_harga"), "##,##0"))
+            End While
+            lblNamaKasir.Text = dr.Item("operator")
+            lblWaktu.Text = dr.Item("created_at")
+            lblNomorTransaksi.Text = noTransaksi
+            dr.Dispose()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub loadDGVPembelian(noTransaksi)
+        i = 0
+        DataGridView1.Rows.Clear()
+        Try
+            conn.Open()
+            Dim cmd As New MySqlCommand("SELECT * FROM tbl_detail_pembelian JOIN tbl_pembelian ON tbl_detail_pembelian.no_transaksi=tbl_pembelian.no_transaksi WHERE tbl_detail_pembelian.no_transaksi = @no_transaksi", conn)
             cmd.Parameters.Clear()
             cmd.Parameters.AddWithValue("@no_transaksi", noTransaksi)
 

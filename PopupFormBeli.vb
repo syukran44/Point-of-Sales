@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing.Printing
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports MySql.Data.MySqlClient
+Imports Mysqlx.XDevAPI.Relational
 
 Public Class PopupFormBeli
     Dim conn As New MySqlConnection("server=localhost; port=3306; username=root; password=; database=sales_db")
@@ -36,7 +37,7 @@ Public Class PopupFormBeli
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), dr.Item("harga_beli"))
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), "Rp. " & Format(dr.Item("harga_beli"), "##,##0"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -95,7 +96,7 @@ Public Class PopupFormBeli
                 Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE tbl_harga_supplier.produk_id like '%" & txtProdukID.Text & "%'", conn)
                 dr = cmd.ExecuteReader
                 While dr.Read
-                    DataGridView2.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("harga_beli"), txtQty.Text, dr.Item("nama_kategori"))
+                    DataGridView2.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), "Rp. " & Format(dr.Item("harga_beli"), "##,##0"), txtQty.Text, dr.Item("nama_kategori"))
                 End While
                 dr.Dispose()
             Catch ex As Exception
@@ -139,7 +140,7 @@ Public Class PopupFormBeli
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE tbl_harga_supplier.produk_id like '%" & txtSearch.Text & "%' OR `nama_produk` like '%" & txtSearch.Text & "%' OR `nama_kategori` like '%" & txtSearch.Text & "%'", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), dr.Item("harga_beli"))
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), "Rp. " & Format(dr.Item("harga_beli"), "##,##0"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -157,7 +158,7 @@ Public Class PopupFormBeli
                 Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE tbl_harga_supplier.produk_id like '%" & txtProdukID.Text & "%'", conn)
                 dr = cmd.ExecuteReader
                 While dr.Read
-                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), dr.Item("harga_beli"))
+                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), "Rp. " & Format(dr.Item("harga_beli"), "##,##0"))
                 End While
                 dr.Dispose()
             Catch ex As Exception
@@ -182,7 +183,7 @@ Public Class PopupFormBeli
 
         For Each row As DataGridViewRow In DataGridView2.Rows
             If row.Cells(0).Value IsNot Nothing Then
-                Dim harga As Decimal = CDec(row.Cells(2).Value)
+                Dim harga As Decimal = CDec(row.Cells(2).Value.ToString().Replace("Rp. ", ""))
                 Dim quantity As Integer = CInt(row.Cells(3).Value)
                 grandtotal += (quantity * harga) * (1 - (CDec(txtDiskon.Text) / 100))
             End If
@@ -224,7 +225,7 @@ Public Class PopupFormBeli
                 Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori", conn)
                 dr = cmd.ExecuteReader
                 While dr.Read
-                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), dr.Item("harga_beli"))
+                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), "Rp. " & Format(dr.Item("harga_beli"), "##,##0"))
                 End While
                 dr.Dispose()
             Catch ex As Exception
@@ -238,7 +239,7 @@ Public Class PopupFormBeli
                 Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE `nama_kategori` like '%" & cmbKategori.SelectedItem.ToString() & "%'", conn)
                 dr = cmd.ExecuteReader
                 While dr.Read
-                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), dr.Item("harga_beli"))
+                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), "Rp. " & Format(dr.Item("harga_beli"), "##,##0"))
                 End While
                 dr.Dispose()
             Catch ex As Exception
@@ -312,18 +313,19 @@ Public Class PopupFormBeli
         Dim index As Integer = 1
 
         line = New String("—", PD.DefaultPageSettings.PaperSize.Height - leftmargin - 999)
-        Dim height As Integer
+        Dim height, totalKuantitas As Integer
         Dim total As Decimal
 
         Dim currentDateAndTime As DateTime = DateTime.Now
         Dim today As String = currentDateAndTime.ToString("yyyy-MM-dd")
         Dim tanggal As String = currentDateAndTime.ToString("dd-MM-yyyy")
         Dim invoiceDate As String = currentDateAndTime.ToString("ddMMM")
+        Dim yearDate As String = currentDateAndTime.ToString("yy")
 
         Try
             conn.Open()
             Dim maxInvoiceID As Integer
-            Dim cmdMaxID As New MySqlCommand($"SELECT MAX(CAST(SUBSTRING(`no_transaksi`, 9) AS UNSIGNED)) FROM `tbl_pembelian` WHERE `created_at` = '{today}'", conn)
+            Dim cmdMaxID As New MySqlCommand($"SELECT MAX(CAST(SUBSTRING(`no_transaksi`, 11) AS UNSIGNED)) FROM `tbl_pembelian` WHERE `created_at` >= '{today}'", conn)
             Dim result As Object = cmdMaxID.ExecuteScalar()
             If result IsNot DBNull.Value Then
                 maxInvoiceID = Convert.ToInt32(result)
@@ -331,7 +333,7 @@ Public Class PopupFormBeli
                 maxInvoiceID = 0
             End If
             invoiceID = maxInvoiceID + 1
-            invoice = "PBL" & invoiceDate.ToUpper & invoiceID.ToString("D4")
+            invoice = "PBL" & invoiceDate.ToUpper & yearDate & invoiceID.ToString("D4")
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
@@ -370,16 +372,15 @@ Public Class PopupFormBeli
             e.Graphics.DrawString(DataGridView2.Rows(row).Cells(1).Value.ToString, f10, Brushes.Black, 150 + leftmargin, 125 + height)
             'Kategori Produk
             e.Graphics.DrawString(DataGridView2.Rows(row).Cells(4).Value.ToString, f10, Brushes.Black, 400 + leftmargin, 125 + height)
-            'Harga Produk
-            i = DataGridView2.Rows(row).Cells(2).Value
-            DataGridView2.Rows(row).Cells(2).Value = Format(i, "##,##0")
+            'Harga Produk         
             e.Graphics.DrawString(DataGridView2.Rows(row).Cells(2).Value.ToString, f10, Brushes.Black, 625 + leftmargin, 125 + height)
             'Kuantitas
+            totalKuantitas += DataGridView2.Rows(row).Cells(3).Value
             e.Graphics.DrawString(DataGridView2.Rows(row).Cells(3).Value.ToString, f10, Brushes.Black, 765 + leftmargin, 125 + height)
             'Total
-            i = DataGridView2.Rows(row).Cells(2).Value * DataGridView2.Rows(row).Cells(3).Value
+            i = DataGridView2.Rows(row).Cells(2).Value.ToString().Replace("Rp. ", "") * DataGridView2.Rows(row).Cells(3).Value
             DataGridView2.Rows(row).Cells(5).Value = Format(i, "##,##0")
-            e.Graphics.DrawString(DataGridView2.Rows(row).Cells(5).Value.ToString, f10, Brushes.Black, 900 + leftmargin, 125 + height)
+            e.Graphics.DrawString("Rp. " & DataGridView2.Rows(row).Cells(5).Value.ToString, f10, Brushes.Black, 900 + leftmargin, 125 + height)
 
             e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 138 + height)
 
@@ -393,18 +394,14 @@ Public Class PopupFormBeli
                 cmd.Parameters.AddWithValue("@quantity", CInt(DataGridView2.Rows(row).Cells(3).Value))
                 i = cmd.ExecuteNonQuery
 
-                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_pembelian` (`operator` ,`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`, `diskon`, `pajak`, `grandtotal`) VALUES (@operator, @no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga, @diskon, @pajak, @grandtotal)", conn)
+                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_detail_pembelian` (`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`) VALUES (@no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga)", conn)
                 cmd2.Parameters.Clear()
-                cmd2.Parameters.AddWithValue("@operator", CurrentUser.Nama.ToString())
                 cmd2.Parameters.AddWithValue("@no_transaksi", invoice)
                 cmd2.Parameters.AddWithValue("@produk_id", DataGridView2.Rows(row).Cells(0).Value)
                 cmd2.Parameters.AddWithValue("@nama_produk", DataGridView2.Rows(row).Cells(1).Value)
-                cmd2.Parameters.AddWithValue("@harga_produk", CInt(DataGridView2.Rows(row).Cells(2).Value))
+                cmd2.Parameters.AddWithValue("@harga_produk", CInt(DataGridView2.Rows(row).Cells(2).Value.ToString().Replace("Rp. ", "")))
                 cmd2.Parameters.AddWithValue("@kuantitas_produk", CInt(DataGridView2.Rows(row).Cells(3).Value))
                 cmd2.Parameters.AddWithValue("@total_harga", CInt(DataGridView2.Rows(row).Cells(5).Value))
-                cmd2.Parameters.AddWithValue("@diskon", CInt(txtDiskon.Text))
-                cmd2.Parameters.AddWithValue("@pajak", CInt(txtPajak.Text))
-                cmd2.Parameters.AddWithValue("@grandtotal", CInt(txtTotal.Text))
 
                 i = cmd2.ExecuteNonQuery
             Catch ex As Exception
@@ -417,23 +414,41 @@ Public Class PopupFormBeli
             index += 1
         Next
 
+        Try
+            conn.Open()
+            Dim cmd As New MySqlCommand("INSERT INTO `tbl_pembelian` (`operator`, `no_transaksi`, `diskon`, `pajak`, `total_kuantitas`, `grandtotal`) VALUES (@operator, @no_transaksi, @diskon, @pajak, @total_kuantitas, @grandtotal)", conn)
+            cmd.Parameters.Clear()
+            cmd.Parameters.AddWithValue("@operator", CurrentUser.Nama.ToString())
+            cmd.Parameters.AddWithValue("@no_transaksi", invoice)
+            cmd.Parameters.AddWithValue("@diskon", txtDiskon.Text)
+            cmd.Parameters.AddWithValue("@pajak", txtPajak.Text)
+            cmd.Parameters.AddWithValue("@total_kuantitas", totalKuantitas)
+            cmd.Parameters.AddWithValue("@grandtotal", total)
+
+            i = cmd.ExecuteNonQuery
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
+        End Try
+
         currentPage += 1
 
         e.HasMorePages = currentPage <= Math.Ceiling(DataGridView1.Rows.Count / rowsPerPage)
 
         If Not e.HasMorePages Then
-            e.Graphics.DrawString("Total Pembelian  :               " & Format(total, "##,##0"), f10, Brushes.Black, rightmargin, 170 + height, right)
+            e.Graphics.DrawString("Total Pembelian  : Rp. " & Format(total, "##,##0"), f10, Brushes.Black, rightmargin, 170 + height, right)
             e.Graphics.DrawString("Diskon           :               " & txtDiskon.Text & "%", f10, Brushes.Black, rightmargin, 190 + height, right)
             e.Graphics.DrawString("Pajak            :               " & txtPajak.Text & "%", f10, Brushes.Black, rightmargin, 210 + height, right)
-            e.Graphics.DrawString("Grand Total      :               " & txtTotal.Text, f10, Brushes.Black, rightmargin, 230 + height, right)
+            e.Graphics.DrawString("Grand Total      : Rp. " & txtTotal.Text, f10, Brushes.Black, rightmargin, 230 + height, right)
         End If
 
     End Sub
 
     Private Sub DataGridView2_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellValueChanged
         For row As Integer = 0 To DataGridView2.RowCount - 1
-            If Not IsNumeric(DataGridView1.Rows(row).Cells(2).Value) Then
-                DataGridView1.Rows(row).Cells(2).Value = 1
+            If Not IsNumeric(DataGridView2.Rows(row).Cells(3).Value) Then
+                DataGridView2.Rows(row).Cells(3).Value = 1
             End If
         Next
         getTotalHarga()

@@ -203,7 +203,7 @@ Public Class FormPOS
                 Next
 
                 If exist = False Then
-                    DataGridView1.Rows.Add(dr.Item("nama_produk"), Format(dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100)), "#,##0.00"), 1, dr.Item("produk_id"), dr.Item("diskon"), dr.Item("harga"), dr.Item("poin"))
+                    DataGridView1.Rows.Add(dr.Item("nama_produk"), Format(dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100)), "##,##0"), 1, dr.Item("produk_id"), dr.Item("diskon"), dr.Item("harga"), dr.Item("poin"))
                 Else
                     conn.Close()
                     DataGridView1.Rows(numrow).Cells(2).Value = 1 + quantity
@@ -444,9 +444,10 @@ Public Class FormPOS
                 Try
                     Dim totalPoin As Integer
                     conn.Open()
-                    Dim cmd As New MySqlCommand("SELECT * FROM `tbl_member` WHERE `kode_member` = @kode_member", conn)
+                    Dim cmd As New MySqlCommand("SELECT * FROM `tbl_member` WHERE `kode_member` = @kode_member AND `masa_aktif` > @today", conn)
                     cmd.Parameters.Clear()
                     cmd.Parameters.AddWithValue("@kode_member", txtMember.Text)
+                    cmd.Parameters.AddWithValue("@today", DateTime.Now)
 
                     dr = cmd.ExecuteReader()
                     If dr.Read() Then
