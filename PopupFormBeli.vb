@@ -33,10 +33,10 @@ Public Class PopupFormBeli
         DataGridView1.Rows.Clear()
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk", conn)
+            Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"))
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), dr.Item("harga_beli"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -50,13 +50,13 @@ Public Class PopupFormBeli
         cmbKategori.Items.Add("Semua")
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT `kategori` FROM tbl_produk", conn)
+            Dim cmd As New MySqlCommand("SELECT `nama_kategori` FROM tbl_kategori", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                If cmbKategori.Items.Contains(dr("kategori").ToString()) Then
+                If cmbKategori.Items.Contains(dr("nama_kategori").ToString()) Then
                     Continue While
                 Else
-                    cmbKategori.Items.Add(dr("kategori").ToString())
+                    cmbKategori.Items.Add(dr("nama_kategori").ToString())
                 End If
             End While
             dr.Dispose()
@@ -92,10 +92,10 @@ Public Class PopupFormBeli
         If exist = False Then
             Try
                 conn.Open()
-                Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `produk_id` like '%" & txtProdukID.Text & "%'", conn)
+                Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE tbl_harga_supplier.produk_id like '%" & txtProdukID.Text & "%'", conn)
                 dr = cmd.ExecuteReader
                 While dr.Read
-                    DataGridView2.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("harga"), txtQty.Text, dr.Item("kategori"))
+                    DataGridView2.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("harga_beli"), txtQty.Text, dr.Item("nama_kategori"))
                 End While
                 dr.Dispose()
             Catch ex As Exception
@@ -136,10 +136,10 @@ Public Class PopupFormBeli
         DataGridView1.Rows.Clear()
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `produk_id` like '%" & txtSearch.Text & "%' OR `nama` like '%" & txtSearch.Text & "%' OR `kategori` like '%" & txtSearch.Text & "%'", conn)
+            Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE tbl_harga_supplier.produk_id like '%" & txtSearch.Text & "%' OR `nama_produk` like '%" & txtSearch.Text & "%' OR `nama_kategori` like '%" & txtSearch.Text & "%'", conn)
             dr = cmd.ExecuteReader
             While dr.Read
-                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"))
+                DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), dr.Item("harga_beli"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -154,10 +154,10 @@ Public Class PopupFormBeli
             DataGridView1.Rows.Clear()
             Try
                 conn.Open()
-                Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `produk_id` like '%" & txtProdukID.Text & "%'", conn)
+                Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE tbl_harga_supplier.produk_id like '%" & txtProdukID.Text & "%'", conn)
                 dr = cmd.ExecuteReader
                 While dr.Read
-                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"))
+                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), dr.Item("harga_beli"))
                 End While
                 dr.Dispose()
             Catch ex As Exception
@@ -221,10 +221,10 @@ Public Class PopupFormBeli
         If cmbKategori.SelectedItem.ToString().Equals("SEMUA", StringComparison.CurrentCultureIgnoreCase) Then
             Try
                 conn.Open()
-                Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk", conn)
+                Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori", conn)
                 dr = cmd.ExecuteReader
                 While dr.Read
-                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"))
+                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), dr.Item("harga_beli"))
                 End While
                 dr.Dispose()
             Catch ex As Exception
@@ -235,10 +235,10 @@ Public Class PopupFormBeli
         Else
             Try
                 conn.Open()
-                Dim cmd As New MySqlCommand("SELECT * FROM tbl_produk WHERE `kategori` like '%" & cmbKategori.SelectedItem.ToString() & "%'", conn)
+                Dim cmd As New MySqlCommand("SELECT * FROM tbl_harga_supplier JOIN tbl_produk ON tbl_harga_supplier.produk_id=tbl_produk.produk_id JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE `nama_kategori` like '%" & cmbKategori.SelectedItem.ToString() & "%'", conn)
                 dr = cmd.ExecuteReader
                 While dr.Read
-                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama"), dr.Item("kategori"), dr.Item("harga"))
+                    DataGridView1.Rows.Add(dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), dr.Item("harga_beli"))
                 End While
                 dr.Dispose()
             Catch ex As Exception

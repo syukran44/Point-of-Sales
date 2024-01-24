@@ -41,6 +41,7 @@ Public Class FormPOS
         btnBayar.Enabled = False
         ClearData()
         loadProduct()
+        cmbKategori.SelectedIndex = 0
     End Sub
     Private Sub ClearData()
         DataGridView1.Rows.Clear()
@@ -380,12 +381,13 @@ Public Class FormPOS
     End Sub
 
     Private Sub kategoriRead()
+        cmbKategori.Items.Clear()
+        cmbKategori.Items.Add("Semua")
         Try
             conn.Open()
             Dim cmd As New MySqlCommand("SELECT * FROM tbl_kategori", conn)
             dr = cmd.ExecuteReader
 
-            cmbKategori.Items.Clear()
             cmbKategori.DisplayMember = "nama_kategori"
             cmbKategori.ValueMember = "id_kategori"
 
@@ -404,18 +406,33 @@ Public Class FormPOS
     Private Sub cmbKategori_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbKategori.SelectedIndexChanged
         FlowLayoutPanel1.Controls.Clear()
         FlowLayoutPanel1.AutoScroll = True
-        Try
-            conn.Open()
-            Dim cmd As New MySqlCommand("SELECT * FROM `tbl_produk` INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE nama_kategori like '%" & cmbKategori.SelectedItem & "%'", conn)
-            dr = cmd.ExecuteReader
-            While dr.Read
-                loadControls()
-            End While
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        Finally
-            conn.Close()
-        End Try
+        If cmbKategori.SelectedItem.ToString().Equals("SEMUA", StringComparison.CurrentCultureIgnoreCase) Then
+            Try
+                conn.Open()
+                Dim cmd As New MySqlCommand("SELECT * FROM `tbl_produk` INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori", conn)
+                dr = cmd.ExecuteReader
+                While dr.Read
+                    loadControls()
+                End While
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            Finally
+                conn.Close()
+            End Try
+        Else
+            Try
+                conn.Open()
+                Dim cmd As New MySqlCommand("SELECT * FROM `tbl_produk` INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE nama_kategori like '%" & cmbKategori.SelectedItem & "%'", conn)
+                dr = cmd.ExecuteReader
+                While dr.Read
+                    loadControls()
+                End While
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            Finally
+                conn.Close()
+            End Try
+        End If
     End Sub
 
     Private Sub btnBayar_Click(sender As Object, e As EventArgs) Handles btnBayar.Click
