@@ -39,7 +39,7 @@ Public Class FormPenjualan
         DataGridView1.Rows.Clear()
 
         Dim rentangWaktu1 As Date = DateTimePicker1.Value
-        Dim rentangWaktu2 As Date = DateTimePicker2.Value
+        Dim rentangWaktu2 As Date = DateTimePicker2.Value.AddDays(1)
 
         Dim formattedWaktu1 As String = rentangWaktu1.ToString("yyyy-MM-dd")
         Dim formattedWaktu2 As String = rentangWaktu2.ToString("yyyy-MM-dd")
@@ -54,7 +54,7 @@ Public Class FormPenjualan
             dr = cmd.ExecuteReader
             While dr.Read
                 i += 1
-                DataGridView1.Rows.Add("", dr.Item("operator"), dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), Format(dr.Item("harga_produk"), "##,##0"), dr.Item("kuantitas_produk"), dr.Item("diskon") & "%", Format(dr.Item("grandtotal"), "##,##0"))
+                DataGridView1.Rows.Add(i, dr.Item("operator"), dr.Item("no_transaksi"), dr.Item("total_kuantitas"), dr.Item("diskon") & "%", "Rp. " & Format(dr.Item("grandtotal"), "##,##0"), "Rp. " & Format(dr.Item("tunai"), "##,##0"), "Rp. " & Format(dr.Item("kembalian"), "##,##0"), dr.Item("created_at"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -78,7 +78,7 @@ Public Class FormPenjualan
         If txtSearch.Text <> "" Then
             Try
                 conn.Open()
-                Dim cmd As New MySqlCommand("SELECT SUM(`kuantitas_produk`) as total_produk_terjual, grandtotal as total_keuntungan FROM tbl_penjualan WHERE `operator` like '%" & txtSearch.Text & "%' OR `no_transaksi` like '%" & txtSearch.Text & "%' GROUP BY no_transaksi, operator", conn)
+                Dim cmd As New MySqlCommand("SELECT SUM(`total_kuantitas`) as total_produk_terjual, grandtotal as total_keuntungan FROM tbl_penjualan JOIN tbl_detail_penjualan ON tbl_penjualan.no_transaksi=tbl_detail_penjualan.no_transaksi WHERE `operator` like '%" & txtSearch.Text & "%' GROUP BY operator", conn)
                 cmd.Parameters.Clear()
 
                 dr = cmd.ExecuteReader
@@ -99,13 +99,13 @@ Public Class FormPenjualan
         End If
 
         Dim rentangWaktu1 As Date = DateTimePicker1.Value
-        Dim rentangWaktu2 As Date = DateTimePicker2.Value
+        Dim rentangWaktu2 As Date = DateTimePicker2.Value.AddDays(1)
 
         Dim formattedWaktu1 As String = rentangWaktu1.ToString("yyyy-MM-dd")
         Dim formattedWaktu2 As String = rentangWaktu2.ToString("yyyy-MM-dd")
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT SUM(`kuantitas_produk`) as total_produk_terjual, grandtotal as total_keuntungan FROM tbl_penjualan WHERE created_at BETWEEN @waktu1 AND @waktu2 GROUP BY no_transaksi, operator", conn)
+            Dim cmd As New MySqlCommand("SELECT SUM(`total_kuantitas`) as total_produk_terjual, SUM(`grandtotal`) as total_keuntungan FROM tbl_penjualan WHERE created_at BETWEEN @waktu1 AND @waktu2", conn)
             cmd.Parameters.Clear()
             cmd.Parameters.AddWithValue("@waktu1", formattedWaktu1)
             cmd.Parameters.AddWithValue("@waktu2", formattedWaktu2)
@@ -133,11 +133,11 @@ Public Class FormPenjualan
         DateTimePicker2.Value = DateTime.Now.ToString("yyyy-MM-dd")
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT * FROM tbl_penjualan WHERE `operator` like '%" & txtSearch.Text & "%' OR `no_transaksi` like '%" & txtSearch.Text & "%' OR `nama_produk` like '%" & txtSearch.Text & "%' OR `produk_id` like '%" & txtSearch.Text & "%' ", conn)
+            Dim cmd As New MySqlCommand("SELECT * FROM tbl_penjualan WHERE `operator` like '%" & txtSearch.Text & "%' OR `no_transaksi` like '%" & txtSearch.Text & "%'", conn)
             dr = cmd.ExecuteReader
             While dr.Read
                 i += 1
-                DataGridView1.Rows.Add(i, dr.Item("operator"), dr.Item("no_transaksi"), dr.Item("produk_id"), dr.Item("nama_produk"), Format(dr.Item("harga_produk"), "##,##0"), dr.Item("kuantitas_produk"), dr.Item("diskon") & "%", Format(dr.Item("grandtotal"), "##,##0"))
+                DataGridView1.Rows.Add(i, dr.Item("operator"), dr.Item("no_transaksi"), dr.Item("total_kuantitas"), dr.Item("diskon") & "%", "Rp. " & Format(dr.Item("grandtotal"), "##,##0"), "Rp. " & Format(dr.Item("tunai"), "##,##0"), "Rp. " & Format(dr.Item("kembalian"), "##,##0"), dr.Item("created_at"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -294,4 +294,12 @@ Public Class FormPenjualan
         End If
     End Sub
 
+    Private Sub DataGridView1_CellMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView1.CellMouseDoubleClick
+        ' Get the value from the selected row
+        Dim noTransaksi As String = DataGridView1.CurrentRow.Cells(2).Value.ToString()
+
+        ' Create an instance of FormDetailTransaksi and pass the data through the constructor
+        Dim detailForm As New FormDetailTransaksi(noTransaksi)
+        detailForm.Show()
+    End Sub
 End Class

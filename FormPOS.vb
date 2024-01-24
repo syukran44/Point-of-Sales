@@ -483,7 +483,7 @@ Public Class FormPOS
     End Sub
 
     Private Sub PD_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PD.PrintPage
-        Dim height As Integer
+        Dim height, totalKuantitas As Integer
         Dim i As Long
         Dim total, kembalian As Decimal
         Dim diskon As Boolean = False
@@ -525,7 +525,7 @@ Public Class FormPOS
         Try
             conn.Open()
             Dim maxInvoiceID As Integer
-            Dim cmdMaxID As New MySqlCommand($"SELECT MAX(CAST(SUBSTRING(`no_transaksi`, 11) AS UNSIGNED)) FROM `tbl_penjualan` WHERE `created_at` = '{today}'", conn)
+            Dim cmdMaxID As New MySqlCommand($"SELECT MAX(CAST(SUBSTRING(`no_transaksi`, 11) AS UNSIGNED)) FROM `tbl_penjualan` WHERE `created_at` >= '{today}'", conn)
             Dim result As Object = cmdMaxID.ExecuteScalar()
             If result IsNot DBNull.Value Then
                 maxInvoiceID = Convert.ToInt32(result)
@@ -573,6 +573,8 @@ Public Class FormPOS
             total += subtotal
             e.Graphics.DrawString(subtotal.ToString("##,##0"), f8, Brushes.Black, rightmargin, 125 + height, right)
 
+            totalKuantitas += DataGridView1.Rows(row).Cells(2).Value
+
             Try
                 conn.Open()
                 Dim cmd As New MySqlCommand("UPDATE `tbl_produk` SET `jumlah`= `jumlah` - @quantity WHERE `produk_id` = @produk_id", conn)
@@ -581,7 +583,7 @@ Public Class FormPOS
                 cmd.Parameters.AddWithValue("@quantity", CInt(DataGridView1.Rows(row).Cells(2).Value))
                 i = cmd.ExecuteNonQuery
 
-                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_penjualan` (`operator` ,`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`, `diskon`) VALUES (@operator, @no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga, @diskon)", conn)
+                Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_detail_penjualan` (`no_transaksi`, `produk_id`, `nama_produk`, `harga_produk`, `kuantitas_produk`, `total_harga`) VALUES (@no_transaksi, @produk_id, @nama_produk, @harga_produk, @kuantitas_produk, @total_harga)", conn)
                 cmd2.Parameters.Clear()
                 cmd2.Parameters.AddWithValue("@operator", CurrentUser.Nama.ToString())
                 cmd2.Parameters.AddWithValue("@no_transaksi", invoice)
@@ -590,11 +592,6 @@ Public Class FormPOS
                 cmd2.Parameters.AddWithValue("@harga_produk", CInt(DataGridView1.Rows(row).Cells(1).Value))
                 cmd2.Parameters.AddWithValue("@kuantitas_produk", CInt(DataGridView1.Rows(row).Cells(2).Value))
                 cmd2.Parameters.AddWithValue("@total_harga", subtotal)
-                If lblDiskon.Text Is "" Then
-                    cmd2.Parameters.AddWithValue("@diskon", 0)
-                Else
-                    cmd2.Parameters.AddWithValue("@diskon", CInt(lblDiskon.Text.Replace("-", "").Replace("%", "")))
-                End If
 
                 i = cmd2.ExecuteNonQuery
             Catch ex As Exception
@@ -606,20 +603,31 @@ Public Class FormPOS
 
         total = CDec(txtTotal.Text)
 
+        kembalian = uang - total
+
         Try
             conn.Open()
-            Dim cmd As New MySqlCommand("UPDATE `tbl_penjualan` SET `grandtotal`= @grandtotal WHERE `no_transaksi`= @invoice", conn)
+            Dim cmd As New MySqlCommand("INSERT INTO `tbl_penjualan` (`operator`, `no_transaksi`, `diskon`, `total_kuantitas`, `grandtotal`, `tunai`, `kembalian`) VALUES (@operator, @no_transaksi, @diskon, @total_kuantitas, @grandtotal, @tunai, @kembalian)", conn)
             cmd.Parameters.Clear()
+            cmd.Parameters.AddWithValue("@operator", CurrentUser.Nama.ToString())
+            cmd.Parameters.AddWithValue("@no_transaksi", invoice)
+            cmd.Parameters.AddWithValue("@total_kuantitas", totalKuantitas)
             cmd.Parameters.AddWithValue("@grandtotal", total)
-            cmd.Parameters.AddWithValue("@invoice", invoice)
+            cmd.Parameters.AddWithValue("@tunai", uang)
+            cmd.Parameters.AddWithValue("@kembalian", kembalian)
+
+            If lblDiskon.Text Is "" Then
+                cmd.Parameters.AddWithValue("@diskon", 0)
+            Else
+                cmd.Parameters.AddWithValue("@diskon", CInt(lblDiskon.Text.Replace("-", "").Replace("%", "")))
+            End If
+
             i = cmd.ExecuteNonQuery
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
             conn.Close()
         End Try
-
-        kembalian = uang - total
 
         e.Graphics.DrawString(line, f8, Brushes.Black, 0, height + 135)
 

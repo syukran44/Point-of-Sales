@@ -22,9 +22,25 @@ Partial Class FormPenjualan
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Label2 = New Label()
         txtSearch = New TextBox()
         DataGridView1 = New DataGridView()
+        Column7 = New DataGridViewTextBoxColumn()
+        Column11 = New DataGridViewTextBoxColumn()
+        Column1 = New DataGridViewTextBoxColumn()
+        Column5 = New DataGridViewTextBoxColumn()
+        Column12 = New DataGridViewTextBoxColumn()
+        Column6 = New DataGridViewTextBoxColumn()
+        Column2 = New DataGridViewTextBoxColumn()
+        Column3 = New DataGridViewTextBoxColumn()
+        Column4 = New DataGridViewTextBoxColumn()
         lblWaktu = New Label()
         DataGridView2 = New DataGridView()
         Column8 = New DataGridViewTextBoxColumn()
@@ -33,15 +49,6 @@ Partial Class FormPenjualan
         DateTimePicker1 = New DateTimePicker()
         DateTimePicker2 = New DateTimePicker()
         btnCetak = New Button()
-        Column7 = New DataGridViewTextBoxColumn()
-        Column11 = New DataGridViewTextBoxColumn()
-        Column1 = New DataGridViewTextBoxColumn()
-        Column2 = New DataGridViewTextBoxColumn()
-        Column3 = New DataGridViewTextBoxColumn()
-        Column4 = New DataGridViewTextBoxColumn()
-        Column5 = New DataGridViewTextBoxColumn()
-        Column12 = New DataGridViewTextBoxColumn()
-        Column6 = New DataGridViewTextBoxColumn()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         CType(DataGridView2, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -70,7 +77,7 @@ Partial Class FormPenjualan
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column7, Column11, Column1, Column2, Column3, Column4, Column5, Column12, Column6})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column7, Column11, Column1, Column5, Column12, Column6, Column2, Column3, Column4})
         DataGridView1.Location = New Point(29, 98)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
@@ -80,6 +87,88 @@ Partial Class FormPenjualan
         DataGridView1.Size = New Size(1237, 511)
         DataGridView1.TabIndex = 18
         DataGridView1.TabStop = False
+        ' 
+        ' Column7
+        ' 
+        Column7.HeaderText = "No."
+        Column7.MinimumWidth = 6
+        Column7.Name = "Column7"
+        Column7.ReadOnly = True
+        Column7.Width = 50
+        ' 
+        ' Column11
+        ' 
+        Column11.HeaderText = "Kasir"
+        Column11.MinimumWidth = 6
+        Column11.Name = "Column11"
+        Column11.ReadOnly = True
+        Column11.Width = 170
+        ' 
+        ' Column1
+        ' 
+        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column1.HeaderText = "Nomor Transaksi"
+        Column1.MinimumWidth = 6
+        Column1.Name = "Column1"
+        Column1.ReadOnly = True
+        ' 
+        ' Column5
+        ' 
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column5.DefaultCellStyle = DataGridViewCellStyle1
+        Column5.HeaderText = "Total Kuantitas"
+        Column5.MinimumWidth = 6
+        Column5.Name = "Column5"
+        Column5.ReadOnly = True
+        Column5.Width = 80
+        ' 
+        ' Column12
+        ' 
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column12.DefaultCellStyle = DataGridViewCellStyle2
+        Column12.HeaderText = "Diskon"
+        Column12.MinimumWidth = 6
+        Column12.Name = "Column12"
+        Column12.ReadOnly = True
+        Column12.Width = 125
+        ' 
+        ' Column6
+        ' 
+        Column6.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column6.DefaultCellStyle = DataGridViewCellStyle3
+        Column6.HeaderText = "Grandtotal"
+        Column6.MinimumWidth = 6
+        Column6.Name = "Column6"
+        Column6.ReadOnly = True
+        ' 
+        ' Column2
+        ' 
+        Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column2.DefaultCellStyle = DataGridViewCellStyle4
+        Column2.HeaderText = "Tunai"
+        Column2.MinimumWidth = 6
+        Column2.Name = "Column2"
+        Column2.ReadOnly = True
+        ' 
+        ' Column3
+        ' 
+        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column3.DefaultCellStyle = DataGridViewCellStyle5
+        Column3.HeaderText = "Kembalian"
+        Column3.MinimumWidth = 6
+        Column3.Name = "Column3"
+        Column3.ReadOnly = True
+        ' 
+        ' Column4
+        ' 
+        Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column4.HeaderText = "Waktu"
+        Column4.MinimumWidth = 6
+        Column4.Name = "Column4"
+        Column4.ReadOnly = True
         ' 
         ' lblWaktu
         ' 
@@ -119,6 +208,8 @@ Partial Class FormPenjualan
         ' Column9
         ' 
         Column9.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column9.DefaultCellStyle = DataGridViewCellStyle6
         Column9.HeaderText = "Produk Terjual"
         Column9.MinimumWidth = 6
         Column9.Name = "Column9"
@@ -127,7 +218,9 @@ Partial Class FormPenjualan
         ' Column10
         ' 
         Column10.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column10.HeaderText = "Total Keuntungan"
+        DataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column10.DefaultCellStyle = DataGridViewCellStyle7
+        Column10.HeaderText = "Total Penjualan"
         Column10.MinimumWidth = 6
         Column10.Name = "Column10"
         Column10.ReadOnly = True
@@ -159,78 +252,6 @@ Partial Class FormPenjualan
         btnCetak.Text = "Cetak"
         btnCetak.UseVisualStyleBackColor = False
         ' 
-        ' Column7
-        ' 
-        Column7.HeaderText = "No."
-        Column7.MinimumWidth = 6
-        Column7.Name = "Column7"
-        Column7.ReadOnly = True
-        Column7.Width = 50
-        ' 
-        ' Column11
-        ' 
-        Column11.HeaderText = "Kasir"
-        Column11.MinimumWidth = 6
-        Column11.Name = "Column11"
-        Column11.ReadOnly = True
-        Column11.Width = 170
-        ' 
-        ' Column1
-        ' 
-        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column1.HeaderText = "Nomor Transaksi"
-        Column1.MinimumWidth = 6
-        Column1.Name = "Column1"
-        Column1.ReadOnly = True
-        ' 
-        ' Column2
-        ' 
-        Column2.HeaderText = "Produk ID"
-        Column2.MinimumWidth = 6
-        Column2.Name = "Column2"
-        Column2.ReadOnly = True
-        Column2.Width = 125
-        ' 
-        ' Column3
-        ' 
-        Column3.HeaderText = "Nama Produk"
-        Column3.MinimumWidth = 6
-        Column3.Name = "Column3"
-        Column3.ReadOnly = True
-        Column3.Width = 125
-        ' 
-        ' Column4
-        ' 
-        Column4.HeaderText = "Harga Produk"
-        Column4.MinimumWidth = 6
-        Column4.Name = "Column4"
-        Column4.ReadOnly = True
-        Column4.Width = 125
-        ' 
-        ' Column5
-        ' 
-        Column5.HeaderText = "Kuantitas"
-        Column5.MinimumWidth = 6
-        Column5.Name = "Column5"
-        Column5.ReadOnly = True
-        Column5.Width = 80
-        ' 
-        ' Column12
-        ' 
-        Column12.HeaderText = "Diskon"
-        Column12.MinimumWidth = 6
-        Column12.Name = "Column12"
-        Column12.ReadOnly = True
-        Column12.Width = 125
-        ' 
-        ' Column6
-        ' 
-        Column6.HeaderText = "Total"
-        Column6.MinimumWidth = 6
-        Column6.Name = "Column6"
-        Column6.ReadOnly = True
-        Column6.Width = 125
-        ' 
         ' FormPenjualan
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
@@ -260,19 +281,19 @@ Partial Class FormPenjualan
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents lblWaktu As Label
     Friend WithEvents DataGridView2 As DataGridView
-    Friend WithEvents Column8 As DataGridViewTextBoxColumn
-    Friend WithEvents Column9 As DataGridViewTextBoxColumn
-    Friend WithEvents Column10 As DataGridViewTextBoxColumn
     Friend WithEvents DateTimePicker1 As DateTimePicker
     Friend WithEvents DateTimePicker2 As DateTimePicker
     Friend WithEvents btnCetak As Button
+    Friend WithEvents Column8 As DataGridViewTextBoxColumn
+    Friend WithEvents Column9 As DataGridViewTextBoxColumn
+    Friend WithEvents Column10 As DataGridViewTextBoxColumn
     Friend WithEvents Column7 As DataGridViewTextBoxColumn
     Friend WithEvents Column11 As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
-    Friend WithEvents Column2 As DataGridViewTextBoxColumn
-    Friend WithEvents Column3 As DataGridViewTextBoxColumn
-    Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
     Friend WithEvents Column12 As DataGridViewTextBoxColumn
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
+    Friend WithEvents Column2 As DataGridViewTextBoxColumn
+    Friend WithEvents Column3 As DataGridViewTextBoxColumn
+    Friend WithEvents Column4 As DataGridViewTextBoxColumn
 End Class
