@@ -117,7 +117,7 @@ Public Class FormPenjualan
                 totalProdukTerjual += dr.Item("total_produk_terjual")
                 totalKeuntungan += dr.Item("total_keuntungan")
             End While
-            DataGridView2.Rows.Add(formattedWaktu1 & " S/d " & formattedWaktu2, totalProdukTerjual, Format(totalKeuntungan, "##,##0"))
+            DataGridView2.Rows.Add(formattedWaktu1 & " S/d " & formattedWaktu2, totalProdukTerjual, "Rp. " & Format(totalKeuntungan, "##,##0"))
             dr.Dispose()
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -223,7 +223,7 @@ Public Class FormPenjualan
         center.Alignment = StringAlignment.Center
 
         Dim line As String
-        line = New String("—", PD.DefaultPageSettings.PaperSize.Height - leftmargin - 1003)
+        line = New String("—", PD.DefaultPageSettings.PaperSize.Height - leftmargin - 998)
         Dim height As Integer
 
         Dim tglMulai As String = DateTimePicker1.Value.ToString("dd-MM-yyyy")
@@ -245,12 +245,12 @@ Public Class FormPenjualan
         e.Graphics.DrawString("No", f10, Brushes.Black, leftmargin, 128)
         e.Graphics.DrawString("Operator", f10, Brushes.Black, 30 + leftmargin, 128)
         e.Graphics.DrawString("Nomor Transaksi", f10, Brushes.Black, 200 + leftmargin, 128)
-        e.Graphics.DrawString("Produk ID", f10, Brushes.Black, 350 + leftmargin, 128)
-        e.Graphics.DrawString("Nama Produk", f10, Brushes.Black, 450 + leftmargin, 128)
-        e.Graphics.DrawString("Harga Produk", f10, Brushes.Black, 600 + leftmargin, 128)
-        e.Graphics.DrawString("Kuantitas", f10, Brushes.Black, 720 + leftmargin, 128)
-        e.Graphics.DrawString("Diskon", f10, Brushes.Black, 810 + leftmargin, 128)
-        e.Graphics.DrawString("Total", f10, Brushes.Black, 900 + leftmargin, 128)
+        e.Graphics.DrawString("Total Kuantitas", f10, Brushes.Black, 350 + leftmargin, 128)
+        e.Graphics.DrawString("Diskon", f10, Brushes.Black, 450 + leftmargin, 128)
+        e.Graphics.DrawString("Grandtotal", f10, Brushes.Black, 510 + leftmargin, 128)
+        e.Graphics.DrawString("Tunai", f10, Brushes.Black, 690 + leftmargin, 128)
+        e.Graphics.DrawString("Kembalian", f10, Brushes.Black, 770 + leftmargin, 128)
+        e.Graphics.DrawString("Waktu", f10, Brushes.Black, 900 + leftmargin, 128)
 
         e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 140)
 
@@ -265,19 +265,19 @@ Public Class FormPenjualan
             e.Graphics.DrawString(DataGridView1.Rows(row).Cells(1).Value.ToString, f10, Brushes.Black, 30 + leftmargin, 125 + height)
             'Nomor Transaksi
             e.Graphics.DrawString(DataGridView1.Rows(row).Cells(2).Value.ToString, f10, Brushes.Black, 200 + leftmargin, 125 + height)
-            'Produk ID
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(3).Value.ToString, f10, Brushes.Black, 350 + leftmargin, 125 + height)
-            'Nama Produk
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(4).Value.ToString, f10, Brushes.Black, 450 + leftmargin, 125 + height)
-            'Harga Produk            
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(5).Value.ToString, f10, Brushes.Black, 685 + leftmargin, 125 + height, right)
-            'Kuantitas
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(6).Value.ToString, f10, Brushes.Black, 735 + leftmargin, 125 + height)
+            'Total Kuantitas
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(3).Value.ToString, f10, Brushes.Black, 400 + leftmargin, 125 + height)
             'Diskon
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(7).Value.ToString, f10, Brushes.Black, 820 + leftmargin, 125 + height)
-            'grandtotal
-            i = DataGridView1.Rows(row).Cells(8).Value
-            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(8).Value.ToString, f10, Brushes.Black, 950 + leftmargin, 125 + height, right)
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(4).Value.ToString, f10, Brushes.Black, 450 + leftmargin, 125 + height)
+            'Grandtotal
+            i = DataGridView1.Rows(row).Cells(5).Value.ToString().Replace("Rp. ", "")
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(5).Value.ToString, f10, Brushes.Black, 585 + leftmargin, 125 + height, right)
+            'Tunai
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(6).Value.ToString, f10, Brushes.Black, 735 + leftmargin, 125 + height, right)
+            'Kembalian
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(7).Value.ToString, f10, Brushes.Black, 840 + leftmargin, 125 + height, right)
+            'Waktu
+            e.Graphics.DrawString(DataGridView1.Rows(row).Cells(8).Value.ToString, f10, Brushes.Black, 1000 + leftmargin, 125 + height, right)
 
             e.Graphics.DrawString(line, lineFont, Brushes.Black, leftmargin, 138 + height)
 

@@ -22,13 +22,17 @@ Partial Class FormPembelian
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         btnCetak = New Button()
         DateTimePicker2 = New DateTimePicker()
         DateTimePicker1 = New DateTimePicker()
         DataGridView2 = New DataGridView()
-        Column8 = New DataGridViewTextBoxColumn()
-        Column9 = New DataGridViewTextBoxColumn()
-        Column10 = New DataGridViewTextBoxColumn()
         lblWaktu = New Label()
         DataGridView1 = New DataGridView()
         Label2 = New Label()
@@ -43,6 +47,9 @@ Partial Class FormPembelian
         Column12 = New DataGridViewTextBoxColumn()
         Column13 = New DataGridViewTextBoxColumn()
         Column6 = New DataGridViewTextBoxColumn()
+        Column8 = New DataGridViewTextBoxColumn()
+        Column9 = New DataGridViewTextBoxColumn()
+        Column10 = New DataGridViewTextBoxColumn()
         CType(DataGridView2, ComponentModel.ISupportInitialize).BeginInit()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -91,30 +98,6 @@ Partial Class FormPembelian
         DataGridView2.Size = New Size(908, 61)
         DataGridView2.TabIndex = 29
         DataGridView2.TabStop = False
-        ' 
-        ' Column8
-        ' 
-        Column8.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column8.HeaderText = "Tanggal"
-        Column8.MinimumWidth = 6
-        Column8.Name = "Column8"
-        Column8.ReadOnly = True
-        ' 
-        ' Column9
-        ' 
-        Column9.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column9.HeaderText = "Produk dibeli"
-        Column9.MinimumWidth = 6
-        Column9.Name = "Column9"
-        Column9.ReadOnly = True
-        ' 
-        ' Column10
-        ' 
-        Column10.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column10.HeaderText = "Total Pembelian"
-        Column10.MinimumWidth = 6
-        Column10.Name = "Column10"
-        Column10.ReadOnly = True
         ' 
         ' lblWaktu
         ' 
@@ -202,6 +185,8 @@ Partial Class FormPembelian
         ' 
         ' Column4
         ' 
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column4.DefaultCellStyle = DataGridViewCellStyle3
         Column4.HeaderText = "Harga Produk"
         Column4.MinimumWidth = 6
         Column4.Name = "Column4"
@@ -210,6 +195,8 @@ Partial Class FormPembelian
         ' 
         ' Column5
         ' 
+        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column5.DefaultCellStyle = DataGridViewCellStyle4
         Column5.HeaderText = "Kuantitas"
         Column5.MinimumWidth = 6
         Column5.Name = "Column5"
@@ -219,6 +206,8 @@ Partial Class FormPembelian
         ' Column12
         ' 
         Column12.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column12.DefaultCellStyle = DataGridViewCellStyle5
         Column12.HeaderText = "Diskon"
         Column12.MinimumWidth = 6
         Column12.Name = "Column12"
@@ -227,6 +216,8 @@ Partial Class FormPembelian
         ' Column13
         ' 
         Column13.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column13.DefaultCellStyle = DataGridViewCellStyle6
         Column13.HeaderText = "Pajak"
         Column13.MinimumWidth = 6
         Column13.Name = "Column13"
@@ -234,11 +225,41 @@ Partial Class FormPembelian
         ' 
         ' Column6
         ' 
+        DataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column6.DefaultCellStyle = DataGridViewCellStyle7
         Column6.HeaderText = "Total"
         Column6.MinimumWidth = 6
         Column6.Name = "Column6"
         Column6.ReadOnly = True
         Column6.Width = 125
+        ' 
+        ' Column8
+        ' 
+        Column8.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column8.HeaderText = "Tanggal"
+        Column8.MinimumWidth = 6
+        Column8.Name = "Column8"
+        Column8.ReadOnly = True
+        ' 
+        ' Column9
+        ' 
+        Column9.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column9.DefaultCellStyle = DataGridViewCellStyle1
+        Column9.HeaderText = "Produk dibeli"
+        Column9.MinimumWidth = 6
+        Column9.Name = "Column9"
+        Column9.ReadOnly = True
+        ' 
+        ' Column10
+        ' 
+        Column10.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column10.DefaultCellStyle = DataGridViewCellStyle2
+        Column10.HeaderText = "Total Pembelian"
+        Column10.MinimumWidth = 6
+        Column10.Name = "Column10"
+        Column10.ReadOnly = True
         ' 
         ' FormPembelian
         ' 

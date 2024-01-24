@@ -81,6 +81,19 @@ Public Class FormUser
     End Sub
 
     Private Sub btnTambah_Click(sender As Object, e As EventArgs) Handles btnTambah.Click
+        If txtUsername.Text Is "" Then
+            MsgBox("Silahkan masukkan Username")
+            txtUsername.Focus()
+            Return
+        ElseIf txtPassword.Text Is "" Then
+            MsgBox("Silahkan masukkan Password")
+            txtPassword.Focus()
+            Return
+        ElseIf txtNama.Text Is "" Then
+            MsgBox("Silahkan masukkan Nama")
+            txtNama.Focus()
+            Return
+        End If
         Try
             conn.Open()
 
@@ -110,11 +123,12 @@ Public Class FormUser
             Else
                 MessageBox.Show("User Gagal di Buat!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
             End If
+            conn.Close()
+            clear()
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
             conn.Close()
-            clear()
         End Try
     End Sub
 
@@ -167,6 +181,19 @@ Public Class FormUser
     End Sub
 
     Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
+        If txtUsername.Text Is "" Then
+            MsgBox("Silahkan masukkan Username")
+            txtUsername.Focus()
+            Return
+        ElseIf txtPassword.Text Is "" Then
+            MsgBox("Silahkan masukkan Password")
+            txtPassword.Focus()
+            Return
+        ElseIf txtNama.Text Is "" Then
+            MsgBox("Silahkan masukkan Nama")
+            txtNama.Focus()
+            Return
+        End If
         Try
             conn.Open()
 
@@ -183,11 +210,12 @@ Public Class FormUser
             Else
                 MessageBox.Show("User Gagal di Edit!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
             End If
+            conn.Close()
+            clear()
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
             conn.Close()
-            clear()
         End Try
     End Sub
 
