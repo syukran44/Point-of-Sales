@@ -275,9 +275,7 @@ Public Class Form1
         btnEdit.Enabled = False
     End Sub
 
-    Private Sub btnTambah_Click(sender As Object, e As EventArgs) Handles btnTambah.Click
-        simpanTambah = True
-        clear()
+    Private Sub editMode()
         DataGridView1.Enabled = False
 
         cmbKategori.SelectedIndex = 0
@@ -302,27 +300,15 @@ Public Class Form1
         txtPoin.ReadOnly = False
     End Sub
 
+    Private Sub btnTambah_Click(sender As Object, e As EventArgs) Handles btnTambah.Click
+        simpanTambah = True
+        clear()
+        editMode()
+    End Sub
+
     Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
         simpanTambah = False
-        DataGridView1.Enabled = False
-
-        btnTambah.Visible = False
-        btnHapus.Visible = False
-        btnClear.Visible = False
-        btnEdit.Visible = False
-
-        btnBatal.Visible = True
-        btnSimpanTambah.Visible = True
-
-        btnSimpanTambah.Location = btnTambah.Location
-        btnBatal.Location = btnEdit.Location
-
-        txtNama.ReadOnly = False
-        txtHarga.ReadOnly = False
-        cmbKategoriInput.Enabled = True
-        txtDiskon.ReadOnly = False
-        txtPoin.ReadOnly = False
-        txtJumlah.ReadOnly = False
+        editMode()
     End Sub
 
     Private Sub btnBatal_Click(sender As Object, e As EventArgs) Handles btnBatal.Click

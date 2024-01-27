@@ -20,6 +20,7 @@ Public Class FormPOS
     Dim i As Integer
     Dim dr, dr2 As MySqlDataReader
     Dim uang As Integer = 0
+    Dim jumlahDiskon As Decimal
 
     Private WithEvents pan As Panel
     Private WithEvents namaproduk, harga, diskon, hargaDiskon, stok, poin As Label
@@ -277,15 +278,19 @@ Public Class FormPOS
             If dr.Read() Then
                 If dr.Item("poin") >= 1000 And dr.Item("poin") < 3000 Then
                     lblDiskon.Text = "-2%"
+                    jumlahDiskon = (CInt(txtTotal.Text) * 0.02).ToString("N0")
                     txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.02)).ToString("N0")
                 ElseIf dr.Item("poin") >= 3000 And dr.Item("poin") < 6000 Then
                     lblDiskon.Text = "-4%"
+                    jumlahDiskon = (CInt(txtTotal.Text) * 0.04).ToString("N0")
                     txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.04)).ToString("N0")
                 ElseIf dr.Item("poin") >= 6000 And dr.Item("poin") < 10000 Then
                     lblDiskon.Text = "-7%"
+                    jumlahDiskon = (CInt(txtTotal.Text) * 0.07).ToString("N0")
                     txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.07)).ToString("N0")
                 ElseIf dr.Item("poin") >= 10000 Then
                     lblDiskon.Text = "-10%"
+                    jumlahDiskon = (CInt(txtTotal.Text) * 0.1).ToString("N0")
                     txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.1)).ToString("N0")
                 Else
                     lblDiskon.Text = ""
@@ -439,49 +444,81 @@ Public Class FormPOS
         If DataGridView1.Rows.Count = 0 Then
             MsgBox("Item tidak ada", MsgBoxStyle.OkOnly)
             Exit Sub
-        Else
-            If txtMember.Text IsNot "" Then
-                Try
-                    Dim totalPoin As Integer
-                    conn.Open()
-                    Dim cmd As New MySqlCommand("SELECT * FROM `tbl_member` WHERE `kode_member` = @kode_member AND `masa_aktif` > @today", conn)
-                    cmd.Parameters.Clear()
-                    cmd.Parameters.AddWithValue("@kode_member", txtMember.Text)
-                    cmd.Parameters.AddWithValue("@today", DateTime.Now)
-
-                    dr = cmd.ExecuteReader()
-                    If dr.Read() Then
-                        For row As Integer = 0 To DataGridView1.RowCount - 1
-                            totalPoin += DataGridView1.Rows(row).Cells(2).Value * DataGridView1.Rows(row).Cells(6).Value
-                        Next
-                        Try
-                            Dim cmd2 As New MySqlCommand("UPDATE `tbl_member` SET `poin`= `poin` + @totalPoin WHERE `kode_member`= @kode_member", conn)
-                            cmd2.Parameters.Clear()
-                            cmd2.Parameters.AddWithValue("@totalPoin", totalPoin)
-                            cmd2.Parameters.AddWithValue("@kode_member", txtMember.Text)
-                            dr.Dispose()
-                            i = cmd2.ExecuteNonQuery()
-                        Catch ex As Exception
-                            MsgBox(ex.Message)
-                        Finally
-                            conn.Close()
-                        End Try
-                    Else
-                        MsgBox("Kode Member salah, Silahkan masukkan kode yang benar")
-                        conn.Close()
-                        Exit Sub
-                    End If
-                Catch ex As Exception
-                    MsgBox(ex.Message)
-                Finally
-                    conn.Close()
-                End Try
-            End If
-
-            changelongpaper()
-            PPD.Document = PD
-            PPD.ShowDialog()
         End If
+
+        Dim stok As Integer = 0
+        Dim produk(DataGridView1.RowCount - 1) As String
+        Dim produkHabis As Boolean = False
+        For row As Integer = 0 To DataGridView1.RowCount - 1
+            Try
+                conn.Open()
+                Dim cmd As New MySqlCommand("SELECT `jumlah` FROM `tbl_produk` WHERE `produk_id` = @produk_id", conn)
+                cmd.Parameters.Clear()
+                cmd.Parameters.AddWithValue("@produk_id", DataGridView1.Rows(row).Cells(3).Value)
+
+                dr = cmd.ExecuteReader()
+                If dr.Read() Then
+                    If DataGridView1.Rows(row).Cells(2).Value > dr.Item("jumlah") Then
+                        produkHabis = True
+                        produk(row) = DataGridView1.Rows(row).Cells(0).Value.ToString()
+                    Else
+                        conn.Close()
+                    End If
+                End If
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            Finally
+                conn.Close()
+            End Try
+        Next
+
+        If produkHabis Then
+            Dim produkString As String = String.Join(", ", produk)
+            MsgBox("Stok Barang kurang: " & produkString)
+            Exit Sub
+        End If
+
+        If txtMember.Text IsNot "" Then
+            Try
+                Dim totalPoin As Integer
+                conn.Open()
+                Dim cmd As New MySqlCommand("SELECT * FROM `tbl_member` WHERE `kode_member` = @kode_member AND `masa_aktif` > @today", conn)
+                cmd.Parameters.Clear()
+                cmd.Parameters.AddWithValue("@kode_member", txtMember.Text)
+                cmd.Parameters.AddWithValue("@today", DateTime.Now)
+
+                dr = cmd.ExecuteReader()
+                If dr.Read() Then
+                    For row As Integer = 0 To DataGridView1.RowCount - 1
+                        totalPoin += DataGridView1.Rows(row).Cells(2).Value * DataGridView1.Rows(row).Cells(6).Value
+                    Next
+                    Try
+                        Dim cmd2 As New MySqlCommand("UPDATE `tbl_member` SET `poin`= `poin` + @totalPoin WHERE `kode_member`= @kode_member", conn)
+                        cmd2.Parameters.Clear()
+                        cmd2.Parameters.AddWithValue("@totalPoin", totalPoin)
+                        cmd2.Parameters.AddWithValue("@kode_member", txtMember.Text)
+                        dr.Dispose()
+                        i = cmd2.ExecuteNonQuery()
+                    Catch ex As Exception
+                        MsgBox(ex.Message)
+                    Finally
+                        conn.Close()
+                    End Try
+                Else
+                    MsgBox("Kode Member salah, Silahkan masukkan kode yang benar")
+                    conn.Close()
+                    Exit Sub
+                End If
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            Finally
+                conn.Close()
+            End Try
+        End If
+
+        changelongpaper()
+        PPD.Document = PD
+        PPD.ShowDialog()
     End Sub
 
     Sub changelongpaper()
@@ -651,7 +688,7 @@ Public Class FormPOS
 
         If diskon Then
             e.Graphics.DrawString("Diskon Member", f8, Brushes.Black, 0, height + 150)
-            e.Graphics.DrawString(lblDiskon.Text.Replace("-", ""), f8, Brushes.Black, rightmargin, height + 150, right)
+            e.Graphics.DrawString(lblDiskon.Text.Replace("-", "") & " (-" & jumlahDiskon.ToString("##,##0") & ")", f8, Brushes.Black, rightmargin, height + 150, right)
             height += 15
         End If
 

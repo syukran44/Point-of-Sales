@@ -24,6 +24,8 @@ Partial Class FormUser
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormUser))
         Panel1 = New Panel()
+        btnBatal = New Button()
+        btnSimpan = New Button()
         btnEye = New Button()
         cmbRole = New ComboBox()
         lblKodeMember = New Label()
@@ -52,6 +54,8 @@ Partial Class FormUser
         ' Panel1
         ' 
         Panel1.BackColor = SystemColors.ControlLightLight
+        Panel1.Controls.Add(btnBatal)
+        Panel1.Controls.Add(btnSimpan)
         Panel1.Controls.Add(btnEye)
         Panel1.Controls.Add(cmbRole)
         Panel1.Controls.Add(lblKodeMember)
@@ -73,6 +77,42 @@ Partial Class FormUser
         Panel1.Size = New Size(318, 752)
         Panel1.TabIndex = 6
         ' 
+        ' btnBatal
+        ' 
+        btnBatal.Anchor = AnchorStyles.Left
+        btnBatal.BackColor = Color.OrangeRed
+        btnBatal.FlatAppearance.BorderSize = 0
+        btnBatal.FlatAppearance.MouseDownBackColor = Color.Lime
+        btnBatal.FlatStyle = FlatStyle.Flat
+        btnBatal.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnBatal.ForeColor = Color.White
+        btnBatal.Location = New Point(163, 590)
+        btnBatal.Margin = New Padding(0)
+        btnBatal.Name = "btnBatal"
+        btnBatal.Size = New Size(106, 43)
+        btnBatal.TabIndex = 30
+        btnBatal.Text = "Batal"
+        btnBatal.UseVisualStyleBackColor = False
+        btnBatal.Visible = False
+        ' 
+        ' btnSimpan
+        ' 
+        btnSimpan.Anchor = AnchorStyles.Left
+        btnSimpan.BackColor = Color.LimeGreen
+        btnSimpan.FlatAppearance.BorderSize = 0
+        btnSimpan.FlatAppearance.MouseDownBackColor = Color.Lime
+        btnSimpan.FlatStyle = FlatStyle.Flat
+        btnSimpan.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnSimpan.ForeColor = Color.White
+        btnSimpan.Location = New Point(45, 590)
+        btnSimpan.Margin = New Padding(0)
+        btnSimpan.Name = "btnSimpan"
+        btnSimpan.Size = New Size(106, 43)
+        btnSimpan.TabIndex = 29
+        btnSimpan.Text = "Simpan"
+        btnSimpan.UseVisualStyleBackColor = False
+        btnSimpan.Visible = False
+        ' 
         ' btnEye
         ' 
         btnEye.Anchor = AnchorStyles.Left
@@ -93,6 +133,7 @@ Partial Class FormUser
         ' cmbRole
         ' 
         cmbRole.Anchor = AnchorStyles.Left
+        cmbRole.Enabled = False
         cmbRole.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         cmbRole.FormattingEnabled = True
         cmbRole.Items.AddRange(New Object() {"admin", "kasir"})
@@ -117,6 +158,7 @@ Partial Class FormUser
         txtUsername.Anchor = AnchorStyles.Left
         txtUsername.Location = New Point(47, 180)
         txtUsername.Name = "txtUsername"
+        txtUsername.ReadOnly = True
         txtUsername.Size = New Size(224, 38)
         txtUsername.TabIndex = 1
         ' 
@@ -204,6 +246,7 @@ Partial Class FormUser
         txtNama.Anchor = AnchorStyles.Left
         txtNama.Location = New Point(47, 330)
         txtNama.Name = "txtNama"
+        txtNama.ReadOnly = True
         txtNama.Size = New Size(224, 38)
         txtNama.TabIndex = 3
         ' 
@@ -245,6 +288,7 @@ Partial Class FormUser
         txtPassword.Location = New Point(47, 255)
         txtPassword.Name = "txtPassword"
         txtPassword.PasswordChar = "*"c
+        txtPassword.ReadOnly = True
         txtPassword.Size = New Size(207, 38)
         txtPassword.TabIndex = 2
         ' 
@@ -356,4 +400,6 @@ Partial Class FormUser
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents cmbRole As ComboBox
     Friend WithEvents btnEye As Button
+    Friend WithEvents btnBatal As Button
+    Friend WithEvents btnSimpan As Button
 End Class

@@ -207,6 +207,7 @@ Public Class FormMember
     End Sub
 
     Private Sub btnSimpanTambah_Click(sender As Object, e As EventArgs) Handles btnSimpanTambah.Click
+        generateMember()
         Try
             If txtNama.Text Is "" Then
                 MsgBox("Silahkan masukkan Nama")
@@ -224,6 +225,8 @@ Public Class FormMember
                     Return
                 End If
             End Using
+
+
 
             Dim cmd As New MySqlCommand("INSERT INTO `tbl_member`(`kode_member`, `nama`, `poin`, `masa_aktif`) VALUES (@kode_member, @nama, @poin, @masa_aktif)", conn)
             cmd.Parameters.Clear()
@@ -276,6 +279,11 @@ Public Class FormMember
     End Sub
 
     Private Sub btnGenerate_Click(sender As Object, e As EventArgs) Handles btnGenerate.Click
+        generateMember()
+
+    End Sub
+
+    Private Sub generateMember()
         Dim uniqueCode As String = String.Empty
         Dim random As New Random()
         Try
@@ -305,6 +313,5 @@ Public Class FormMember
             conn.Close()
             DGVRead("SELECT * FROM tbl_member")
         End Try
-
     End Sub
 End Class

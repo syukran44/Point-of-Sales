@@ -114,8 +114,12 @@ Public Class FormPenjualan
             Dim totalProdukTerjual As Integer = 0
             Dim totalKeuntungan As Decimal = 0
             While dr.Read()
-                totalProdukTerjual += dr.Item("total_produk_terjual")
-                totalKeuntungan += dr.Item("total_keuntungan")
+                If Not IsDBNull(dr("total_produk_terjual")) Then
+                    totalProdukTerjual += dr.Item("total_produk_terjual")
+                End If
+                If Not IsDBNull(dr("total_keuntungan")) Then
+                    totalKeuntungan += dr.Item("total_keuntungan")
+                End If
             End While
             DataGridView2.Rows.Add(formattedWaktu1 & " S/d " & formattedWaktu2, totalProdukTerjual, "Rp. " & Format(totalKeuntungan, "##,##0"))
             dr.Dispose()

@@ -17,7 +17,9 @@ Public Class FormUser
 
     Dim conn As New MySqlConnection("server=localhost; port=3306; username=root; password=; database=sales_db")
     Dim i As Integer = 0
+    Dim currentRow As Integer
     Dim dr As MySqlDataReader
+    Dim simpanTambah As Boolean = True
 
     Private Sub FormUser_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -80,7 +82,72 @@ Public Class FormUser
         End If
     End Sub
 
+    Private Sub editMode()
+        DataGridView1.Enabled = False
+
+        cmbRole.SelectedIndex = 0
+        btnTambah.Visible = False
+        btnHapus.Visible = False
+        btnClear.Visible = False
+        btnEdit.Visible = False
+
+        btnBatal.Visible = True
+        btnSimpan.Visible = True
+
+        btnSimpan.Location = btnTambah.Location
+        btnBatal.Location = btnEdit.Location
+
+        txtUsername.ReadOnly = False
+        txtPassword.ReadOnly = False
+        txtNama.ReadOnly = False
+        cmbRole.Enabled = True
+    End Sub
+
     Private Sub btnTambah_Click(sender As Object, e As EventArgs) Handles btnTambah.Click
+        simpanTambah = True
+        clear()
+        editMode()
+    End Sub
+
+    Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
+        simpanTambah = False
+        editMode()
+    End Sub
+
+    Private Sub btnBatal_Click(sender As Object, e As EventArgs) Handles btnBatal.Click
+        If simpanTambah = True Then
+            clear()
+        End If
+
+        DataGridView1.Enabled = True
+
+        cmbRole.SelectedIndex = 0
+        btnTambah.Visible = True
+        btnHapus.Visible = True
+        btnClear.Visible = True
+        btnEdit.Visible = True
+
+        btnBatal.Visible = False
+        btnSimpan.Visible = False
+
+        btnSimpan.Location = btnTambah.Location
+        btnBatal.Location = btnEdit.Location
+
+        txtUsername.ReadOnly = True
+        txtPassword.ReadOnly = True
+        txtNama.ReadOnly = True
+        cmbRole.Enabled = False
+    End Sub
+
+    Private Sub btnSimpan_Click(sender As Object, e As EventArgs) Handles btnSimpan.Click
+        If simpanTambah = True Then
+            create()
+        Else
+            update()
+        End If
+    End Sub
+
+    Private Sub create()
         If txtUsername.Text Is "" Then
             MsgBox("Silahkan masukkan Username")
             txtUsername.Focus()
@@ -124,6 +191,7 @@ Public Class FormUser
                 MessageBox.Show("User Gagal di Buat!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
             End If
             conn.Close()
+            btnBatal_Click(Nothing, Nothing)
             clear()
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -132,7 +200,50 @@ Public Class FormUser
         End Try
     End Sub
 
+    Private Sub update()
+        If txtUsername.Text Is "" Then
+            MsgBox("Silahkan masukkan Username")
+            txtUsername.Focus()
+            Return
+        ElseIf txtPassword.Text Is "" Then
+            MsgBox("Silahkan masukkan Password")
+            txtPassword.Focus()
+            Return
+        ElseIf txtNama.Text Is "" Then
+            MsgBox("Silahkan masukkan Nama")
+            txtNama.Focus()
+            Return
+        End If
+        Try
+            conn.Open()
+
+            Dim hashedPassword As String = HashPassword(txtPassword.Text)
+            Dim cmd As New MySqlCommand("UPDATE `tbl_users` SET `username`= @username, `password`= @password, `role` = @role, `nama`= @nama WHERE `username` = @username", conn)
+            cmd.Parameters.Clear()
+            cmd.Parameters.AddWithValue("@username", txtUsername.Text)
+            cmd.Parameters.AddWithValue("@password", hashedPassword)
+            cmd.Parameters.AddWithValue("@role", cmbRole.SelectedItem.ToString())
+            cmd.Parameters.AddWithValue("@nama", txtNama.Text)
+            i = cmd.ExecuteNonQuery
+            If i > 0 Then
+                MessageBox.Show("User Berhasil di Edit!", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                MessageBox.Show("User Gagal di Edit!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+            End If
+            conn.Close()
+            btnBatal_Click(Nothing, Nothing)
+            clear()
+            DataGridView1.ClearSelection()
+            DataGridView1.Rows(currentRow).Selected = True
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        currentRow = DataGridView1.CurrentCell.RowIndex
         Dim username As String = DataGridView1.CurrentRow.Cells(1).Value
         Try
             conn.Open()
@@ -177,45 +288,6 @@ Public Class FormUser
         Finally
             conn.Close()
             clear()
-        End Try
-    End Sub
-
-    Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
-        If txtUsername.Text Is "" Then
-            MsgBox("Silahkan masukkan Username")
-            txtUsername.Focus()
-            Return
-        ElseIf txtPassword.Text Is "" Then
-            MsgBox("Silahkan masukkan Password")
-            txtPassword.Focus()
-            Return
-        ElseIf txtNama.Text Is "" Then
-            MsgBox("Silahkan masukkan Nama")
-            txtNama.Focus()
-            Return
-        End If
-        Try
-            conn.Open()
-
-            Dim hashedPassword As String = HashPassword(txtPassword.Text)
-            Dim cmd As New MySqlCommand("UPDATE `tbl_users` SET `username`= @username, `password`= @password, `role` = @role, `nama`= @nama WHERE `username` = @username", conn)
-            cmd.Parameters.Clear()
-            cmd.Parameters.AddWithValue("@username", txtUsername.Text)
-            cmd.Parameters.AddWithValue("@password", hashedPassword)
-            cmd.Parameters.AddWithValue("@role", cmbRole.SelectedItem.ToString())
-            cmd.Parameters.AddWithValue("@nama", txtNama.Text)
-            i = cmd.ExecuteNonQuery
-            If i > 0 Then
-                MessageBox.Show("User Berhasil di Edit!", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                MessageBox.Show("User Gagal di Edit!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
-            End If
-            conn.Close()
-            clear()
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        Finally
-            conn.Close()
         End Try
     End Sub
 
