@@ -74,11 +74,20 @@ Public Class Form1
             MsgBox("Silahkan masukkan nama")
             txtNama.Focus()
             Return
-        ElseIf txtHarga.Text Is "" Then
-            MsgBox("Silahkan masukkan harga")
-            txtHarga.Focus()
+        ElseIf txtHargaJual.Text Is "" Then
+            MsgBox("Silahkan masukkan harga jual")
+            txtHargaJual.Focus()
+            Return
+        ElseIf txtHargaBeli.Text Is "" Then
+            MsgBox("Silahkan masukkan harga beli")
+            txtHargaBeli.Focus()
             Return
         End If
+
+        If simpanTambah = True Then
+            generateProdukID()
+        End If
+
         Try
             conn.Open()
 
@@ -91,16 +100,28 @@ Public Class Form1
             cmd.Parameters.AddWithValue("@produk_id", txtProdukID.Text)
             cmd.Parameters.AddWithValue("@nama_produk", txtNama.Text)
             cmd.Parameters.AddWithValue("@id_kategori", categoryId)
-            cmd.Parameters.AddWithValue("@harga", txtHarga.Text)
+            cmd.Parameters.AddWithValue("@harga", txtHargaJual.Text)
             cmd.Parameters.AddWithValue("@diskon", txtDiskon.Text)
             cmd.Parameters.AddWithValue("@poin", txtPoin.Text)
             cmd.Parameters.AddWithValue("@jumlah", txtJumlah.Text)
-            i = cmd.ExecuteNonQuery
-            If i > 0 Then
+            'i = cmd.ExecuteNonQuery
+            'If i > 0 Then
+            '    MessageBox.Show("Data Berhasil di Tambahkan!", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            'Else
+            '    MessageBox.Show("Data Gagal di Tambahkan!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+            'End If
+
+            Dim cmd2 As New MySqlCommand("INSERT INTO `tbl_harga_supplier`(`produk_id`, `harga_beli`) VALUES (@produk_id, @harga_beli)", conn)
+            cmd2.Parameters.Clear()
+            cmd2.Parameters.AddWithValue("@produk_id", txtProdukID.Text)
+            cmd2.Parameters.AddWithValue("@harga_beli", txtHargaBeli.Text)
+
+            If cmd.ExecuteNonQuery() And cmd2.ExecuteNonQuery() Then
                 MessageBox.Show("Data Berhasil di Tambahkan!", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 MessageBox.Show("Data Gagal di Tambahkan!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
             End If
+
             conn.Close()
             btnBatal_Click(Nothing, Nothing)
             clear()
@@ -154,18 +175,18 @@ Public Class Form1
         End Try
     End Sub
 
-    Private Sub cmbKategoriInput_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbKategoriInput.SelectedIndexChanged
-        If simpanTambah = True Then
-            generateProdukID()
-        End If
-    End Sub
+    'Private Sub cmbKategoriInput_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbKategoriInput.SelectedIndexChanged
+    '    If simpanTambah = True Then
+    '        generateProdukID()
+    '    End If
+    'End Sub
 
     Private Sub generateProdukID()
         Try
             Dim id, lastID As Integer
             Dim key As String
             conn.Open()
-            Dim cmd As New MySqlCommand("SELECT MAX(CAST(SUBSTRING(`produk_id`, 2) AS UNSIGNED)) AS 'lastID', SUBSTRING(`produk_id`, 1, 1) AS 'key' FROM `tbl_produk` JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE nama_kategori LIKE '%" & cmbKategoriInput.SelectedItem & "%'", conn)
+            Dim cmd As New MySqlCommand("SELECT MAX(CAST(SUBSTRING(`produk_id`, 2) AS UNSIGNED)) AS 'lastID', key_kategori AS 'key' FROM `tbl_produk` JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE nama_kategori LIKE '%" & cmbKategoriInput.SelectedItem & "%'", conn)
             cmd.Parameters.Clear()
             dr = cmd.ExecuteReader
             If dr.Read Then
@@ -203,9 +224,13 @@ Public Class Form1
                 MsgBox("Silahkan masukkan nama")
                 txtNama.Focus()
                 Return
-            ElseIf txtHarga.Text Is "" Then
+            ElseIf txtHargaJual.Text Is "" Then
                 MsgBox("Silahkan masukkan harga")
-                txtHarga.Focus()
+                txtHargaJual.Focus()
+                Return
+            ElseIf txtHargaBeli.Text Is "" Then
+                MsgBox("Silahkan masukkan harga beli")
+                txtHargaBeli.Focus()
                 Return
             End If
 
@@ -220,7 +245,7 @@ Public Class Form1
             cmd.Parameters.AddWithValue("@produk_id", txtProdukID.Text)
             cmd.Parameters.AddWithValue("@nama_produk", txtNama.Text)
             cmd.Parameters.AddWithValue("@id_kategori", categoryId)
-            cmd.Parameters.AddWithValue("@harga", txtHarga.Text)
+            cmd.Parameters.AddWithValue("@harga", txtHargaJual.Text)
             cmd.Parameters.AddWithValue("@diskon", txtDiskon.Text)
             cmd.Parameters.AddWithValue("@poin", txtPoin.Text)
             cmd.Parameters.AddWithValue("@jumlah", txtJumlah.Text)
@@ -265,7 +290,8 @@ Public Class Form1
     Private Sub clear()
         txtProdukID.Clear()
         txtNama.Clear()
-        txtHarga.Clear()
+        txtHargaJual.Clear()
+        txtHargaBeli.Clear()
         txtDiskon.Clear()
         txtPoin.Clear()
         txtJumlah.Clear()
@@ -294,7 +320,8 @@ Public Class Form1
         txtJumlah.Visible = False
 
         txtNama.ReadOnly = False
-        txtHarga.ReadOnly = False
+        txtHargaJual.ReadOnly = False
+        txtHargaBeli.ReadOnly = False
         cmbKategoriInput.Enabled = True
         txtDiskon.ReadOnly = False
         txtPoin.ReadOnly = False
@@ -332,7 +359,8 @@ Public Class Form1
         txtJumlah.Visible = True
 
         txtNama.ReadOnly = True
-        txtHarga.ReadOnly = True
+        txtHargaJual.ReadOnly = True
+        txtHargaBeli.ReadOnly = True
         cmbKategoriInput.Enabled = False
         txtDiskon.ReadOnly = True
         txtPoin.ReadOnly = True
@@ -346,7 +374,7 @@ Public Class Form1
         txtNama.Text = DataGridView1.CurrentRow.Cells(2).Value
         'txtKategori.Text = DataGridView1.CurrentRow.Cells(3).Value
         cmbKategoriInput.SelectedItem = DataGridView1.CurrentRow.Cells(3).Value
-        txtHarga.Text = DataGridView1.CurrentRow.Cells(4).Value.ToString().Replace("Rp. ", "")
+        txtHargaJual.Text = DataGridView1.CurrentRow.Cells(4).Value.ToString().Replace("Rp. ", "")
         txtDiskon.Text = DataGridView1.CurrentRow.Cells(5).Value.ToString().Replace("%", "")
         txtPoin.Text = DataGridView1.CurrentRow.Cells(7).Value
         txtJumlah.Text = DataGridView1.CurrentRow.Cells(8).Value
@@ -498,14 +526,14 @@ Public Class Form1
     End Sub
 
     'Proteksi Angka---------------------------------------------------------------------------------------
-    Private Sub txtHarga_TextChanged(sender As Object, e As EventArgs) Handles txtHarga.TextChanged
-        If Not IsNumeric(txtHarga.Text) And Not txtHarga.Text = "" Then
+    Private Sub txtHarga_TextChanged(sender As Object, e As EventArgs) Handles txtHargaJual.TextChanged
+        If Not IsNumeric(txtHargaJual.Text) And Not txtHargaJual.Text = "" Then
             MsgBox("Masukkan Jumlah yang benar")
-            txtHarga.Text = 0
+            txtHargaJual.Text = 0
         End If
     End Sub
 
-    Private Sub txtHarga_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtHarga.KeyPress
+    Private Sub txtHarga_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtHargaJual.KeyPress
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
         End If

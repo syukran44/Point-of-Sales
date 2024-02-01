@@ -26,7 +26,6 @@ Partial Class FormMember
         Panel1 = New Panel()
         Panel2 = New Panel()
         btnSimpanEdit = New Button()
-        btnGenerate = New Button()
         btnBatal = New Button()
         btnSimpanTambah = New Button()
         lblKodeMember = New Label()
@@ -43,8 +42,6 @@ Partial Class FormMember
         txtNama = New TextBox()
         Label1 = New Label()
         DataGridView1 = New DataGridView()
-        Label2 = New Label()
-        txtSearch = New TextBox()
         Column5 = New DataGridViewTextBoxColumn()
         Column6 = New DataGridViewTextBoxColumn()
         Column1 = New DataGridViewTextBoxColumn()
@@ -53,6 +50,8 @@ Partial Class FormMember
         Column3 = New DataGridViewTextBoxColumn()
         Column4 = New DataGridViewTextBoxColumn()
         Column8 = New DataGridViewTextBoxColumn()
+        Label2 = New Label()
+        txtSearch = New TextBox()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
@@ -74,7 +73,6 @@ Partial Class FormMember
         ' 
         Panel2.Anchor = AnchorStyles.Left
         Panel2.Controls.Add(btnSimpanEdit)
-        Panel2.Controls.Add(btnGenerate)
         Panel2.Controls.Add(btnBatal)
         Panel2.Controls.Add(btnSimpanTambah)
         Panel2.Controls.Add(lblKodeMember)
@@ -110,18 +108,6 @@ Partial Class FormMember
         btnSimpanEdit.Text = "Simpan"
         btnSimpanEdit.UseVisualStyleBackColor = False
         btnSimpanEdit.Visible = False
-        ' 
-        ' btnGenerate
-        ' 
-        btnGenerate.Anchor = AnchorStyles.Left
-        btnGenerate.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btnGenerate.Location = New Point(12, 15)
-        btnGenerate.Name = "btnGenerate"
-        btnGenerate.Size = New Size(100, 36)
-        btnGenerate.TabIndex = 29
-        btnGenerate.Text = "Generate"
-        btnGenerate.UseVisualStyleBackColor = True
-        btnGenerate.Visible = False
         ' 
         ' btnBatal
         ' 
@@ -324,23 +310,6 @@ Partial Class FormMember
         DataGridView1.TabIndex = 6
         DataGridView1.TabStop = False
         ' 
-        ' Label2
-        ' 
-        Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.Location = New Point(342, 17)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(60, 20)
-        Label2.TabIndex = 19
-        Label2.Text = "Search :"
-        ' 
-        ' txtSearch
-        ' 
-        txtSearch.Location = New Point(342, 45)
-        txtSearch.Name = "txtSearch"
-        txtSearch.Size = New Size(366, 27)
-        txtSearch.TabIndex = 0
-        ' 
         ' Column5
         ' 
         Column5.HeaderText = "No."
@@ -407,6 +376,23 @@ Partial Class FormMember
         Column8.ReadOnly = True
         Column8.Width = 125
         ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label2.Location = New Point(342, 17)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(60, 20)
+        Label2.TabIndex = 19
+        Label2.Text = "Search :"
+        ' 
+        ' txtSearch
+        ' 
+        txtSearch.Location = New Point(342, 45)
+        txtSearch.Name = "txtSearch"
+        txtSearch.Size = New Size(366, 27)
+        txtSearch.TabIndex = 0
+        ' 
         ' FormMember
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
@@ -447,7 +433,6 @@ Partial Class FormMember
     Friend WithEvents txtKodeMember As TextBox
     Friend WithEvents btnSimpanTambah As Button
     Friend WithEvents btnBatal As Button
-    Friend WithEvents btnGenerate As Button
     Friend WithEvents Panel2 As Panel
     Friend WithEvents btnSimpanEdit As Button
     Friend WithEvents Column5 As DataGridViewTextBoxColumn

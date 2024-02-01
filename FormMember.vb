@@ -80,7 +80,6 @@ Public Class FormMember
         lblPoin.Visible = False
         txtPoin.Visible = False
 
-        btnGenerate.Visible = True
         btnBatal.Visible = True
         btnSimpanTambah.Visible = True
         DateTimePicker1.Enabled = True
@@ -115,7 +114,6 @@ Public Class FormMember
         txtPoin.ReadOnly = False
     End Sub
     Private Sub btnBatal_Click(sender As Object, e As EventArgs) Handles btnBatal.Click
-        btnGenerate.Visible = False
         btnBatal.Visible = False
         btnSimpanTambah.Visible = False
         btnSimpanEdit.Visible = False
@@ -207,26 +205,24 @@ Public Class FormMember
     End Sub
 
     Private Sub btnSimpanTambah_Click(sender As Object, e As EventArgs) Handles btnSimpanTambah.Click
+        If txtNama.Text Is "" Then
+            MsgBox("Silahkan masukkan Nama")
+            txtNama.Focus()
+            Return
+        End If
         generateMember()
         Try
-            If txtNama.Text Is "" Then
-                MsgBox("Silahkan masukkan Nama")
-                Return
-            End If
-
             conn.Open()
             'Cek kode member
-            Using checkCmd As New MySqlCommand("SELECT COUNT(*) FROM tbl_member WHERE kode_member = @kode_member", conn)
-                checkCmd.Parameters.AddWithValue("@kode_member", txtKodeMember.Text)
-                Dim count As Integer = Convert.ToInt32(checkCmd.ExecuteScalar())
+            'Using checkCmd As New MySqlCommand("SELECT COUNT(*) FROM tbl_member WHERE kode_member = @kode_member", conn)
+            '    checkCmd.Parameters.AddWithValue("@kode_member", txtKodeMember.Text)
+            '    Dim count As Integer = Convert.ToInt32(checkCmd.ExecuteScalar())
 
-                If count > 0 Then
-                    MsgBox("Kode Member sudah ada. Masukkan kode yang lain")
-                    Return
-                End If
-            End Using
-
-
+            '    If count > 0 Then
+            '        MsgBox("Kode Member sudah ada. Masukkan kode yang lain")
+            '        Return
+            '    End If
+            'End Using
 
             Dim cmd As New MySqlCommand("INSERT INTO `tbl_member`(`kode_member`, `nama`, `poin`, `masa_aktif`) VALUES (@kode_member, @nama, @poin, @masa_aktif)", conn)
             cmd.Parameters.Clear()
@@ -276,11 +272,6 @@ Public Class FormMember
         Finally
             conn.Close()
         End Try
-    End Sub
-
-    Private Sub btnGenerate_Click(sender As Object, e As EventArgs) Handles btnGenerate.Click
-        generateMember()
-
     End Sub
 
     Private Sub generateMember()

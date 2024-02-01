@@ -38,8 +38,10 @@ Partial Class Form1
         Column7 = New DataGridViewTextBoxColumn()
         Column4 = New DataGridViewTextBoxColumn()
         txtNama = New TextBox()
-        txtHarga = New TextBox()
+        txtHargaJual = New TextBox()
         Panel1 = New Panel()
+        Label7 = New Label()
+        txtHargaBeli = New TextBox()
         cmbKategoriInput = New ComboBox()
         btnBatal = New Button()
         btnSimpanTambah = New Button()
@@ -174,24 +176,26 @@ Partial Class Form1
         ' txtNama
         ' 
         txtNama.Anchor = AnchorStyles.Left
-        txtNama.Location = New Point(39, 168)
+        txtNama.Location = New Point(39, 166)
         txtNama.Name = "txtNama"
         txtNama.ReadOnly = True
         txtNama.Size = New Size(224, 38)
-        txtNama.TabIndex = 2
+        txtNama.TabIndex = 1
         ' 
-        ' txtHarga
+        ' txtHargaJual
         ' 
-        txtHarga.Anchor = AnchorStyles.Left
-        txtHarga.Location = New Point(39, 316)
-        txtHarga.Name = "txtHarga"
-        txtHarga.ReadOnly = True
-        txtHarga.Size = New Size(224, 38)
-        txtHarga.TabIndex = 4
+        txtHargaJual.Anchor = AnchorStyles.Left
+        txtHargaJual.Location = New Point(39, 383)
+        txtHargaJual.Name = "txtHargaJual"
+        txtHargaJual.ReadOnly = True
+        txtHargaJual.Size = New Size(224, 38)
+        txtHargaJual.TabIndex = 4
         ' 
         ' Panel1
         ' 
         Panel1.BackColor = SystemColors.ControlLightLight
+        Panel1.Controls.Add(Label7)
+        Panel1.Controls.Add(txtHargaBeli)
         Panel1.Controls.Add(cmbKategoriInput)
         Panel1.Controls.Add(btnBatal)
         Panel1.Controls.Add(btnSimpanTambah)
@@ -211,7 +215,7 @@ Partial Class Form1
         Panel1.Controls.Add(lblHarga)
         Panel1.Controls.Add(lblNama)
         Panel1.Controls.Add(Label1)
-        Panel1.Controls.Add(txtHarga)
+        Panel1.Controls.Add(txtHargaJual)
         Panel1.Controls.Add(txtNama)
         Panel1.Dock = DockStyle.Left
         Panel1.Font = New Font("Segoe UI", 13.8F, FontStyle.Bold)
@@ -220,15 +224,35 @@ Partial Class Form1
         Panel1.Size = New Size(318, 752)
         Panel1.TabIndex = 4
         ' 
+        ' Label7
+        ' 
+        Label7.Anchor = AnchorStyles.Left
+        Label7.AutoSize = True
+        Label7.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label7.Location = New Point(39, 285)
+        Label7.Name = "Label7"
+        Label7.Size = New Size(82, 20)
+        Label7.TabIndex = 24
+        Label7.Text = "Harga Beli:"
+        ' 
+        ' txtHargaBeli
+        ' 
+        txtHargaBeli.Anchor = AnchorStyles.Left
+        txtHargaBeli.Location = New Point(39, 311)
+        txtHargaBeli.Name = "txtHargaBeli"
+        txtHargaBeli.ReadOnly = True
+        txtHargaBeli.Size = New Size(224, 38)
+        txtHargaBeli.TabIndex = 3
+        ' 
         ' cmbKategoriInput
         ' 
         cmbKategoriInput.Anchor = AnchorStyles.Left
         cmbKategoriInput.Enabled = False
         cmbKategoriInput.FormattingEnabled = True
-        cmbKategoriInput.Location = New Point(39, 244)
+        cmbKategoriInput.Location = New Point(39, 238)
         cmbKategoriInput.Name = "cmbKategoriInput"
         cmbKategoriInput.Size = New Size(218, 39)
-        cmbKategoriInput.TabIndex = 22
+        cmbKategoriInput.TabIndex = 2
         ' 
         ' btnBatal
         ' 
@@ -239,7 +263,7 @@ Partial Class Form1
         btnBatal.FlatStyle = FlatStyle.Flat
         btnBatal.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnBatal.ForeColor = Color.White
-        btnBatal.Location = New Point(157, 702)
+        btnBatal.Location = New Point(191, 17)
         btnBatal.Margin = New Padding(0)
         btnBatal.Name = "btnBatal"
         btnBatal.Size = New Size(106, 43)
@@ -257,7 +281,7 @@ Partial Class Form1
         btnSimpanTambah.FlatStyle = FlatStyle.Flat
         btnSimpanTambah.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnSimpanTambah.ForeColor = Color.White
-        btnSimpanTambah.Location = New Point(39, 702)
+        btnSimpanTambah.Location = New Point(151, 17)
         btnSimpanTambah.Margin = New Padding(0)
         btnSimpanTambah.Name = "btnSimpanTambah"
         btnSimpanTambah.Size = New Size(106, 43)
@@ -271,7 +295,7 @@ Partial Class Form1
         Label6.Anchor = AnchorStyles.Left
         Label6.AutoSize = True
         Label6.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label6.Location = New Point(39, 441)
+        Label6.Location = New Point(39, 504)
         Label6.Name = "Label6"
         Label6.Size = New Size(44, 20)
         Label6.TabIndex = 19
@@ -280,7 +304,7 @@ Partial Class Form1
         ' txtPoin
         ' 
         txtPoin.Anchor = AnchorStyles.Left
-        txtPoin.Location = New Point(39, 464)
+        txtPoin.Location = New Point(39, 527)
         txtPoin.Name = "txtPoin"
         txtPoin.ReadOnly = True
         txtPoin.Size = New Size(224, 38)
@@ -291,7 +315,7 @@ Partial Class Form1
         Label4.Anchor = AnchorStyles.Left
         Label4.AutoSize = True
         Label4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label4.Location = New Point(39, 366)
+        Label4.Location = New Point(39, 431)
         Label4.Name = "Label4"
         Label4.Size = New Size(87, 20)
         Label4.TabIndex = 17
@@ -300,7 +324,7 @@ Partial Class Form1
         ' txtDiskon
         ' 
         txtDiskon.Anchor = AnchorStyles.Left
-        txtDiskon.Location = New Point(39, 390)
+        txtDiskon.Location = New Point(39, 455)
         txtDiskon.MaxLength = 2
         txtDiskon.Name = "txtDiskon"
         txtDiskon.ReadOnly = True
@@ -312,7 +336,7 @@ Partial Class Form1
         Label3.Anchor = AnchorStyles.Left
         Label3.AutoSize = True
         Label3.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label3.Location = New Point(39, 216)
+        Label3.Location = New Point(39, 212)
         Label3.Name = "Label3"
         Label3.Size = New Size(73, 20)
         Label3.TabIndex = 15
@@ -337,7 +361,7 @@ Partial Class Form1
         txtProdukID.Name = "txtProdukID"
         txtProdukID.ReadOnly = True
         txtProdukID.Size = New Size(224, 38)
-        txtProdukID.TabIndex = 1
+        txtProdukID.TabIndex = 45
         ' 
         ' btnClear
         ' 
@@ -348,7 +372,7 @@ Partial Class Form1
         btnClear.FlatStyle = FlatStyle.Flat
         btnClear.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnClear.ForeColor = Color.Black
-        btnClear.Location = New Point(157, 656)
+        btnClear.Location = New Point(157, 701)
         btnClear.Margin = New Padding(0)
         btnClear.Name = "btnClear"
         btnClear.Size = New Size(106, 43)
@@ -365,7 +389,7 @@ Partial Class Form1
         btnHapus.FlatStyle = FlatStyle.Flat
         btnHapus.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnHapus.ForeColor = Color.White
-        btnHapus.Location = New Point(39, 656)
+        btnHapus.Location = New Point(39, 701)
         btnHapus.Margin = New Padding(0)
         btnHapus.Name = "btnHapus"
         btnHapus.Size = New Size(106, 43)
@@ -382,7 +406,7 @@ Partial Class Form1
         btnEdit.FlatStyle = FlatStyle.Flat
         btnEdit.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnEdit.ForeColor = Color.White
-        btnEdit.Location = New Point(157, 598)
+        btnEdit.Location = New Point(157, 647)
         btnEdit.Margin = New Padding(0)
         btnEdit.Name = "btnEdit"
         btnEdit.Size = New Size(106, 43)
@@ -399,7 +423,7 @@ Partial Class Form1
         btnTambah.FlatStyle = FlatStyle.Flat
         btnTambah.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnTambah.ForeColor = Color.White
-        btnTambah.Location = New Point(39, 598)
+        btnTambah.Location = New Point(39, 647)
         btnTambah.Margin = New Padding(0)
         btnTambah.Name = "btnTambah"
         btnTambah.Size = New Size(106, 43)
@@ -412,7 +436,7 @@ Partial Class Form1
         lblJumlah.Anchor = AnchorStyles.Left
         lblJumlah.AutoSize = True
         lblJumlah.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblJumlah.Location = New Point(39, 516)
+        lblJumlah.Location = New Point(39, 577)
         lblJumlah.Name = "lblJumlah"
         lblJumlah.Size = New Size(45, 20)
         lblJumlah.TabIndex = 7
@@ -421,7 +445,7 @@ Partial Class Form1
         ' txtJumlah
         ' 
         txtJumlah.Anchor = AnchorStyles.Left
-        txtJumlah.Location = New Point(39, 538)
+        txtJumlah.Location = New Point(39, 599)
         txtJumlah.Name = "txtJumlah"
         txtJumlah.ReadOnly = True
         txtJumlah.Size = New Size(224, 38)
@@ -432,18 +456,18 @@ Partial Class Form1
         lblHarga.Anchor = AnchorStyles.Left
         lblHarga.AutoSize = True
         lblHarga.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblHarga.Location = New Point(39, 291)
+        lblHarga.Location = New Point(39, 358)
         lblHarga.Name = "lblHarga"
-        lblHarga.Size = New Size(57, 20)
+        lblHarga.Size = New Size(82, 20)
         lblHarga.TabIndex = 5
-        lblHarga.Text = "Harga :"
+        lblHarga.Text = "Harga Jual:"
         ' 
         ' lblNama
         ' 
         lblNama.Anchor = AnchorStyles.Left
         lblNama.AutoSize = True
         lblNama.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblNama.Location = New Point(39, 141)
+        lblNama.Location = New Point(39, 139)
         lblNama.Name = "lblNama"
         lblNama.Size = New Size(56, 20)
         lblNama.TabIndex = 4
@@ -551,7 +575,7 @@ Partial Class Form1
     End Sub
 
     Friend WithEvents txtNama As TextBox
-    Friend WithEvents txtHarga As TextBox
+    Friend WithEvents txtHargaJual As TextBox
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label1 As Label
     Friend WithEvents lblNama As Label
@@ -588,5 +612,7 @@ Partial Class Form1
     Friend WithEvents btnSimpanTambah As Button
     Friend WithEvents btnBatal As Button
     Friend WithEvents cmbKategoriInput As ComboBox
+    Friend WithEvents Label7 As Label
+    Friend WithEvents txtHargaBeli As TextBox
 
 End Class
