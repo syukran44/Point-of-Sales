@@ -28,15 +28,6 @@ Partial Class Form1
         Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As DataGridViewCellStyle = New DataGridViewCellStyle()
         DataGridView1 = New DataGridView()
-        Column9 = New DataGridViewTextBoxColumn()
-        Column1 = New DataGridViewTextBoxColumn()
-        Column2 = New DataGridViewTextBoxColumn()
-        Column5 = New DataGridViewTextBoxColumn()
-        ColumnHarga = New DataGridViewTextBoxColumn()
-        ColumnDiskon = New DataGridViewTextBoxColumn()
-        ColumnHargaDiskon = New DataGridViewTextBoxColumn()
-        Column7 = New DataGridViewTextBoxColumn()
-        Column4 = New DataGridViewTextBoxColumn()
         txtNama = New TextBox()
         txtHargaJual = New TextBox()
         Panel1 = New Panel()
@@ -67,6 +58,16 @@ Partial Class Form1
         Button1 = New Button()
         Label5 = New Label()
         cmbKategori = New ComboBox()
+        Column9 = New DataGridViewTextBoxColumn()
+        Column1 = New DataGridViewTextBoxColumn()
+        Column2 = New DataGridViewTextBoxColumn()
+        Column5 = New DataGridViewTextBoxColumn()
+        ColumnHarga = New DataGridViewTextBoxColumn()
+        ColumnDiskon = New DataGridViewTextBoxColumn()
+        ColumnHargaDiskon = New DataGridViewTextBoxColumn()
+        Column7 = New DataGridViewTextBoxColumn()
+        Column4 = New DataGridViewTextBoxColumn()
+        Column3 = New DataGridViewTextBoxColumn()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         SuspendLayout()
@@ -78,7 +79,7 @@ Partial Class Form1
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column9, Column1, Column2, Column5, ColumnHarga, ColumnDiskon, ColumnHargaDiskon, Column7, Column4})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column9, Column1, Column2, Column5, ColumnHarga, ColumnDiskon, ColumnHargaDiskon, Column7, Column4, Column3})
         DataGridView1.Location = New Point(342, 98)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
@@ -88,90 +89,6 @@ Partial Class Form1
         DataGridView1.Size = New Size(937, 629)
         DataGridView1.TabIndex = 5
         DataGridView1.TabStop = False
-        ' 
-        ' Column9
-        ' 
-        Column9.HeaderText = "No."
-        Column9.MinimumWidth = 6
-        Column9.Name = "Column9"
-        Column9.ReadOnly = True
-        Column9.Width = 50
-        ' 
-        ' Column1
-        ' 
-        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        Column1.HeaderText = "Produk ID"
-        Column1.MinimumWidth = 6
-        Column1.Name = "Column1"
-        Column1.ReadOnly = True
-        Column1.Width = 103
-        ' 
-        ' Column2
-        ' 
-        Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column2.HeaderText = "Nama"
-        Column2.MinimumWidth = 6
-        Column2.Name = "Column2"
-        Column2.ReadOnly = True
-        ' 
-        ' Column5
-        ' 
-        Column5.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column5.HeaderText = "Kategori"
-        Column5.MinimumWidth = 6
-        Column5.Name = "Column5"
-        Column5.ReadOnly = True
-        ' 
-        ' ColumnHarga
-        ' 
-        ColumnHarga.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight
-        ColumnHarga.DefaultCellStyle = DataGridViewCellStyle1
-        ColumnHarga.HeaderText = "Harga"
-        ColumnHarga.MinimumWidth = 6
-        ColumnHarga.Name = "ColumnHarga"
-        ColumnHarga.ReadOnly = True
-        ' 
-        ' ColumnDiskon
-        ' 
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight
-        ColumnDiskon.DefaultCellStyle = DataGridViewCellStyle2
-        ColumnDiskon.HeaderText = "Diskon"
-        ColumnDiskon.MinimumWidth = 6
-        ColumnDiskon.Name = "ColumnDiskon"
-        ColumnDiskon.ReadOnly = True
-        ColumnDiskon.Width = 80
-        ' 
-        ' ColumnHargaDiskon
-        ' 
-        ColumnHargaDiskon.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleRight
-        ColumnHargaDiskon.DefaultCellStyle = DataGridViewCellStyle3
-        ColumnHargaDiskon.HeaderText = "Harga Diskon"
-        ColumnHargaDiskon.MinimumWidth = 6
-        ColumnHargaDiskon.Name = "ColumnHargaDiskon"
-        ColumnHargaDiskon.ReadOnly = True
-        ' 
-        ' Column7
-        ' 
-        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleRight
-        Column7.DefaultCellStyle = DataGridViewCellStyle4
-        Column7.HeaderText = "Poin"
-        Column7.MinimumWidth = 6
-        Column7.Name = "Column7"
-        Column7.ReadOnly = True
-        Column7.Width = 125
-        ' 
-        ' Column4
-        ' 
-        Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleRight
-        Column4.DefaultCellStyle = DataGridViewCellStyle5
-        Column4.HeaderText = "Stok (PCS)"
-        Column4.MinimumWidth = 6
-        Column4.Name = "Column4"
-        Column4.ReadOnly = True
-        Column4.Width = 98
         ' 
         ' txtNama
         ' 
@@ -548,6 +465,99 @@ Partial Class Form1
         cmbKategori.Size = New Size(153, 28)
         cmbKategori.TabIndex = 37
         ' 
+        ' Column9
+        ' 
+        Column9.HeaderText = "No."
+        Column9.MinimumWidth = 6
+        Column9.Name = "Column9"
+        Column9.ReadOnly = True
+        Column9.Width = 50
+        ' 
+        ' Column1
+        ' 
+        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Column1.HeaderText = "Produk ID"
+        Column1.MinimumWidth = 6
+        Column1.Name = "Column1"
+        Column1.ReadOnly = True
+        Column1.Width = 103
+        ' 
+        ' Column2
+        ' 
+        Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column2.HeaderText = "Nama"
+        Column2.MinimumWidth = 6
+        Column2.Name = "Column2"
+        Column2.ReadOnly = True
+        ' 
+        ' Column5
+        ' 
+        Column5.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column5.HeaderText = "Kategori"
+        Column5.MinimumWidth = 6
+        Column5.Name = "Column5"
+        Column5.ReadOnly = True
+        ' 
+        ' ColumnHarga
+        ' 
+        ColumnHarga.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight
+        ColumnHarga.DefaultCellStyle = DataGridViewCellStyle1
+        ColumnHarga.HeaderText = "Harga"
+        ColumnHarga.MinimumWidth = 6
+        ColumnHarga.Name = "ColumnHarga"
+        ColumnHarga.ReadOnly = True
+        ' 
+        ' ColumnDiskon
+        ' 
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight
+        ColumnDiskon.DefaultCellStyle = DataGridViewCellStyle2
+        ColumnDiskon.HeaderText = "Diskon"
+        ColumnDiskon.MinimumWidth = 6
+        ColumnDiskon.Name = "ColumnDiskon"
+        ColumnDiskon.ReadOnly = True
+        ColumnDiskon.Width = 80
+        ' 
+        ' ColumnHargaDiskon
+        ' 
+        ColumnHargaDiskon.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleRight
+        ColumnHargaDiskon.DefaultCellStyle = DataGridViewCellStyle3
+        ColumnHargaDiskon.HeaderText = "Harga Diskon"
+        ColumnHargaDiskon.MinimumWidth = 6
+        ColumnHargaDiskon.Name = "ColumnHargaDiskon"
+        ColumnHargaDiskon.ReadOnly = True
+        ' 
+        ' Column7
+        ' 
+        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column7.DefaultCellStyle = DataGridViewCellStyle4
+        Column7.HeaderText = "Poin"
+        Column7.MinimumWidth = 6
+        Column7.Name = "Column7"
+        Column7.ReadOnly = True
+        Column7.Width = 125
+        ' 
+        ' Column4
+        ' 
+        Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        DataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleRight
+        Column4.DefaultCellStyle = DataGridViewCellStyle5
+        Column4.HeaderText = "Stok (PCS)"
+        Column4.MinimumWidth = 6
+        Column4.Name = "Column4"
+        Column4.ReadOnly = True
+        Column4.Width = 106
+        ' 
+        ' Column3
+        ' 
+        Column3.HeaderText = "Harga Beli"
+        Column3.MinimumWidth = 6
+        Column3.Name = "Column3"
+        Column3.ReadOnly = True
+        Column3.Visible = False
+        Column3.Width = 125
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
@@ -600,6 +610,11 @@ Partial Class Form1
     Friend WithEvents txtPoin As TextBox
     Friend WithEvents Label4 As Label
     Friend WithEvents txtDiskon As TextBox
+    Friend WithEvents btnSimpanTambah As Button
+    Friend WithEvents btnBatal As Button
+    Friend WithEvents cmbKategoriInput As ComboBox
+    Friend WithEvents Label7 As Label
+    Friend WithEvents txtHargaBeli As TextBox
     Friend WithEvents Column9 As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
@@ -609,10 +624,6 @@ Partial Class Form1
     Friend WithEvents ColumnHargaDiskon As DataGridViewTextBoxColumn
     Friend WithEvents Column7 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
-    Friend WithEvents btnSimpanTambah As Button
-    Friend WithEvents btnBatal As Button
-    Friend WithEvents cmbKategoriInput As ComboBox
-    Friend WithEvents Label7 As Label
-    Friend WithEvents txtHargaBeli As TextBox
+    Friend WithEvents Column3 As DataGridViewTextBoxColumn
 
 End Class

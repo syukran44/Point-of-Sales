@@ -246,19 +246,20 @@ Public Class FormPOS
 
     Sub getTotalHarga()
         Try
-            Dim grandtotal As Decimal = 0
+            Dim grandtotal As Integer = 0
 
             For Each row As DataGridViewRow In DataGridView1.Rows
                 If row.Cells(0).Value IsNot Nothing Then
                     Dim quantity As Integer = CInt(row.Cells(2).Value)
-                    Dim harga As Decimal = CDec(row.Cells(1).Value)
+                    Dim harga As Integer = CDec(row.Cells(1).Value)
                     grandtotal += quantity * harga
                 End If
             Next
-            txtTotal.Text = Format(grandtotal, "#,##0.00")
+            grandtotal = Math.Floor(grandtotal / 100) * 100
+            txtTotal.Text = Format(grandtotal, "##,##0")
             lblDiskon.Text = ""
 
-            If Format(grandtotal, "#,##0.00") = txtTotal.Text And Not String.IsNullOrWhiteSpace(txtMember.Text) Then
+            If Format(grandtotal, "##,##0") = txtTotal.Text And Not String.IsNullOrWhiteSpace(txtMember.Text) Then
                 getDiskon()
             End If
 
@@ -276,25 +277,32 @@ Public Class FormPOS
 
             dr = cmd.ExecuteReader()
             If dr.Read() Then
+                Dim total As Integer = Integer.Parse(txtTotal.Text.Replace(".", "")) ' Convert to Decimal and remove commas
+
                 If dr.Item("poin") >= 1000 And dr.Item("poin") < 3000 Then
                     lblDiskon.Text = "-2%"
-                    jumlahDiskon = (CInt(txtTotal.Text) * 0.02).ToString("N0")
-                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.02)).ToString("N0")
+                    jumlahDiskon = Math.Floor((total * 0.02) / 100) * 100
+                    total -= jumlahDiskon
+                    txtTotal.Text = total.ToString("N0")
                 ElseIf dr.Item("poin") >= 3000 And dr.Item("poin") < 6000 Then
                     lblDiskon.Text = "-4%"
-                    jumlahDiskon = (CInt(txtTotal.Text) * 0.04).ToString("N0")
-                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.04)).ToString("N0")
+                    jumlahDiskon = Math.Floor((total * 0.04) / 100) * 100
+                    total -= jumlahDiskon
+                    txtTotal.Text = total.ToString("N0")
                 ElseIf dr.Item("poin") >= 6000 And dr.Item("poin") < 10000 Then
                     lblDiskon.Text = "-7%"
-                    jumlahDiskon = (CInt(txtTotal.Text) * 0.07).ToString("N0")
-                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.07)).ToString("N0")
+                    jumlahDiskon = Math.Floor((total * 0.07) / 100) * 100
+                    total -= jumlahDiskon
+                    txtTotal.Text = total.ToString("N0")
                 ElseIf dr.Item("poin") >= 10000 Then
                     lblDiskon.Text = "-10%"
-                    jumlahDiskon = (CInt(txtTotal.Text) * 0.1).ToString("N0")
-                    txtTotal.Text = (CInt(txtTotal.Text) - (CInt(txtTotal.Text) * 0.1)).ToString("N0")
+                    jumlahDiskon = Math.Floor((total * 0.1) / 100) * 100
+                    total -= jumlahDiskon
+                    txtTotal.Text = total.ToString("N0")
                 Else
                     lblDiskon.Text = ""
                 End If
+
                 Format(txtTotal.Text, "#,##0.00")
                 dr.Dispose()
             Else
@@ -460,7 +468,7 @@ Public Class FormPOS
                 If dr.Read() Then
                     If DataGridView1.Rows(row).Cells(2).Value > dr.Item("jumlah") Then
                         produkHabis = True
-                        produk(row) = DataGridView1.Rows(row).Cells(0).Value.ToString()
+                        produk(row) = DataGridView1.Rows(row).Cells(0).Value.ToString() & " (" & (dr.Item("jumlah") - DataGridView1.Rows(row).Cells(2).Value).ToString() & ") "
                     Else
                         conn.Close()
                     End If
@@ -473,7 +481,7 @@ Public Class FormPOS
         Next
 
         If produkHabis Then
-            Dim produkString As String = String.Join(", ", produk)
+            Dim produkString As String = String.Join(", ", produk.Where(Function(x) x IsNot Nothing))
             MsgBox("Stok Barang kurang: " & produkString)
             Exit Sub
         End If
@@ -565,7 +573,8 @@ Public Class FormPOS
         right.Alignment = StringAlignment.Far
         center.Alignment = StringAlignment.Center
 
-        Dim line, invoice As String
+        Dim line As String
+        Dim invoice As String = ""
         line = "-------------------------------------------------------------------------------------------"
 
         Dim currentDateAndTime As DateTime = DateTime.Now

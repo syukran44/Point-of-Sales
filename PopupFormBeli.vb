@@ -270,7 +270,7 @@ Public Class PopupFormBeli
         longpaper = 0
         rowcount = DataGridView1.Rows.Count
         longpaper = rowcount * 15
-        longpaper = longpaper + 240
+        longpaper += 240
     End Sub
 
     Dim currentPage As Integer = 1
@@ -310,6 +310,7 @@ Public Class PopupFormBeli
         center.Alignment = StringAlignment.Center
 
         Dim line, invoice As String
+        invoice = ""
         Dim index As Integer = 1
 
         line = New String("—", PD.DefaultPageSettings.PaperSize.Height - leftmargin - 999)

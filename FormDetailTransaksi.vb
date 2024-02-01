@@ -106,13 +106,13 @@ Public Class FormDetailTransaksi
     End Sub
 
     Private Sub PD_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PD.PrintPage
-        Dim height, totalKuantitas As Integer
+        Dim height As Integer
         Dim i As Long
-        Dim total As Decimal
+        Dim total, hargaDiskon As Decimal
         Dim diskon As Boolean = False
-        Dim namaKasir As String
+        Dim namaKasir As String = ""
         Dim waktu As DateTime
-        Dim kuantitas, kembalian, tunai, jumlahDiskon As Integer
+        Dim kembalian, tunai, jumlahDiskon, totalHarga As Integer
 
         Try
             conn.Open()
@@ -192,13 +192,16 @@ Public Class FormDetailTransaksi
             'subtotal
             i = DataGridView1.Rows(row).Cells(5).Value.ToString().Replace("Rp. ", "")
             e.Graphics.DrawString(i.ToString("##,##0"), f8, Brushes.Black, rightmargin, 125 + height, right)
+            totalHarga += i
         Next
+
+        hargaDiskon = Math.Floor(totalHarga * (jumlahDiskon / 100) / 100) * 100
 
         e.Graphics.DrawString(line, f8, Brushes.Black, 0, height + 135)
 
         If diskon Then
             e.Graphics.DrawString("Diskon Member", f8, Brushes.Black, 0, height + 150)
-            e.Graphics.DrawString(jumlahDiskon & "%", f8, Brushes.Black, rightmargin, height + 150, right)
+            e.Graphics.DrawString(jumlahDiskon & "%" & " (-" & hargaDiskon.ToString("##,##0") & ")", f8, Brushes.Black, rightmargin, height + 150, right)
             height += 15
         End If
 

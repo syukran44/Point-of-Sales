@@ -29,7 +29,7 @@ Public Class Form1
     Public Sub InitializeForm1()
         conn.Close()
         Me.WindowState = FormWindowState.Maximized
-        DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori")
+        DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori JOIN tbl_harga_supplier ON tbl_produk.produk_id=tbl_harga_supplier.produk_id")
         btnHapus.Enabled = False
         btnEdit.Enabled = False
         kategoriInputRead()
@@ -46,7 +46,7 @@ Public Class Form1
             While dr.Read
                 index += 1
                 Dim hargaDiskon As Decimal = dr.Item("harga") * (1 - (CDec(dr.Item("diskon")) / 100))
-                DataGridView1.Rows.Add(index, dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), "Rp. " & Format(dr.Item("harga"), "##,##0"), dr.Item("diskon") & "%", "Rp. " & Format(hargaDiskon, "##,##0"), dr.Item("poin"), dr.Item("jumlah"))
+                DataGridView1.Rows.Add(index, dr.Item("produk_id"), dr.Item("nama_produk"), dr.Item("nama_kategori"), "Rp. " & Format(dr.Item("harga"), "##,##0"), dr.Item("diskon") & "%", "Rp. " & Format(hargaDiskon, "##,##0"), dr.Item("poin"), dr.Item("jumlah"), dr.Item("harga_beli"))
             End While
             dr.Dispose()
         Catch ex As Exception
@@ -209,12 +209,11 @@ Public Class Form1
     End Sub
 
     Private Sub cmbKategori_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbKategori.SelectedIndexChanged
-        Dim index As Integer = 0
         DataGridView1.Rows.Clear()
         If cmbKategori.SelectedItem.ToString().Equals("SEMUA", StringComparison.CurrentCultureIgnoreCase) Then
-            DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori")
+            DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori JOIN tbl_harga_supplier ON tbl_produk.produk_id=tbl_harga_supplier.produk_id")
         Else
-            DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE `nama_kategori` LIKE '%" & cmbKategori.SelectedItem.ToString() & "%'")
+            DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori JOIN tbl_harga_supplier ON tbl_produk.produk_id=tbl_harga_supplier.produk_id WHERE `nama_kategori` LIKE '%" & cmbKategori.SelectedItem.ToString() & "%'")
         End If
     End Sub
 
@@ -236,28 +235,29 @@ Public Class Form1
 
             conn.Open()
 
-            Dim cmdSelectId As New MySqlCommand("SELECT id_kategori FROM tbl_kategori WHERE nama_kategori = @nama_kategori", conn)
-            cmdSelectId.Parameters.AddWithValue("@nama_kategori", cmbKategoriInput.SelectedItem.ToString())
-            Dim categoryId As Integer = Convert.ToInt32(cmdSelectId.ExecuteScalar())
-
-            Dim cmd As New MySqlCommand("UPDATE `tbl_produk` SET `produk_id`= @produk_id, `nama_produk`= @nama_produk, `id_kategori`= @id_kategori, `harga`= @harga, `diskon`= @diskon, `poin`= @poin, `jumlah`= @jumlah WHERE `produk_id` = @produk_id", conn)
+            Dim cmd As New MySqlCommand("UPDATE `tbl_produk` SET `nama_produk`= @nama_produk, `harga`= @harga, `diskon`= @diskon, `poin`= @poin, `jumlah`= @jumlah WHERE `produk_id` = @produk_id", conn)
             cmd.Parameters.Clear()
             cmd.Parameters.AddWithValue("@produk_id", txtProdukID.Text)
             cmd.Parameters.AddWithValue("@nama_produk", txtNama.Text)
-            cmd.Parameters.AddWithValue("@id_kategori", categoryId)
             cmd.Parameters.AddWithValue("@harga", txtHargaJual.Text)
             cmd.Parameters.AddWithValue("@diskon", txtDiskon.Text)
             cmd.Parameters.AddWithValue("@poin", txtPoin.Text)
             cmd.Parameters.AddWithValue("@jumlah", txtJumlah.Text)
-            i = cmd.ExecuteNonQuery
-            If i > 0 Then
+
+            Dim cmd2 As New MySqlCommand("UPDATE `tbl_harga_supplier` SET `harga_beli` = @harga_beli WHERE `produk_id` = @produk_id", conn)
+            cmd2.Parameters.Clear()
+            cmd2.Parameters.AddWithValue("@produk_id", txtProdukID.Text)
+            cmd2.Parameters.AddWithValue("@harga_beli", txtHargaBeli.Text)
+
+            If cmd.ExecuteNonQuery() And cmd2.ExecuteNonQuery() Then
                 MessageBox.Show("Data Berhasil di Edit!", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 MessageBox.Show("Data Gagal di Edit!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
             End If
+
             conn.Close()
             btnBatal_Click(Nothing, Nothing)
-            DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori")
+            DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori JOIN tbl_harga_supplier ON tbl_produk.produk_id=tbl_harga_supplier.produk_id")
             DataGridView1.ClearSelection()
             DataGridView1.Rows(currentRow).Selected = True
         Catch ex As Exception
@@ -297,7 +297,7 @@ Public Class Form1
         txtJumlah.Clear()
 
         cmbKategori.SelectedIndex = 0
-        DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori")
+        DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori JOIN tbl_harga_supplier ON tbl_produk.produk_id=tbl_harga_supplier.produk_id")
         btnEdit.Enabled = False
     End Sub
 
@@ -322,7 +322,6 @@ Public Class Form1
         txtNama.ReadOnly = False
         txtHargaJual.ReadOnly = False
         txtHargaBeli.ReadOnly = False
-        cmbKategoriInput.Enabled = True
         txtDiskon.ReadOnly = False
         txtPoin.ReadOnly = False
     End Sub
@@ -331,6 +330,7 @@ Public Class Form1
         simpanTambah = True
         clear()
         editMode()
+        cmbKategoriInput.Enabled = True
     End Sub
 
     Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
@@ -374,7 +374,8 @@ Public Class Form1
         txtNama.Text = DataGridView1.CurrentRow.Cells(2).Value
         'txtKategori.Text = DataGridView1.CurrentRow.Cells(3).Value
         cmbKategoriInput.SelectedItem = DataGridView1.CurrentRow.Cells(3).Value
-        txtHargaJual.Text = DataGridView1.CurrentRow.Cells(4).Value.ToString().Replace("Rp. ", "")
+        txtHargaJual.Text = DataGridView1.CurrentRow.Cells(4).Value.ToString().Replace("Rp. ", "").Replace(".", "")
+        txtHargaBeli.Text = DataGridView1.CurrentRow.Cells(9).Value
         txtDiskon.Text = DataGridView1.CurrentRow.Cells(5).Value.ToString().Replace("%", "")
         txtPoin.Text = DataGridView1.CurrentRow.Cells(7).Value
         txtJumlah.Text = DataGridView1.CurrentRow.Cells(8).Value
@@ -392,16 +393,15 @@ Public Class Form1
         If MsgBox("Apakah kamu ingin menghapus data " & DataGridView1.CurrentRow.Cells(2).Value & "?", MsgBoxStyle.YesNo, "HAPUS DATA") = MsgBoxResult.Yes Then
             delete()
             clear()
-            DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori")
+            DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori JOIN tbl_harga_supplier ON tbl_produk.produk_id=tbl_harga_supplier.produk_id")
         Else
             Return
         End If
     End Sub
 
     Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
-        Dim index As Integer = 0
         clear()
-        DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori WHERE `produk_id` like '%" & txtSearch.Text & "%' OR `nama_produk` like '%" & txtSearch.Text & "%'")
+        DGVRead("SELECT * FROM tbl_produk INNER JOIN tbl_kategori ON tbl_produk.id_kategori=tbl_kategori.id_kategori JOIN tbl_harga_supplier ON tbl_produk.produk_id=tbl_harga_supplier.produk_id WHERE `produk_id` like '%" & txtSearch.Text & "%' OR `nama_produk` like '%" & txtSearch.Text & "%'")
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
